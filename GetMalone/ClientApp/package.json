@@ -13,6 +13,7 @@
     "react-scripts": "^5.0.0",
     "reactstrap": "^8.9.0",
     "rimraf": "^2.6.2",
+    "styled-components": "^5.3.5",
     "tailwind-styled-components": "^2.1.7",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.4",
@@ -46,7 +47,7 @@
   },
   "scripts": {
     "prestart": "node aspnetcore-https && node aspnetcore-react",
-    "start": "set PORT=44440 && rimraf ./build && react-scripts start",
+    "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
