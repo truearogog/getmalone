@@ -1,5 +1,5 @@
 import React from 'react';
-import UserProfile from './UserProfile';
+import { UserProfile } from './UserProfile';
 import { SellerProfile } from './SellerProfile';
 import styled from 'styled-components'
 //import { variables } from '../variables';
@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 function GetUserRole() {
   //const userRole = localStorage.getItem('userRole');
-  const userRole = 'seller';
+  const userRole = 'user';
 
   if (userRole === 'user') {
 	return <UserProfile />;
@@ -18,17 +18,6 @@ function GetUserRole() {
 
 export function Profile() {
 	return (
-	  <>
-		<div>
-			<MyForm />
-		</div>
 		<GetUserRole />
-	  </>
 	);
 }
-
-const MyForm = styled.div`
-  background-color: grey;
-	height: 100px;
-	width: 20px;
-`;

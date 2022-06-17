@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import tw from "tailwind-styled-components"
+import styled from 'styled-components';
 
 export function NavMenu() {
   return (
@@ -14,6 +14,14 @@ export function NavMenu() {
   );
 }
 
-const Navbar = tw.div`
-flex flex-row justify-end gap-10 bg-slate-100 pt-2 pb-2 pr-4 mb-4
+const Navbar = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 2.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  background-color: rgb(241 245 249 / 100);
+  margin-bottom: 1rem;
 `
