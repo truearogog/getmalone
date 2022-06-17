@@ -19,7 +19,7 @@ const Container = styled.div`
 	margin: 0 auto;
 `;
 const Title = styled.div`
-  padding-top: 50px;
+  padding-top: 30px;
   padding-bottom: 20px;
   font-size: 40px;
   font-weight: 600;
