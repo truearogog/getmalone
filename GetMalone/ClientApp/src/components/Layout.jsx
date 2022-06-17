@@ -6,7 +6,7 @@ export function Layout(component) {
   return (
     <div>
       <NavMenu />
-      <Container className='p-6'>
+      <Container style={{ padding: '16px' }}>
         {
           component.children
         }

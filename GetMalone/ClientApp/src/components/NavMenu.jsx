@@ -6,9 +6,9 @@ export function NavMenu() {
   return (
     <header>
       <Navbar>
-        <Link tag={Link} className="text-dark text-2xl hover:text-cyan-900" to="/">Home</Link>
-        <Link tag={Link} className="text-dark text-2xl hover:text-cyan-900" to="/profile">Profile</Link>
-        <Link tag={Link} className="text-dark text-2xl hover:text-cyan-900" to="/about">About</Link>
+        <Link tag={Link} style={{ textDecoration: 'none' }} to="/">Home</Link>
+        <Link tag={Link} style={{ textDecoration: 'none' }} to="/profile">Profile</Link>
+        <Link tag={Link} style={{ textDecoration: 'none' }} to="/about">About</Link>
       </Navbar>
     </header>
   );

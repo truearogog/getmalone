@@ -4,6 +4,8 @@
 body {
   font-family: 'Titillium Web', sans-serif;
   font-size: 18px;
+  margin: 0;
+  padding: 0;
 }
 
 a {
