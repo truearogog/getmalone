@@ -41,7 +41,7 @@ const ProfileDataWrapper = styled.div`
 	margin: 0 auto;
 	display: flex;
 	background: rgba(0, 0, 255, 0.8);
-	padding-bottom: 150px;
+	padding-bottom: 100px;
 `;
 const ProfileLogo = styled.div`
   	width: 40%;
