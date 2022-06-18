@@ -1,3 +1,6 @@
+using GetMalone.Data;
+using GetMalone.Helpers;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,10 +14,16 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddCors();
 
-builder.Services.AddSession(options =>
-    options.IdleTimeout = TimeSpan.FromMinutes(60));
+var userConnectionString = builder.Configuration.GetConnectionString("UserConnectionString");
+builder.Services.AddDbContext<UserContext>(options =>
+    options.UseMySql(userConnectionString, ServerVersion.AutoDetect(userConnectionString)));
+
+builder.Services.AddControllers();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<JwtService>();
 
 var app = builder.Build();
 
@@ -29,6 +38,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseCors(options => options
+    .WithOrigins(new[] { "http://localhost:3000" } )
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+);
 
 app.MapControllerRoute(
     name: "default",
