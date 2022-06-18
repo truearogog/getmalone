@@ -110,21 +110,45 @@ function RecommendedProducts() {
 			<ListTitle>
 				Recommended products
 			</ListTitle>
-			<ProductList>
-				<ProductItem />
-			</ProductList>
+			<ProductList />
 		</RecommendedProductsWrapper>
 	)
 }
 const RecommendedProductsWrapper = styled.div`
-	background: rgba(100, 100, 100, 0.8);
+	padding-top: 60px;
 `;
 const ListTitle = styled.div`
-	background: rgba(100, 100, 100, 0.8);
+	padding-bottom: 20px;
+	font-size: 40px;
+	font-weight: 600;
+	text-align: center;
 `;
-const ProductList = styled.div`
+function ProductList() {
+	return (
+		<ProductListWrapper>
+			<ProductItem />
+			<ProductItem />
+			<ProductItem />
+			<ProductItem />
+			<ProductItem />
+			<ProductItem />
+		</ProductListWrapper>
+	)
+}
+const ProductListWrapper = styled.div`
 	background: rgba(100, 100, 100, 0.8);
+	display: flex;
+    flex-wrap: wrap;
+    width: 100%;
 `;
-const ProductItem = styled.div`
+function ProductItem() {
+	return (
+		<ProductItemWrapper>
+			product
+		</ProductItemWrapper>
+	)
+}
+const ProductItemWrapper = styled.div`
 	background: rgba(100, 100, 100, 0.8);
+	width: 25%;
 `;
