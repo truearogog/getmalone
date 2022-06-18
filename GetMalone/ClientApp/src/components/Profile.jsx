@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 function GetUserRole() {
   //const userRole = localStorage.getItem('userRole');
-  const userRole = 'seller';
+  const userRole = 'user';
 
   if (userRole === 'user') {
 	return <UserProfile />;
