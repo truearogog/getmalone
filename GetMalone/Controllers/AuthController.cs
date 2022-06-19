@@ -25,6 +25,7 @@ namespace GetMalone.Controllers
             {
                 var user = new User
                 {
+                    Created = DateTime.Now,
                     Email = dto.Email,
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                     Phone = dto.Phone,
