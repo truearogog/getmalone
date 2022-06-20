@@ -16,13 +16,15 @@ builder.Logging.AddSerilog(logger);
 
 builder.Services.AddCors();
 
-var userConnectionString = builder.Configuration.GetConnectionString("UserConnectionString");
-builder.Services.AddDbContext<UserContext>(options =>
+var userConnectionString = builder.Configuration.GetConnectionString("ApplicationDbConnectionString");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(userConnectionString, ServerVersion.AutoDetect(userConnectionString)));
 
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBuyerRepository, BuyerRepository>();
+builder.Services.AddScoped<ISellerRepository, SellerRepository>();
 builder.Services.AddScoped<JwtService>();
 
 var app = builder.Build();
