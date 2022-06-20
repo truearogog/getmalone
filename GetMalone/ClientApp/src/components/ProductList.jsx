@@ -24,10 +24,10 @@ function ProductItem({ data }) {
 		<ProductItemWrapper>
 			<Image src={require('../images/product-pictures/'+id+'.png')} />
 			<Title>{data.name}</Title>
-			<Description data={data.description}/>
+			<Description>{data.description}</Description>
 			<Price>{data.cost}$</Price>
 			<Info>
-				<p>Type: <b>{data.type}</b></p> 
+				<p>Type: <b>{data.type}</b></p>
 				<p>Best Before: <b>{data.date}</b></p> 
 				<p>Seller: <b>{data.seller}</b></p>
 			</Info>
@@ -54,21 +54,7 @@ const Title = styled.p`
 	font-weight: 600;
 	font-size: 20px;
 `;
-function Description({ data }) {
-  if (data)
-    return (
-      <DescriptionWrapper>
-        "{data}"
-      </DescriptionWrapper>
-    )
-  else
-    return (
-      <DescriptionWrapper>
-        Product has no description.
-      </DescriptionWrapper>
-    )
-}
-const DescriptionWrapper = styled.p`
+const Description = styled.p`
 	font-size: 15px;
 	font-style: italic;
 `;

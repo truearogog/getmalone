@@ -59,14 +59,6 @@ const ContactsWrapper = styled.div`
   ul {
     list-style-type: none;
   }
-  a {
-    text-decoration: none;
-    transition: color .3s;
-    &:hover {
-      color: #8565c4;
-      font-weight: 600;
-    }
-  }
 `;
 const RepositoryWrapper = styled.div`
   padding-top: 1px;

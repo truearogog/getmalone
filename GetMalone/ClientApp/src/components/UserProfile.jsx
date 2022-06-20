@@ -52,10 +52,8 @@ let data = [
 export function UserProfile() {
 	return (
 		<Container>
-
 			<ProfileData />
 			<RecommendedProducts />
-
 		</Container>	
 	);
 }
