@@ -4,9 +4,7 @@ import { ProductList } from './ProductList';
 //import { variables } from '../variables';
 //import { v4 as uuidv4 } from 'uuid';
 
-const id = 0;
-
-let data = [
+let products = [
   {
     name: "Apple",
     description: "best apples",
@@ -45,7 +43,7 @@ export function SellerProfile() {
 	return (
 		<Container>
 
-			<SellerProducts />
+			<ProductList products={products}/>
 
 		</Container>	
 	);
@@ -54,26 +52,4 @@ const Container = styled.div`
   	width: 60%;
 	margin: 0 auto;
 	background: rgba(255, 0, 0, 0.8);
-`;
-
-function SellerProducts() {
-	return (
-		<SellerProductsWrapper>
-			<ListTitle>
-				Products For Sale
-			</ListTitle>
-			<ProductList data={data}/>
-		</SellerProductsWrapper>
-	)
-}
-const SellerProductsWrapper = styled.div`
-	padding-top: 90px;
-	width: 90%;
-	margin: 0 auto;
-`;
-const ListTitle = styled.div`
-	padding-bottom: 20px;
-	font-size: 40px;
-	font-weight: 600;
-	text-align: center;
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { UserProfile } from './UserProfile';
 import { SellerProfile } from './SellerProfile';
-import styled from 'styled-components'
+//import styled from 'styled-components'
 //import { variables } from '../variables';
 //import { v4 as uuidv4 } from 'uuid';
 
