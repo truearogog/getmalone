@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components'
 
 export function ProfileData({ data }) {
+	//console.log(data)
 	return (
 		<ProfileDataWrapper>
 
 			<ProfileLogo>
 				<Image src={require('../../images/profile-pictures/users/0.png')} />
-				<Rating data={data.sertificatecodes} />
+				<Rating data={data.rating} />
 			</ProfileLogo>
 			<ProfileInfo>
 				<Name user={data}/>
@@ -19,7 +20,7 @@ export function ProfileData({ data }) {
 }
 
 function Rating({ data }) {
-	if (data)
+	if (typeof data !=='undefined')
 	  return (
 		<RatingWrapper>
 		  Rating: <span class="nr">{data}/5</span>
@@ -46,7 +47,7 @@ function Info({ info }) {
 			<p>phone: {info.phone}</p>
 			<p>mail: {info.email}</p>
 			<Interests data={info.interests}/>
-			<Certificates data={info.sertificatecodes}/>
+			<Certificates data={info.sertificateCodes}/>
 		</InfoWrapper>
 	)
 }
@@ -84,7 +85,6 @@ const ProfileDataWrapper = styled.div`
 	width: 80%;
 	margin: 0 auto;
 	display: flex;
-	padding-bottom: 50px;
 `;
 
 //-------left side---------------

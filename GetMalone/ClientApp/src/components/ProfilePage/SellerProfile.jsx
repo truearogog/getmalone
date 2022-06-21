@@ -39,7 +39,6 @@ let products = [
 ]
 
 export function SellerProfile({ user }) {
-  console.log(user)
   return (
     <Container>
       <ProfileData data={user} />

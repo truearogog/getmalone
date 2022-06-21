@@ -46,7 +46,7 @@ const ProductListWrapper = styled.div`
 	margin: 0 auto;
 `;
 const ListTitle = styled.div`
-	padding-bottom: 20px;
+	padding-bottom: 15px;
 	font-size: 40px;
 	font-weight: 600;
 	text-align: center;
