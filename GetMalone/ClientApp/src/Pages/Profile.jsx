@@ -5,34 +5,11 @@ import { UserContext } from '../services/UserContext';
 import { variables } from '../services/variables';
 
 export function Profile() {
-	const [user, setUser] = useState(null);
-	const { value, setValue } = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 
-	async function checkAunthentication() {
-		try {
-			const response = await fetch(variables.API_URL + 'auth/user')
-			if (response.status == 200) {
-				const data = await response.json();
-
-				setUser(data)
-				setValue(true);
-			}
-			else {
-				throw (response.statusText)
-			}
-		}
-		catch (err) {
-			setValue(false);
-			console.log(err)
-		}
-	}
-
-	useEffect(() => {
-		checkAunthentication()
-	}, [])
 	return (
 		<div>
-			{value == true ?
+			{user != null ?
 				<GetUserRole user={user} />
 				: "Please Log in"
 			}
@@ -41,10 +18,13 @@ export function Profile() {
 }
 
 function GetUserRole({ user }) {
-	if (user.user === 'user') {
+	if (user.user == 'user') {
 		return <UserProfile user={user} />;
-	} else if (user.user === 'buyer') {
+	}
+	else if (user.user == 'buyer') {
 		return <SellerProfile user={user} />;
 	}
+	else
+		return <div><h1>Unknown user</h1></div>
 }
 
