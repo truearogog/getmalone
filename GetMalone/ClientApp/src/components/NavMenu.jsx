@@ -32,11 +32,11 @@ export function NavMenu({ handlePageChange }) {
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/profile">Profile</Link>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/about">About</Link>
         </div>
-        <div style={{width: '10%'}}>
+        <div style={{width: '200px'}}>
           {user != false ? user == null ?
             <div>
               <Button onClick={() => { handlePageChange('LoginPage') }}>Login</Button>
-              /Register
+              <Button onClick={() => { handlePageChange('RegisterPage') }}>Register</Button>
             </div>
             : <div>
               <Button onClick={handleLogout}>Logout</Button>

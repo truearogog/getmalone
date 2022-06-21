@@ -11,6 +11,7 @@ export function Login({ handlePageChange }) {
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [error, setError] = useState('')
 
 	const history = useHistory()
 
@@ -26,21 +27,26 @@ export function Login({ handlePageChange }) {
 
 		try {
 			let response = await fetch(variables.API_URL + 'auth/login', requestOptions)
-			if (!response.ok) throw new Error(response.statusText)
+			if (!response.ok) {
+				const data = await response.json();
+
+				throw new Error(data.message)
+			}
 
 			response = await fetch(variables.API_URL + 'auth/user')
 			if (!response.ok) throw new Error(response.statusText)
 
 			const data = await response.json();
-			
+
 			handlePageChange('MainPage')
-			
+
 			setUser(data)
 
 			history.push('/');
 		}
 		catch (err) {
 			console.log(err)
+			setError('error: ' + err)
 		}
 	}
 
@@ -59,6 +65,7 @@ export function Login({ handlePageChange }) {
 				</label>
 				<button type="submit">Submit</button>
 			</form>
+			<p style={{ color: 'red' }}>{error}</p>
 		</div>
 	)
 } 
