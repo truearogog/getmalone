@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 export function Register({ handlePageChange }) {
 	const { user, setUser } = useContext(UserContext);
 
-	const [userType, setUserType] = useState('')
+	const [userType, setUserType] = useState('buyer')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [phone, setPhone] = useState('')
@@ -22,10 +22,44 @@ export function Register({ handlePageChange }) {
 	const [error, setError] = useState('')
 
 	const history = useHistory()
-
+	
 	async function handleSubmit(e) {
 		e.preventDefault()
+		
+		let formData
+		let requestPath =  variables.API_URL + 'auth/register/'
+		
+		if (userType == 'buyer') {
+			requestPath += 'buyer'
+			formData = { email: email, password: password, phone: phone, name: name, surname: surname, mailindex: mailindex, interests: interests.split(', ') }
+		}
+		else {
+			requestPath += 'seller'
+			formData = { email: email, password: password, phone: phone, name: name, surname: surname, sertificateCodes: sertificateCodes.split(', ') }
+		}
 
+		const requestOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(formData)
+		}
+
+		try {
+			let response = await fetch(requestPath, requestOptions)
+			if (!response.ok) {
+				const data = await response.json();
+				throw new Error(data.message)
+			}
+
+			login()
+		}
+		catch (err) {
+			console.log(err)
+			setError('error: ' + err)
+		}
+	}
+	
+	async function login() {
 		let formData = { email: email, password: password }
 		const requestOptions = {
 			method: 'POST',
@@ -37,7 +71,6 @@ export function Register({ handlePageChange }) {
 			let response = await fetch(variables.API_URL + 'auth/login', requestOptions)
 			if (!response.ok) {
 				const data = await response.json();
-
 				throw new Error(data.message)
 			}
 
@@ -57,7 +90,7 @@ export function Register({ handlePageChange }) {
 			setError('error: ' + err)
 		}
 	}
-
+	
 	return (
 		<div style={{ padding: '16px', marginTop: '48px' }}>
 			<form onSubmit={handleSubmit}>

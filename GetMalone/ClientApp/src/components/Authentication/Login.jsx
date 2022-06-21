@@ -29,7 +29,6 @@ export function Login({ handlePageChange }) {
 			let response = await fetch(variables.API_URL + 'auth/login', requestOptions)
 			if (!response.ok) {
 				const data = await response.json();
-
 				throw new Error(data.message)
 			}
 
