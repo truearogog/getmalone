@@ -5,17 +5,6 @@ import { ProductList } from './ProductList';
 
 let title = "Recommended Products";
 
-let profile = [
-  {
-    id: 0,
-    name: "John",
-    surname: "Smith",
-    phone: "23456789",
-    mail: "test@example.com",
-    interests: "apples, bananas"
-  }
-]
-
 let products = [
   {
     name: "Apple",
@@ -62,7 +51,7 @@ let products = [
 export function UserProfile({ user }) {
   return (
     <Container>
-      <ProfileData data={profile} />
+      <ProfileData data={user} />
       <ProductList title={title} products={products} />
     </Container>
   );
