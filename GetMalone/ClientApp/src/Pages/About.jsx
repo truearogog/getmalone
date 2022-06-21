@@ -1,19 +1,38 @@
 import React from 'react';
 import styled from 'styled-components'
-//import { variables } from '../variables';
-//import { v4 as uuidv4 } from 'uuid';
 
 export function About() {
-	return (
-		<Container>
-
-			<Title>About</Title>
-
+  return (
+    <Container>
+      <Title>About</Title>
       <Contacts />
-
-		</Container>	
-	);
+    </Container>
+  );
 }
+function Contacts() {
+  return (
+    <ContactsWrapper>
+      <p>This website was made as a project for <a href="https://www.lu.lv/" title="our uni">University of Latvia</a>, all products and orders are not real and all users and sellers are purely fictional. Thank you for visiting us!</p>
+      <p>If you still have any questions, feel free to contact: </p>
+      <ul>
+        <li>Github: <a href="https://github.com/sakuraaah">github.com/sakuraaah</a></li>
+        <li>Github: <a href="https://github.com/C-Coretex">github.com/C-Coretex</a></li>
+        <li>Github: <a href="https://github.com/truearogog">github.com/truearogog</a></li>
+      </ul>
+      <Repository />
+    </ContactsWrapper>
+  );
+}
+
+function Repository() {
+  return (
+    <RepositoryWrapper>
+      <p>Our Repository in GitHub:</p>
+      <a href="https://github.com/truearogog/getmalone" title="Github">github.com/GetMalone</a>
+    </RepositoryWrapper>
+  )
+}
+
 const Container = styled.div`
   width: 50%;
 	margin: 0 auto;
@@ -26,29 +45,7 @@ const Title = styled.div`
   text-align: center;
 `;
 
-function Contacts() {
-	return (
-		<ContactsWrapper>
-			<p>This website was made as a project for <a href="https://www.lu.lv/" Title="our uni">University of Latvia</a>, all products and orders are not real and all users and sellers are purely fictional. Thank you for visiting us!</p>
-      <p>If you still have any questions, feel free to contact: </p>
-      <ul>
-        <li>Github: <a href="https://github.com/sakuraaah">github.com/sakuraaah</a></li>
-        <li>Github: <a href="https://github.com/C-Coretex">github.com/C-Coretex</a></li>
-        <li>Github: <a href="https://github.com/truearogog">github.com/truearogog</a></li>
-      </ul>
-      <Repository />
-		</ContactsWrapper>	
-	);
-}
-
-function Repository() {
-  return (
-    <RepositoryWrapper>
-      <p>Our Repository in GitHub:</p>
-      <a href="https://github.com/truearogog/getmalone" Title="Github">github.com/GetMalone</a>
-    </RepositoryWrapper>
-  )
-}
+//-----Contacts-----
 const ContactsWrapper = styled.div`
   font-size: 20px;
   p a {
@@ -60,6 +57,7 @@ const ContactsWrapper = styled.div`
     list-style-type: none;
   }
 `;
+//-----Repository-----
 const RepositoryWrapper = styled.div`
   padding-top: 1px;
   line-height: 15px;

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components'
-//import { variables } from '../variables';
 import { v4 as uuidv4 } from 'uuid';
 
 const id = 0;
@@ -43,7 +42,7 @@ const ListWrapper = styled.div`
 function ProductItem(data) {
 	return (
 		<ProductItemWrapper>
-			<Image src={require('../images/product-pictures/'+id+'.png')} />
+			<Image src={require('../../images/product-pictures/'+id+'.png')} />
 			<Title>{data.name}</Title>
 			<Description>{data.description}</Description>
 			<Price>{data.cost}$</Price>

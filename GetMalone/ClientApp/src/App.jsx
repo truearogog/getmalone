@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import { Profile } from './components/Profile';
-import { About } from './components/About';
+import { Layout } from './Layout';
+import { Home } from './Pages/Home';
+import { Profile } from './Pages/Profile';
+import { About } from './Pages/About';
 
 import './custom.css'
-import { UserContext } from './UserContext';
+import { UserContext } from './services/UserContext';
 
 export default function App() {
   const [value, setValue] = useState(false)

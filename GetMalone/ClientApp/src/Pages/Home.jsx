@@ -1,8 +1,6 @@
-import React, { useEffect, useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-import { UserContext } from '../UserContext';
-import { variables } from '../variables';
 
 export function Home() {
   let data = [
@@ -48,52 +46,20 @@ export function Home() {
     },
   ]
 
-  const { value, setValue } = useContext(UserContext);
-
-  async function checkAunthentication() {
-    try {
-      const response = await fetch(variables.API_URL + 'auth/user')
-      if (response.status == 200) {
-        const data = await response.json();
-
-        console.log(data)
-
-        setValue(true);
-      }
-      else {
-        setValue(false);
-      }
-    }
-    catch (err) {
-      setValue(false);
-      console.log(err)
-    }
-  }
-
-  useEffect(() => {
-    checkAunthentication()
-  }, [])
-
   return (
     <div>
-      {value == true ?
-        <div>
-          <p>{value}</p>
-          <h1>GetMalone.lv</h1>
-          <Grid>
-            <Row>
-              <b><p>Name</p></b>
-              <b><p>Description</p></b>
-              <b><p>Cost</p></b>
-              <b><p>Type</p></b>
-              <b><p>Date</p></b>
-              <b><p>Seller</p></b>
-            </Row>
-            {data.map(data => <DataRow key={uuidv4()} data={data} />)}
-          </Grid>
-        </div>
-        : "Unauthorized"
-      }
+      <h1>GetMalone.lv</h1>
+      <Grid>
+        <Row>
+          <b><p>Name</p></b>
+          <b><p>Description</p></b>
+          <b><p>Cost</p></b>
+          <b><p>Type</p></b>
+          <b><p>Date</p></b>
+          <b><p>Seller</p></b>
+        </Row>
+        {data.map(data => <DataRow key={uuidv4()} data={data} />)}
+      </Grid>
     </div>
   );
 }

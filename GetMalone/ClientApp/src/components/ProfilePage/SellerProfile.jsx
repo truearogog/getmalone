@@ -1,22 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
-import { ProfileData } from './ProfileData';
 import { ProductList } from './ProductList';
-//import { variables } from '../variables';
-//import { v4 as uuidv4 } from 'uuid';
-
-let title = "Recommended Products";
-
-let profile = [
-{
-	id: 0,
-    name: "John",
-	surname: "Smith",
-    phone: "23456789",
-    mail: "test@example.com",
-    interests: "apples, bananas"
-  }
-]
 
 let products = [
   {
@@ -36,14 +20,6 @@ let products = [
     seller: 3
   },
   {
-    name: "Cucumber",
-    description: "fresh and homemade",
-    cost: 0.49,
-    type: "Vegetables",
-    date: "2022-07-19",
-    seller: 2
-  },
-  {
     name: "Pear",
     description: "yummy",
     cost: 1.29,
@@ -61,13 +37,14 @@ let products = [
   },
 ]
 
-export function UserProfile() {
-	return (
-		<Container>
-			<ProfileData data={profile}/>
-			<ProductList title={title} products={products}/>
-		</Container>	
-	);
+export function SellerProfile({ user }) {
+  return (
+    <Container>
+
+      <ProductList products={products} />
+
+    </Container>
+  );
 }
 const Container = styled.div`
   	width: 60%;
