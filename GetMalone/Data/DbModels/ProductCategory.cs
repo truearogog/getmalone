@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GetMalone.Data.DbModels
+namespace GetMalone.Data
 {
     public class ProductCategory
     {
@@ -10,5 +9,7 @@ namespace GetMalone.Data.DbModels
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 }

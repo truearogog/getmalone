@@ -8,13 +8,21 @@ namespace GetMalone.Data
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         public int SellerId { get; set; }
         [ForeignKey("SellerId")]
         public Seller Seller { get; set; }
+
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public ProductCategory Category { get; set; }
+
+        public decimal PriceEuro { get; set; }
     }
 }

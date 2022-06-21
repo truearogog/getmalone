@@ -14,5 +14,7 @@ namespace GetMalone.Data
         public float Rating { get; set; } = 0;
         [Required]
         public List<string> SertificateCodes { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 }
