@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components'
 
-export function ProfileData(data) {
+export function ProfileData({ data }) {
 	return (
 		<ProfileDataWrapper>
 
 			<ProfileLogo>
-				<Image src={require('../../images/profile-pictures/users/'+data.id+'.png')} />
+				<Image src={require('../../images/profile-pictures/users/0.png')} />
+				<Rating data={data.sertificatecodes} />
 			</ProfileLogo>
 			<ProfileInfo>
 				<Name user={data}/>
@@ -16,61 +17,103 @@ export function ProfileData(data) {
 		</ProfileDataWrapper>
 	)
 }
-const ProfileDataWrapper = styled.div`
-	width: 80%;
-	margin: 0 auto;
-	display: flex;
-	background: rgba(0, 0, 255, 0.8);
-	padding-bottom: 100px;
-`;
-const ProfileLogo = styled.div`
-  width: 40%;
-	background: rgba(0, 255, 0, 0.8);
-	position: relative;
-`;
-const Image = styled.img`
-  width: 250px;
-	height: 250px;
-	margin: auto;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`;
-const ProfileInfo = styled.div`
-  width: 60%;
-	background: rgba(100, 100, 100, 0.8);
-`;
 
-function Name(user) {
+function Rating({ data }) {
+	if (data)
+	  return (
+		<RatingWrapper>
+		  Rating: <span class="nr">{data}/5</span>
+		</RatingWrapper>
+	  )
+	else
+	  return <></>
+}
+
+function Name({ user }) {
 	return (
 		<NameWrapper>
 			<p>{user.name} {user.surname}</p>
 		</NameWrapper>
 	)
 }
-const NameWrapper = styled.div`
-	font-size: 35px;
-	padding-top: 20px;
-	padding-left: 80px;
-	margin-bottom: -20px;
-`;
 
-function Info(info) {
+function Info({ info }) {
 	return (
 		<InfoWrapper>
 			<InfoTitle>
 				Contacts:
 			</InfoTitle>
 			<p>phone: {info.phone}</p>
-			<p>mail: {info.mail}</p>
-      {/* <Interests data={info.interests}/>
-      <Certificates data={info.sertificatecodes}/> */}
-			
+			<p>mail: {info.email}</p>
+			<Interests data={info.interests}/>
+			<Certificates data={info.sertificatecodes}/>
 		</InfoWrapper>
 	)
 }
+
+function Interests({ data }) {
+  if (data)
+    return (
+      <>
+        <InfoTitle>
+          Interested in:
+        </InfoTitle>
+        <p>{data.join(', ')}</p>
+      </>
+    )
+  else
+	return <></>
+}
+
+function Certificates({ data }) {
+  if (data)
+    return (
+      <>
+        <InfoTitle>
+          Certificates:
+        </InfoTitle>
+        <p>{data.join(', ')}</p>
+      </>
+    )
+  else
+	return <></>
+}
+
+//-------container---------------
+const ProfileDataWrapper = styled.div`
+	width: 80%;
+	margin: 0 auto;
+	display: flex;
+	padding-bottom: 50px;
+`;
+
+//-------left side---------------
+const ProfileLogo = styled.div`
+  	width: 40%;
+	text-align: center;
+`;
+const Image = styled.img`
+  	width: 250px;
+	height: 250px;
+	padding-top: 40px;
+`;
+const RatingWrapper = styled.p`
+	font-size: 30px;
+	.nr {
+		font-weight: 600;
+	}
+`;
+
+//-------right side---------------
+const ProfileInfo = styled.div`
+  	width: 60%;
+`;
+const NameWrapper = styled.div`
+	font-size: 35px;
+	padding-top: 20px;
+	padding-left: 80px;
+	margin-bottom: -20px;
+`;
 const InfoWrapper = styled.div`
 	line-height: 10px;
 	padding-left: 100px;
@@ -82,27 +125,3 @@ const InfoTitle = styled.p`
 	line-height: 15px;
 	font-weight: 600;
 `;
-
-function Interests(data) {
-  if (data)
-    return (
-      <>
-        <InfoTitle>
-          Interested in:
-        </InfoTitle>
-        <p>{data.interests}</p>
-      </>
-    )
-}
-
-function Certificates(data) {
-  if (data)
-    return (
-      <>
-        <InfoTitle>
-          Interested in:
-        </InfoTitle>
-        <p>{data.sertificatecodes}</p>
-      </>
-    )
-}

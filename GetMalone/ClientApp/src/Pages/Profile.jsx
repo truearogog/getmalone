@@ -17,10 +17,10 @@ export function Profile() {
 }
 
 function GetUserRole({ user }) {
-	if (user.user == 'user') {
+	if (user.user == 'buyer') {
 		return <UserProfile user={user} />;
 	}
-	else if (user.user == 'buyer') {
+	else if (user.user == 'seller') {
 		return <SellerProfile user={user} />;
 	}
 	else

@@ -49,6 +49,7 @@ let products = [
 ]
 
 export function UserProfile({ user }) {
+  console.log(user)
   return (
     <Container>
       <ProfileData data={user} />
@@ -57,7 +58,7 @@ export function UserProfile({ user }) {
   );
 }
 const Container = styled.div`
-  	width: 60%;
+  width: 60%;
 	margin: 0 auto;
-	background: rgba(255, 0, 0, 0.8);
+	background: #f3f3f3;
 `;

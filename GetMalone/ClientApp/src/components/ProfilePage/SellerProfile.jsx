@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
+import { ProfileData } from './ProfileData';
 import { ProductList } from './ProductList';
 
 let products = [
@@ -38,8 +39,10 @@ let products = [
 ]
 
 export function SellerProfile({ user }) {
+  console.log(user)
   return (
     <Container>
+      <ProfileData data={user} />
       {<ProductList products={products} />}
     </Container>
   );
@@ -47,5 +50,5 @@ export function SellerProfile({ user }) {
 const Container = styled.div`
   width: 60%;
 	margin: 0 auto;
-	background: rgba(255, 0, 0, 0.8);
+	background: #f3f3f3;
 `;

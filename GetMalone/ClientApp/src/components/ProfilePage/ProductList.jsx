@@ -54,7 +54,6 @@ const ListTitle = styled.div`
 
 //-----List-----
 const ListWrapper = styled.div`
-	background: rgba(100, 100, 100, 0.8);
 	display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -64,11 +63,10 @@ const ListWrapper = styled.div`
 
 //-----ProductItem-----
 const ProductItemWrapper = styled.div`
-	background: rgba(100, 100, 100, 0.8);
 	width: 25%;
 	text-align: center;
 	padding-top: 30px;
-  padding-bottom: 20px;
+  	padding-bottom: 20px;
 	line-height: 10px;
 `;
 const Image = styled.img`
@@ -89,7 +87,7 @@ const Description = styled.p`
 `;
 const Price = styled.p`
 	padding-top: 5px;
-  padding-bottom: 5px;
+  	padding-bottom: 5px;
 	font-size: 26px;
 `;
 const Info = styled.div`
