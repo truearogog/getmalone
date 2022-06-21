@@ -6,9 +6,10 @@ namespace GetMalone.Data
     public class Seller
     {
         [Key]
-        public int Id { get; set; }
         [Required]
         public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
         [Required]
         public float Rating { get; set; } = 0;
         [Required]

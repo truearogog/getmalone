@@ -21,8 +21,7 @@ namespace GetMalone.Migrations
 
             modelBuilder.Entity("GetMalone.Data.Buyer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<string>("Interests")
@@ -33,10 +32,7 @@ namespace GetMalone.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -46,8 +42,7 @@ namespace GetMalone.Migrations
 
             modelBuilder.Entity("GetMalone.Data.Seller", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<float>("Rating")
@@ -57,10 +52,7 @@ namespace GetMalone.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -103,6 +95,28 @@ namespace GetMalone.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.Buyer", b =>
+                {
+                    b.HasOne("GetMalone.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.Seller", b =>
+                {
+                    b.HasOne("GetMalone.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

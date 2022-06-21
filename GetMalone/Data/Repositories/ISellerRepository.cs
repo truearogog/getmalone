@@ -4,5 +4,6 @@
     {
         Seller? Create(Seller seller);
         Seller? GetById(int userId);
+        bool IsSeller(int userId);
     }
 }

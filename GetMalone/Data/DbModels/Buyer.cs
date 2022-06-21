@@ -6,9 +6,10 @@ namespace GetMalone.Data
     public class Buyer
     {
         [Key]
-        public int Id { get; set; }
         [Required]
         public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
         [Required]
         public string MailIndex { get; set; }
         [Required]

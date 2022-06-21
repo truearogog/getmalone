@@ -64,6 +64,7 @@ namespace GetMalone.Controllers
 
                 var buyer = _buyerRepository.Create(new Buyer {
                     UserId = user.Id,
+                    User = user,
                     MailIndex = dto.MailIndex,
                     Interests = dto.Interests
                 });
@@ -72,7 +73,7 @@ namespace GetMalone.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("This email is already used");
+                return BadRequest(new { message = "This email is already used" });
             }
         }
 
@@ -85,6 +86,7 @@ namespace GetMalone.Controllers
 
                 var seller = _sellerRepository.Create(new Seller {
                     UserId = user.Id,
+                    User = user,
                     SertificateCodes = dto.SertificateCodes
                 });
 
@@ -92,7 +94,7 @@ namespace GetMalone.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("This email is already used");
+                return BadRequest(new { message = "This email is already used" });
             }
         }
 

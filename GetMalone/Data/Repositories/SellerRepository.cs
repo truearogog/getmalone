@@ -20,5 +20,10 @@
         {
             return _context.Sellers.FirstOrDefault(s => s.UserId.Equals(userId));
         }
+
+        public bool IsSeller(int userId)
+        {
+            return _context.Sellers.Any(b => b.UserId.Equals(userId));
+        }
     }
 }
