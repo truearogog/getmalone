@@ -10,15 +10,15 @@ import { UserContext } from './services/UserContext';
 import { variables } from './services/variables';
 
 export default function App() {
-  const [user, setUser] = useState(null)
-  
+  const [user, setUser] = useState(false)
+
   async function checkAunthentication() {
     try {
       const response = await fetch(variables.API_URL + 'auth/user')
       if (!response.ok) throw new Error(response.statusText)
 
       const data = await response.json();
-
+      
       setUser(data)
     }
     catch (err) {
@@ -26,6 +26,7 @@ export default function App() {
       console.log(err)
     }
   }
+
   useEffect(() => {
     checkAunthentication()
   }, [])

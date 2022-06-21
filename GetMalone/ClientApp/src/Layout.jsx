@@ -33,7 +33,7 @@ export function Layout(component) {
 
     let allPages = reset()
     allPages[name] = true
-
+    
     setpageEnabled(allPages)
   }
 
@@ -44,9 +44,9 @@ export function Layout(component) {
         {
           component.children
         }
-      </div> : null}
-      {pageEnabled['LoginPage'] ? <Login /> : null}
-      {pageEnabled['RegisterPage'] ? <Register /> : null}
+      </div> : <div>aaaa</div>}
+      {pageEnabled['LoginPage'] ? <Login handlePageChange={name => changeActiveWindow(name)} /> : null}
+      {pageEnabled['RegisterPage'] ? <Register handlePageChange={name => changeActiveWindow(name)} /> : null}
     </div>
   );
 }

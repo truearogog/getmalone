@@ -3,11 +3,16 @@ import styled from 'styled-components'
 import { UserContext } from '../../services/UserContext';
 import { variables } from '../../services/variables';
 
-export function Login() {
+import { useHistory } from 'react-router-dom';
+
+
+export function Login({ handlePageChange }) {
 	const { user, setUser } = useContext(UserContext);
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+
+	const history = useHistory()
 
 	async function handleSubmit(e) {
 		e.preventDefault()
@@ -20,24 +25,19 @@ export function Login() {
 		}
 
 		try {
-			const response = await fetch(variables.API_URL + 'auth/login', requestOptions)
+			let response = await fetch(variables.API_URL + 'auth/login', requestOptions)
+			if (!response.ok) throw new Error(response.statusText)
+
+			response = await fetch(variables.API_URL + 'auth/user')
 			if (!response.ok) throw new Error(response.statusText)
 
 			const data = await response.json();
-			console.log(data)
 			
-			try {
-				const response = await fetch(variables.API_URL + 'auth/user')
-				if (!response.ok) throw new Error(response.statusText)
+			handlePageChange('MainPage')
+			
+			setUser(data)
 
-				const data = await response.json();
-
-				setUser(data)
-			}
-			catch (err) {
-				setUser(null);
-				console.log(err)
-			}
+			history.push('/');
 		}
 		catch (err) {
 			console.log(err)

@@ -2,9 +2,27 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from '../services/UserContext';
+import { variables } from '../services/variables';
 
 export function NavMenu({ handlePageChange }) {
   const { user, setUser } = useContext(UserContext);
+
+  async function handleLogout() {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    }
+
+    try {
+      const response = await fetch(variables.API_URL + 'auth/logout', requestOptions)
+      if (!response.ok) throw new Error(response.statusText)
+
+      setUser(null)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <header>
@@ -14,15 +32,17 @@ export function NavMenu({ handlePageChange }) {
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/profile">Profile</Link>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/about">About</Link>
         </div>
-        {user == null ?
-          <div>
-            <Button onClick={() => { handlePageChange('LoginPage') }}>Login</Button>
-            /Register
-          </div>
-          : <div>
-            Logout
-          </div>
-        }
+        <div style={{width: '10%'}}>
+          {user != false ? user == null ?
+            <div>
+              <Button onClick={() => { handlePageChange('LoginPage') }}>Login</Button>
+              /Register
+            </div>
+            : <div>
+              <Button onClick={handleLogout}>Logout</Button>
+            </div> : null
+          }
+        </div>
       </Navbar>
     </header>
   );
