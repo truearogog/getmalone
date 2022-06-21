@@ -27,20 +27,21 @@ export function NavMenu({ handlePageChange }) {
   return (
     <header>
       <Navbar>
-        <div onClick={() => { handlePageChange('MainPage') }}>
+        <div class="nav" onClick={() => { handlePageChange('MainPage') }}>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/">Home</Link>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/profile">Profile</Link>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/about">About</Link>
         </div>
-        <div style={{width: '200px'}}>
-          {user != false ? user == null ?
-            <div>
+        <div class="login">
+          {user != false ? 
+            user == null ?
+            <>
               <Button onClick={() => { handlePageChange('LoginPage') }}>Login</Button>
               <Button onClick={() => { handlePageChange('RegisterPage') }}>Register</Button>
-            </div>
-            : <div>
-              <Button onClick={handleLogout}>Logout</Button>
-            </div> : null
+            </>
+            :
+            <Button onClick={handleLogout}>Logout</Button>
+            : null
           }
         </div>
       </Navbar>
@@ -52,37 +53,54 @@ const Navbar = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-  height: 24px;
+  height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
   gap: 1.5rem;
-  padding-right: 1rem;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
   background-color: rgb(241 245 249 / 100);
-  margin-bottom: 1rem;
   
   & > * > *{
+    display: inline-block;
+    width: 50px;
     margin-right: 2rem;
+  }
+
+  .nav {
+    a {
+      color: rgba(0,0,0);
+      opacity: .5;
+      transition: opacity .3s;
+    }
+  
+    a:hover {
+      opacity: .8;
+    }
+  }
+
+  .login {
+    width: 350px;
+    display: block;
   }
 `
 
 const Button = styled.div`
-  border: 1px;
-  border: solid;
+
   width: 100px;
-  height: 20px;
-  line-height: 20px;
-  padding: 1px;
+  height: 30px;
   margin: auto;
   text-align: center;
-  
-  &:hover{
-    cursor: pointer;
+  opacity: .7;
+  transition: opacity .5s;
+
+  &:not(&:last-child) {
+    border-right: 1px solid #aaa;
   }
   
-  & > * {
-    margin: auto;
+  &:hover{
+    opacity: 1;
+    cursor: pointer;
+    font-weight: 600;
   }
 `

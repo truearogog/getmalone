@@ -24,6 +24,6 @@ function GetUserRole({ user }) {
 		return <SellerProfile user={user} />;
 	}
 	else
-		return <div><h1>Unknown user</h1></div>
+		return <div></div>
 }
 
