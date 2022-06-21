@@ -15,8 +15,7 @@ export default function App() {
   async function checkAunthentication() {
     try {
       const response = await fetch(variables.API_URL + 'auth/user')
-      if (response.status != 200)
-        throw (response.statusText)
+      if (!response.ok) throw new Error(response.statusText)
 
       const data = await response.json();
 

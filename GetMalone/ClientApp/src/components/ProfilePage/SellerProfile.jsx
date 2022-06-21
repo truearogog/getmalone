@@ -40,14 +40,12 @@ let products = [
 export function SellerProfile({ user }) {
   return (
     <Container>
-
-      <ProductList products={products} />
-
+      {<ProductList products={products} />}
     </Container>
   );
 }
 const Container = styled.div`
-  	width: 60%;
+  width: 60%;
 	margin: 0 auto;
 	background: rgba(255, 0, 0, 0.8);
 `;

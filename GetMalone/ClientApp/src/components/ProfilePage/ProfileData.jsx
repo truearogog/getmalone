@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
 
-const id = 0;
-
 export function ProfileData(data) {
 	return (
 		<ProfileDataWrapper>

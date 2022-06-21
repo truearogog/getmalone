@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const id = 0;
 
-export function ProductList(title = "Product List", products) {
+export function ProductList({ title = "Product List", products }) {
 	return (
 		<ProductListWrapper>
 			<ListTitle>
@@ -14,32 +14,16 @@ export function ProductList(title = "Product List", products) {
 		</ProductListWrapper>
 	)
 }
-const ProductListWrapper = styled.div`
-	padding-top: 90px;
-	width: 90%;
-	margin: 0 auto;
-`;
-const ListTitle = styled.div`
-	padding-bottom: 20px;
-	font-size: 40px;
-	font-weight: 600;
-	text-align: center;
-`;
-function List(data) {
+
+function List({ data }) {
 	return (
 		<ListWrapper>
 			{data.map(data => <ProductItem key={uuidv4()} data={data}/>)}
 		</ListWrapper>
 	)
 }
-const ListWrapper = styled.div`
-	background: rgba(100, 100, 100, 0.8);
-	display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-	margin-top: 25px;
-`;
-function ProductItem(data) {
+
+function ProductItem({ data }) {
 	return (
 		<ProductItemWrapper>
 			<Image src={require('../../images/product-pictures/'+id+'.png')} />
@@ -54,6 +38,31 @@ function ProductItem(data) {
 		</ProductItemWrapper>
 	)
 }
+
+//-----ProductList-----
+const ProductListWrapper = styled.div`
+	padding-top: 90px;
+	width: 90%;
+	margin: 0 auto;
+`;
+const ListTitle = styled.div`
+	padding-bottom: 20px;
+	font-size: 40px;
+	font-weight: 600;
+	text-align: center;
+`;
+
+//-----List-----
+const ListWrapper = styled.div`
+	background: rgba(100, 100, 100, 0.8);
+	display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+	margin-top: 25px;
+`;
+
+
+//-----ProductItem-----
 const ProductItemWrapper = styled.div`
 	background: rgba(100, 100, 100, 0.8);
 	width: 25%;
