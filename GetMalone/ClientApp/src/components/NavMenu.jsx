@@ -18,6 +18,8 @@ export function NavMenu({ handlePageChange }) {
       if (!response.ok) throw new Error(response.statusText)
 
       setUser(null)
+
+      alert("User logged out");
     }
     catch (err) {
       console.log(err)
@@ -33,14 +35,14 @@ export function NavMenu({ handlePageChange }) {
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/about">About</Link>
         </div>
         <div className="login">
-          {user != false ? 
+          {user != false ?
             user == null ?
-            <>
-              <Button onClick={() => { handlePageChange('LoginPage') }}>Login</Button>
-              <Button onClick={() => { handlePageChange('RegisterPage') }}>Register</Button>
-            </>
-            :
-            <Button onClick={handleLogout}>Logout</Button>
+              <>
+                <Button onClick={() => { handlePageChange('LoginPage') }}>Login</Button>
+                <Button onClick={() => { handlePageChange('RegisterPage') }}>Register</Button>
+              </>
+              :
+              <Button onClick={handleLogout}>Logout</Button>
             : null
           }
         </div>

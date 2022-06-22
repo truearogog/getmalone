@@ -22,13 +22,13 @@ export function Register({ handlePageChange }) {
 	const [error, setError] = useState('')
 
 	const history = useHistory()
-	
+
 	async function handleSubmit(e) {
 		e.preventDefault()
-		
+
 		let formData
-		let requestPath =  variables.API_URL + 'auth/register/'
-		
+		let requestPath = variables.API_URL + 'auth/register/'
+
 		if (userType == 'buyer') {
 			requestPath += 'buyer'
 			formData = { email: email, password: password, phone: phone, name: name, surname: surname, mailindex: mailindex, interests: interests.split(', ') }
@@ -46,10 +46,10 @@ export function Register({ handlePageChange }) {
 
 		try {
 			let response = await fetch(requestPath, requestOptions)
-			if (!response.ok) {
-				const data = await response.json();
-				throw new Error(data.message)
-			}
+			if (!response.ok) throw new Error(response.statusText, requestOptions)
+			
+			const data = await response.json();
+			if (data.success == false) throw new Error(data.error, requestOptions)
 
 			login()
 		}
@@ -58,7 +58,7 @@ export function Register({ handlePageChange }) {
 			setError('error: ' + err)
 		}
 	}
-	
+
 	async function login() {
 		let formData = { email: email, password: password }
 		const requestOptions = {
@@ -70,28 +70,31 @@ export function Register({ handlePageChange }) {
 		try {
 			let response = await fetch(variables.API_URL + 'auth/login', requestOptions)
 			if (!response.ok) throw new Error(response.statusText, requestOptions)
-			
+
 			let data = await response.json();
-      if(data.success == false) throw new Error(data.error, requestOptions)
-			
+			if (data.success == false) throw new Error(data.error, requestOptions)
+
 			response = await fetch(variables.API_URL + 'auth/user')
 			if (!response.ok) throw new Error(response.statusText)
 
 			data = await response.json();
 			if (data.success == false) throw new Error(data.error, requestOptions)
-				
+
 			handlePageChange('MainPage')
 
 			setUser(data.data)
-
-			history.push('/');
+			
+			history.push('/profile');
+			
+			alert("User registered and logged in");
 		}
 		catch (err) {
 			console.log(err)
+			setUser(null)
 			setError(err)
 		}
 	}
-	
+
 	return (
 		<div style={{ padding: '16px', marginTop: '48px' }}>
 			<form onSubmit={handleSubmit}>

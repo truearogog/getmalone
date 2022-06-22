@@ -44,6 +44,8 @@ export function Login({ handlePageChange }) {
 			setUser(data.data)
 
 			history.push('/');
+			
+			alert("User logged in");
 		}
 		catch (err) {
 			console.log(err)
