@@ -29,12 +29,12 @@ export function NavMenu({ handlePageChange }) {
   return (
     <header>
       <Navbar>
-        <div className="nav" onClick={() => { handlePageChange('MainPage') }}>
+        <div className="links" onClick={() => { handlePageChange('MainPage') }}>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/">Home</Link>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/profile">Profile</Link>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/about">About</Link>
         </div>
-        <div className="login">
+        <div>
           {user != false ?
             user == null ?
               <>
@@ -58,7 +58,7 @@ const Navbar = styled.div`
   height: 50px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   gap: 1.5rem;
   background-color: rgb(241 245 249 / 100);
@@ -66,24 +66,25 @@ const Navbar = styled.div`
   & > * > *{
     display: inline-block;
     width: 50px;
-    margin-right: 2rem;
-  }
+    margin-left: 2rem;
 
-  .nav {
-    a {
-      color: rgba(0,0,0);
-      opacity: .5;
-      transition: opacity .3s;
-    }
-  
-    a:hover {
-      opacity: .8;
+    &:first-child {
+      padding-left: 100px;
     }
   }
 
-  .login {
-    width: 350px;
-    display: block;
+  .links {
+    padding-left: 80px;
+  }
+
+  a {
+    color: rgba(0,0,0);
+    opacity: .5;
+    transition: opacity .3s;
+  }
+
+  a:hover {
+    opacity: .8;
   }
 `
 
