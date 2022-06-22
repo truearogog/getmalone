@@ -27,24 +27,23 @@ export function Login({ handlePageChange }) {
 
 		try {
 			let response = await fetch(variables.API_URL + 'auth/login', requestOptions)
-
 			if (!response.ok) throw new Error(response.statusText, requestOptions)
-			
-      let data = await response.json();
-      if(data.success == false) throw new Error(data.error, requestOptions)
+
+			let data = await response.json();
+			if (data.success == false) throw new Error(data.error, requestOptions)
 
 			response = await fetch(variables.API_URL + 'auth/user')
 			if (!response.ok) throw new Error(response.statusText)
 
 			data = await response.json();
 			if (data.success == false) throw new Error(data.error, requestOptions)
-				
+
 			handlePageChange('MainPage')
 
 			setUser(data.data)
 
 			history.push('/');
-			
+
 			alert("User logged in");
 		}
 		catch (err) {
@@ -55,8 +54,8 @@ export function Login({ handlePageChange }) {
 
 	return (
 		<div style={{ padding: '16px', marginTop: '48px' }}>
-			<form onSubmit={handleSubmit}>
-			<h2>Login:</h2>
+			<StyledForm onSubmit={handleSubmit}>
+				<h2>Login:</h2>
 				<label>
 					email:
 					<input type="text" name="email" value={email} onChange={e =>
@@ -68,8 +67,13 @@ export function Login({ handlePageChange }) {
 						setPassword(e.target.value)} />
 				</label>
 				<button type="submit">Submit</button>
-			</form>
+			</StyledForm>
 			<p style={{ color: 'red' }}>{error}</p>
 		</div>
 	)
-} 
+}
+
+const StyledForm = styled.form`
+	display: flex;
+	flex-direction: column;
+`

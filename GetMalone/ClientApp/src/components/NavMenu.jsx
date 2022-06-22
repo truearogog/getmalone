@@ -41,8 +41,7 @@ export function NavMenu({ handlePageChange }) {
                 <Button onClick={() => { handlePageChange('LoginPage') }}>Login</Button>
                 <Button onClick={() => { handlePageChange('RegisterPage') }}>Register</Button>
               </>
-              :
-              <Button onClick={handleLogout}>Logout</Button>
+              : <Button onClick={handleLogout}>Logout</Button>
             : null
           }
         </div>

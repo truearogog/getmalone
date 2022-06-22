@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { AddProduct } from '../components/Home/AddProduct'
+import { ShoppingCart } from '../components/Home/ShoppingCart'
+import { UserContext } from '../services/UserContext';
 
 export function Home() {
   let data = [
@@ -46,20 +49,71 @@ export function Home() {
     },
   ]
 
+  const { user, setUser } = useContext(UserContext);
+
+  const [pageEnabled, setpageEnabled] =
+    useState({
+      'AddProductPage': false,
+      'ShoppingCartPage': false,
+      'HomePage': true
+    });
+
+  const forceUpdate = React.useReducer(() => ({}), {})[1]
+
+  function changeActiveWindow(name) {
+    function getPages() {
+      let pagesDict = []
+      Object.entries(pageEnabled).forEach(([key, value]) => {
+        pagesDict[key] = value
+      })
+
+      return pagesDict
+    }
+
+    function reset() {
+      let allPages = getPages()
+      for (let i in allPages) {
+        allPages[i] = false
+      }
+
+      setpageEnabled(allPages)
+      return allPages
+    }
+
+    let allPages = reset()
+    allPages[name] = true
+
+    setpageEnabled(allPages)
+
+    forceUpdate()
+    console.log(allPages)
+  }
+
   return (
     <div>
-      <h1>GetMalone.lv</h1>
-      <Grid>
-        <Row>
-          <b><p>Name</p></b>
-          <b><p>Description</p></b>
-          <b><p>Cost</p></b>
-          <b><p>Type</p></b>
-          <b><p>Date</p></b>
-          <b><p>Seller</p></b>
-        </Row>
-        {data.map(data => <DataRow key={uuidv4()} data={data} />)}
-      </Grid>
+      {pageEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
+      {pageEnabled['ShoppingCartPage'] ? <ShoppingCart handlePageChange={name => changeActiveWindow(name)} /> : null}
+      {pageEnabled['HomePage'] ?
+        <div>
+          <Row>
+            <h1>GetMalone.lv</h1>
+            {user === 'buyer' ?
+              <Button onClick={() => changeActiveWindow('ShoppingCartPagePage')}><p>Shopping cart</p></Button> :
+              <Button onClick={() => changeActiveWindow('AddProductPage')}><p>Add product</p></Button>}
+          </Row>
+          <Grid>
+            <Row>
+              <b><p>Name</p></b>
+              <b><p>Description</p></b>
+              <b><p>Cost</p></b>
+              <b><p>Type</p></b>
+              <b><p>Date</p></b>
+              <b><p>Seller</p></b>
+            </Row>
+            {data.map(data => <DataRow key={uuidv4()} data={data} />)}
+          </Grid>
+        </div>
+        : null}
     </div>
   );
 }
@@ -95,5 +149,26 @@ const Row = styled.div`
   & > * {
     width: 16%; 
     margin: auto;
+  }
+`
+
+const Button = styled.div`
+  border-radius: 5px;
+  background-color: blue;
+  padding: 16px;
+  cursor: pointer;
+  transition: .5s;
+  
+  &:hover {
+    background-color: #1f03bb;
+  }
+  
+  & > * {
+    color: white;
+  }
+  
+  & > p {
+    margin: 0;
+    padding: 0;
   }
 `

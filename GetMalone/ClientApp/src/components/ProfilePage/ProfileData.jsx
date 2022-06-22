@@ -23,7 +23,7 @@ function Rating({ data }) {
 	if (typeof data !=='undefined')
 	  return (
 		<RatingWrapper>
-		  Rating: <span class="nr">{data}/5</span>
+		  Rating: <span className="nr">{data}/5</span>
 		</RatingWrapper>
 	  )
 	else
