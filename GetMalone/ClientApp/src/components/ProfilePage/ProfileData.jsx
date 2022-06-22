@@ -42,7 +42,7 @@ function Info({ info }) {
 	return (
 		<InfoWrapper>
 			<InfoTitle>
-				Contacts:
+				Contacts: 
 			</InfoTitle>
 			<p>phone: {info.phone}</p>
 			<p>mail: {info.email}</p>
