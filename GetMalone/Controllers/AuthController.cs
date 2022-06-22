@@ -106,15 +106,15 @@ namespace GetMalone.Controllers
                 var user = _userRepository.GetByEmail(dto.Email);
 
                 if (user == null)
-                    throw new Exception("Invalid Credentials");
+                    throw new Exception();
 
                 if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-                    throw new Exception("Invalid Credentials");
+                    throw new Exception();
 
                 var jwt = _jwtService.Generate(user.Id);
 
                 Response.Cookies.Append("jwt", jwt, new CookieOptions { HttpOnly = true });
-            }, "This email is already used");
+            }, "Invalid Credentials");
             return Ok(response);
         }
 
@@ -129,10 +129,10 @@ namespace GetMalone.Controllers
                 var user = _userRepository.GetById(userId);
 
                 var buyer = _buyerRepository.GetById(userId);
-                if (buyer != null) BuyerUser(user, buyer);
+                if (buyer != null) return BuyerUser(user, buyer);
 
                 var seller = _sellerRepository.GetById(userId);
-                if (seller != null) SellerUser(user, seller);
+                if (seller != null) return SellerUser(user, seller);
 
                 return user;
             });

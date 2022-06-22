@@ -131,14 +131,14 @@ namespace GetMalone.Controllers
                     Name = dto.Name,
                     Description = dto.Description,
                     CategoryId = dto.CategoryId,
-                    Category = _productCategoryRepository.GetById(dto.CategoryId)
+                    Category = _productCategoryRepository.GetById(dto.CategoryId),
+                    PriceEuro = dto.PriceEuro
                 });
 
                 return new {
                     product.Id,
                     product.Name,
                     product.Description,
-                    product.Category,
                     product.SellerId,
                     product.PriceEuro
                 };

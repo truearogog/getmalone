@@ -14,6 +14,7 @@ namespace GetMalone.Dtos
             try
             {
                 func = func ?? throw new ArgumentNullException(nameof(func));
+                func();
                 Success = true;
             }
             catch (Exception ex)

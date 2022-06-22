@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
 
 namespace GetMalone.Data
 {
@@ -14,6 +14,7 @@ namespace GetMalone.Data
         [Required]
         public int SellerId { get; set; }
         [ForeignKey("SellerId")]
+        [JsonIgnore]
         public Seller Seller { get; set; }
 
         [Required]
@@ -23,6 +24,7 @@ namespace GetMalone.Data
         [Required]
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
+        [JsonIgnore]
         public ProductCategory Category { get; set; }
 
         public decimal PriceEuro { get; set; }

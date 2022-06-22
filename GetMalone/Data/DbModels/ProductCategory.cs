@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace GetMalone.Data
 {
@@ -9,7 +10,7 @@ namespace GetMalone.Data
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-
+        [JsonIgnore]
         public List<Product> Products { get; set; }
     }
 }

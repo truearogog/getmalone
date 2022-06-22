@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace GetMalone.Data
 {
@@ -14,6 +15,7 @@ namespace GetMalone.Data
         public float Rating { get; set; } = 0;
         [Required]
         public List<string> SertificateCodes { get; set; }
+        [JsonIgnore]
 
         public List<Product> Products { get; set; }
     }
