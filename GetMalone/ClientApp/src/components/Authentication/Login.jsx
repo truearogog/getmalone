@@ -47,13 +47,14 @@ export function Login({ handlePageChange }) {
 		}
 		catch (err) {
 			console.log(err)
-			setError('error: ' + err)
+			setError(err)
 		}
 	}
 
 	return (
 		<div style={{ padding: '16px', marginTop: '48px' }}>
 			<form onSubmit={handleSubmit}>
+			<h2>Login:</h2>
 				<label>
 					email:
 					<input type="text" name="email" value={email} onChange={e =>

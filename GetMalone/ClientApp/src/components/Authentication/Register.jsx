@@ -82,20 +82,20 @@ export function Register({ handlePageChange }) {
 				
 			handlePageChange('MainPage')
 
-			setUser(data)
+			setUser(data.data)
 
 			history.push('/');
 		}
 		catch (err) {
 			console.log(err)
-			setError('error: ' + err)
+			setError(err)
 		}
 	}
 	
 	return (
 		<div style={{ padding: '16px', marginTop: '48px' }}>
 			<form onSubmit={handleSubmit}>
-				<p>Drivers:</p>
+				<h2>Registration:</h2>
 				<select name="userType" id="type" onChange={e => { setUserType(e.target.value) }} value={userType}>
 					<option value="buyer">Buyer</option>
 					<option value="seller">Seller</option>
