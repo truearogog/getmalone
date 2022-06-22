@@ -8,6 +8,8 @@ namespace GetMalone.Data
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        public DateTime Created { get; set; }
 
         [Required]
         public int SellerId { get; set; }

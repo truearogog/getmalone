@@ -1,19 +1,19 @@
 ﻿namespace GetMalone.Data
 {
-    public class SellerRepository : ISellerRepository
+    public class SellerRepository : Repository, ISellerRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public SellerRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public SellerRepository(ApplicationDbContext context) : base(context) { }
 
         public Seller? Create(Seller seller)
         {
             seller = _context.Sellers.Add(seller).Entity;
             _context.SaveChanges();
             return seller;
+        }
+
+        public IQueryable<Seller> GetAll()
+        {
+            return _context.Sellers;
         }
 
         public Seller? GetById(int userId)

@@ -1,13 +1,8 @@
 ﻿namespace GetMalone.Data
 {
-    public class BuyerRepository : IBuyerRepository
+    public class BuyerRepository : Repository, IBuyerRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public BuyerRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public BuyerRepository(ApplicationDbContext context) : base(context) { }
 
         public Buyer? Create(Buyer buyer)
         {

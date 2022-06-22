@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetMalone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220621192155_DbCreate")]
+    [Migration("20220622072416_DbCreate")]
     partial class DbCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,9 @@ namespace GetMalone.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()

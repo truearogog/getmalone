@@ -1,13 +1,8 @@
 ﻿namespace GetMalone.Data
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository, IUserRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public UserRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public UserRepository(ApplicationDbContext context) : base(context) {}
 
         public User? Create(User user)
         {
