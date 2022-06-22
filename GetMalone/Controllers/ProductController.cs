@@ -71,6 +71,7 @@ namespace GetMalone.Controllers
             var response = new ApiResponseDto(() =>
             {
                 var product = _productRepository.GetById(dto.Id);
+                if (product == null) throw new Exception("Wrong product id!");
                 return new {
                     product.Id,
                     product.Name,

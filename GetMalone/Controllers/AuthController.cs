@@ -135,7 +135,7 @@ namespace GetMalone.Controllers
                 if (seller != null) return SellerUser(user, seller);
 
                 return user;
-            });
+            }, "Unauthorized");
             return Ok(response);
         }
 
