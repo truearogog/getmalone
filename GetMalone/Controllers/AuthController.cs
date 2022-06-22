@@ -14,7 +14,11 @@ namespace GetMalone.Controllers
         private readonly ISellerRepository _sellerRepository;
         private readonly JwtService _jwtService;
 
-        public AuthController(IUserRepository userRepository, IBuyerRepository buyerRepository, ISellerRepository sellerRepository, JwtService jwtService)
+        public AuthController(
+            IUserRepository userRepository, 
+            IBuyerRepository buyerRepository, 
+            ISellerRepository sellerRepository, 
+            JwtService jwtService)
         {
             _userRepository = userRepository;
             _buyerRepository = buyerRepository;
@@ -58,71 +62,66 @@ namespace GetMalone.Controllers
         [HttpPost("register/buyer")]
         public IActionResult RegisterBuyer([FromBody] BuyerRegisterDto dto)
         {
-            try
+            var response = new ApiResponseDto(() =>
             {
                 var user = Register(dto);
 
-                var buyer = _buyerRepository.Create(new Buyer {
+                var buyer = _buyerRepository.Create(new Buyer
+                {
                     UserId = user.Id,
+                    User = user,
                     MailIndex = dto.MailIndex,
                     Interests = dto.Interests
                 });
 
-                return Created("success", BuyerUser(user, buyer));
-            }
-            catch (Exception)
-            {
-                return BadRequest("This email is already used");
-            }
+                return BuyerUser(user, buyer);
+            }, "This email is already used");
+            return Ok(response);
         }
 
         [HttpPost("register/seller")]
         public IActionResult RegisterSeller([FromBody] SellerRegisterDto dto)
         {
-            try
+            var response = new ApiResponseDto(() =>
             {
                 var user = Register(dto);
 
                 var seller = _sellerRepository.Create(new Seller {
                     UserId = user.Id,
+                    User = user,
                     SertificateCodes = dto.SertificateCodes
                 });
 
-                return Created("success", SellerUser(user, seller));
-            }
-            catch (Exception)
-            {
-                return BadRequest("This email is already used");
-            }
+                return SellerUser(user, seller);
+            }, "This email is already used");
+            return Ok(response);
         }
 
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginDto dto)
         {
-            var user = _userRepository.GetByEmail(dto.Email);
-
-            if (user == null)
+            var response = new ApiResponseDto(() =>
             {
-                return BadRequest(new { message = "Invalid Credentials" });
-            }
+                var user = _userRepository.GetByEmail(dto.Email);
 
-            if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-            {
-                return BadRequest(new { message = "Invalid Credentials" });
-            }
+                if (user == null)
+                    throw new Exception();
 
-            var jwt = _jwtService.Generate(user.Id);
+                if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+                    throw new Exception();
 
-            Response.Cookies.Append("jwt", jwt, new CookieOptions { HttpOnly = true });
+                var jwt = _jwtService.Generate(user.Id);
 
-            return Ok(new { message = "success" });
+                Response.Cookies.Append("jwt", jwt, new CookieOptions { HttpOnly = true });
+            }, "Invalid Credentials");
+            return Ok(response);
         }
 
         [HttpGet("user")]
         public new IActionResult User()
         {
-            try
+            var response = new ApiResponseDto(() =>
             {
                 var jwt = Request.Cookies["jwt"];
                 var token = _jwtService.Verify(jwt);
@@ -130,25 +129,24 @@ namespace GetMalone.Controllers
                 var user = _userRepository.GetById(userId);
 
                 var buyer = _buyerRepository.GetById(userId);
-                if (buyer != null) return Ok(BuyerUser(user, buyer));
+                if (buyer != null) return BuyerUser(user, buyer);
 
                 var seller = _sellerRepository.GetById(userId);
-                if (seller != null) return Ok(SellerUser(user, seller));
+                if (seller != null) return SellerUser(user, seller);
 
-                return Ok(user);
-            }
-            catch (Exception)
-            {
-                return Unauthorized();
-            }
+                return user;
+            }, "Unauthorized");
+            return Ok(response);
         }
 
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("jwt");
-
-            return Ok(new { message = "success"});
+            var response = new ApiResponseDto(() =>
+            {
+                Response.Cookies.Delete("jwt");
+            });
+            return Ok(response);
         }
     }
 }
