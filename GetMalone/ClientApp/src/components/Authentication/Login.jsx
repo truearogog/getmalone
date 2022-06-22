@@ -27,19 +27,21 @@ export function Login({ handlePageChange }) {
 
 		try {
 			let response = await fetch(variables.API_URL + 'auth/login', requestOptions)
-			if (!response.ok) {
-				const data = await response.json();
-				throw new Error(data.message)
-			}
+
+			if (!response.ok) throw new Error(response.statusText, requestOptions)
+			
+      let data = await response.json();
+      if(data.success == false) throw new Error(data.error, requestOptions)
 
 			response = await fetch(variables.API_URL + 'auth/user')
 			if (!response.ok) throw new Error(response.statusText)
 
-			const data = await response.json();
-
+			data = await response.json();
+			if (data.success == false) throw new Error(data.error, requestOptions)
+				
 			handlePageChange('MainPage')
 
-			setUser(data)
+			setUser(data.data)
 
 			history.push('/');
 		}

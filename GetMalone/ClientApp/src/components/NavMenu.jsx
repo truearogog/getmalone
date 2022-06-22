@@ -27,12 +27,12 @@ export function NavMenu({ handlePageChange }) {
   return (
     <header>
       <Navbar>
-        <div class="nav" onClick={() => { handlePageChange('MainPage') }}>
+        <div className="nav" onClick={() => { handlePageChange('MainPage') }}>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/">Home</Link>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/profile">Profile</Link>
           <Link tag={Link} style={{ textDecoration: 'none' }} to="/about">About</Link>
         </div>
-        <div class="login">
+        <div className="login">
           {user != false ? 
             user == null ?
             <>
