@@ -47,7 +47,7 @@ export function Register({ handlePageChange }) {
 		try {
 			let response = await fetch(requestPath, requestOptions)
 			if (!response.ok) throw new Error(response.statusText, requestOptions)
-			
+
 			const data = await response.json();
 			if (data.success == false) throw new Error(data.error, requestOptions)
 
@@ -55,7 +55,7 @@ export function Register({ handlePageChange }) {
 		}
 		catch (err) {
 			console.log(err)
-			setError('error: ' + err)
+			setError('' + err)
 		}
 	}
 
@@ -83,15 +83,15 @@ export function Register({ handlePageChange }) {
 			handlePageChange('MainPage')
 
 			setUser(data.data)
-			
+
 			history.push('/profile');
-			
+
 			alert("User registered and logged in");
 		}
 		catch (err) {
 			console.log(err)
 			setUser(null)
-			setError(err)
+			setError('' + err)
 		}
 	}
 

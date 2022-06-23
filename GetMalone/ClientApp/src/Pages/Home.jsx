@@ -86,7 +86,17 @@ export function Home() {
     setpageEnabled(allPages)
 
     forceUpdate()
-    console.log(allPages)
+  }
+
+  function userButton() {
+    if (user === false || null)
+      return null
+
+    if (user.user === 'buyer')
+      return <Button onClick={() => changeActiveWindow('ShoppingCartPage')}><p>Shopping cart</p></Button>
+    else
+      return <Button onClick={() => changeActiveWindow('AddProductPage')}><p>Add product</p></Button>
+
   }
 
   return (
@@ -97,9 +107,10 @@ export function Home() {
         <div>
           <Row>
             <h1>GetMalone.lv</h1>
-            {user === 'buyer' ?
-              <Button onClick={() => changeActiveWindow('ShoppingCartPagePage')}><p>Shopping cart</p></Button> :
-              <Button onClick={() => changeActiveWindow('AddProductPage')}><p>Add product</p></Button>}
+            {
+              userButton()
+            }
+
           </Row>
           <Grid>
             <Row>

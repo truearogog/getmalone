@@ -48,7 +48,7 @@ export function Login({ handlePageChange }) {
 		}
 		catch (err) {
 			console.log(err)
-			setError(err)
+			setError('' + err)
 		}
 	}
 
