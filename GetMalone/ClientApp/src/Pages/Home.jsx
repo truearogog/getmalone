@@ -89,7 +89,7 @@ export function Home() {
   }
 
   function userButton() {
-    if (user === false || null)
+    if (user === false || !user)
       return null
 
     if (user.user === 'buyer')
