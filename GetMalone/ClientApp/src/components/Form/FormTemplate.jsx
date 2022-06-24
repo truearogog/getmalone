@@ -42,6 +42,7 @@ export const FormItem = styled.input`
 export const FormDropDown = styled.select`
 	width: 100%;
 	font-size: 14px;
+    margin-top: 10px;
 	margin-bottom: 15px;
 	height: 35px;
 	padding: 0 10px;

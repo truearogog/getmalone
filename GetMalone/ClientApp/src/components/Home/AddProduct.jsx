@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import {FormContainer, FormTitle, FormFields, FormItem, FormDropDown, FormButton} from '../Form/FormTemplate'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid';
 import { UserContext } from '../../services/UserContext';
@@ -31,14 +32,12 @@ export function AddProduct({ handlePageChange }) {
 			const data = await response.json();
 			if (data.success == false) throw new Error(data.error, requestOptions)
 
-			console.log(data);
-
 			handlePageChange('HomePage')
 
 			alert("Product added");
 		}
 		catch (err) {
-			console.log(err)
+			console.log("AddProduct - "+err)
 			setError(err)
 		}
 	}
@@ -57,7 +56,7 @@ export function AddProduct({ handlePageChange }) {
 			setCurrentCategory(data.data[0]);
 		}
 		catch (err) {
-			console.log(err)
+			console.log("AddProduct - "+err)
 			setError(err)
 		}
 	}
@@ -77,42 +76,28 @@ export function AddProduct({ handlePageChange }) {
 	return (
 		<div style={{ padding: '16px', marginTop: '48px' }}>
 			<Button onClick={() => handlePageChange('HomePage')}>Get me HOME!!!!</Button>
-			<StyledForm onSubmit={handleSubmit}>
-				<h2>Add product:</h2>
-				<label>
-					Product name:
-					<input type="text" name="name" value={name} onChange={e =>
-						setName(e.target.value)} />
-				</label>
-				<label>
-					Product description:
-					<input type="text" name="description" value={description} onChange={e =>
-						setDescription(e.target.value)} />
-				</label>
-				<label>
-					Product category:
-					<select onChange={(e) => setCurrentCategory(categories[e.target.value - 1])} value={currentCategory.id} name="categories">
+			<FormContainer onSubmit={handleSubmit}>
+				<FormTitle>Add product:</FormTitle>
+				<FormFields>
+					Category:
+					<FormDropDown onChange={(e) => setCurrentCategory(categories[e.target.value - 1])} value={currentCategory.id} name="categories">
 						{categories.map(item => {
 							return <option key={uuidv4()} value={item.id}>{item.name}</option>
 						})}
-					</select>
-				</label>
-				<label>
-					Price of the product in euro:
-					<input type="text" name="priceEuro" value={priceEuro} onChange={e =>
+					</FormDropDown>
+					<FormItem type="text" placeholder="Product name" name="name" value={name} onChange={e =>
+						setName(e.target.value)} />
+					<FormItem type="text" placeholder="Product description" name="description" value={description} onChange={e =>
+						setDescription(e.target.value)} />
+					<FormItem type="text" placeholder="Price of the product in euro" name="priceEuro" value={priceEuro} onChange={e =>
 						onChange(e, setPriceEuro, 6)} />
-				</label>
-				<button type="submit">Submit</button>
-			</StyledForm>
+					<FormButton type="submit">Submit</FormButton>
+				</FormFields>
+			</FormContainer>
 			<p style={{ color: 'red' }}>{error}</p>
 		</div>
 	)
 }
-
-const StyledForm = styled.form`
-	display: flex;
-	flex-direction: column;
-`
 
 const Button = styled.div`
   border-radius: 5px;

@@ -29,11 +29,10 @@ function ProductItem({ data }) {
 			<Image src={require('../../images/product-pictures/'+id+'.png')} />
 			<Title>{data.name}</Title>
 			<Description>{data.description}</Description>
-			<Price>{data.cost}$</Price>
+			<Price>{data.priceEuro}€</Price>
 			<Info>
-				<p>Type: <b>{data.type}</b></p>
-				<p>Best Before: <b>{data.date}</b></p> 
-				<p>Seller: <b>{data.seller}</b></p>
+				<p>Type: <b>{data.category}</b></p>
+				<p>Seller: <b>{data.sellerId}</b></p>
 			</Info>
 		</ProductItemWrapper>
 	)
