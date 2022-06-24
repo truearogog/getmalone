@@ -11,11 +11,22 @@ export function SellerProfile({ user }) {
 
   async function getSellerProducts() {
 		try {
-			const response = await fetch(variables.API_URL + 'product/sellerproducts');
-			if (!response.ok) throw new Error(response.statusText)
+
+      const formData = { id: user.id }
+		  const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      }
+      console.log(requestOptions)
+
+			const response = await fetch(variables.API_URL + 'product/sellerproducts', requestOptions);
+      console.log(response)
+			if (!response.ok) throw new Error(response.statusText, requestOptions)
 
 			const data = await response.json();
-			if (data.success == false) throw new Error(data.error)
+      console.log(data)
+			if (data.success == false) throw new Error(data.error, requestOptions)
 
       setSellerProducts(data.data);
 		}

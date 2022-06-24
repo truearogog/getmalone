@@ -25,8 +25,6 @@ export default function App() {
       const data = await response.json();
       if(data.success == false) throw new Error(data.error, requestOptions)
       
-      console.log(data.data)
-      
       setUser(data.data)
     }
     catch (err) {
