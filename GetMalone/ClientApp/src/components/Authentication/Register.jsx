@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import styled from 'styled-components'
 import { UserContext } from '../../services/UserContext';
 import { variables } from '../../services/variables';
-
+import {FormContainer, FormTitle, FormFields, FormItem, FormDropDown, FormButton} from '../Form/FormTemplate'
 import { useHistory } from 'react-router-dom';
 
 
@@ -96,61 +95,39 @@ export function Register({ handlePageChange }) {
 	}
 
 	return (
-		<div style={{ padding: '16px', marginTop: '48px' }}>
-			<form onSubmit={handleSubmit}>
-				<h2>Registration:</h2>
-				<select name="userType" id="type" onChange={e => { setUserType(e.target.value) }} value={userType}>
-					<option value="buyer">Buyer</option>
-					<option value="seller">Seller</option>
-				</select>
-				<label>
-					email:
-					<input type="text" name="email" value={email} onChange={e =>
-						setEmail(e.target.value)} />
-				</label>
-				<label>
-					password:
-					<input type="password" name="password" value={password} onChange={e =>
-						setPassword(e.target.value)} />
-				</label>
-				<label>
-					Phone:
-					<input type="text" name="phone" value={phone} onChange={e =>
-						setPhone(e.target.value)} />
-				</label>
-				<label>
-					Name:
-					<input type="text" name="name" value={name} onChange={e =>
+		<div>
+			<FormContainer onSubmit={handleSubmit}>
+				<FormTitle>Registration:</FormTitle>
+				<FormFields>
+					<FormDropDown name="userType" placeholder="Select Role" id="type" onChange={e => { setUserType(e.target.value) }} value={userType}>
+						<option value="buyer">Buyer</option>
+						<option value="seller">Seller</option>
+					</FormDropDown>
+					<FormItem className="half" type="text" placeholder="Name" name="name" value={name} onChange={e =>
 						setName(e.target.value)} />
-				</label>
-				<label>
-					Surname:
-					<input type="text" name="surname" value={surname} onChange={e =>
+					<FormItem className="half" type="text" placeholder="Surname" name="surname" value={surname} onChange={e =>
 						setSurname(e.target.value)} />
-				</label>
-				{userType == 'buyer' ?
-					<label>
-						Mailindex:
-						<input type="text" name="mailindex" value={mailindex} onChange={e =>
-							setMailindex(e.target.value)} />
-					</label>
-					: null}
-				{userType == 'buyer' ?
-					<label>
-						Interests:
-						<input type="text" name="interests" value={interests} onChange={e =>
-							setInterests(e.target.value)} />
-					</label>
-					: null}
-				{userType == 'seller' ?
-					<label>
-						SertificateCodes:
-						<input type="text" name="sertificateCodes" value={sertificateCodes} onChange={e =>
+					<FormItem type="text" placeholder="Email" name="email" value={email} onChange={e =>
+						setEmail(e.target.value)} />
+					<FormItem type="password" placeholder="Password" name="password" value={password} onChange={e =>
+						setPassword(e.target.value)} />
+					<FormItem className="half" type="text" placeholder="Phone" name="phone" value={phone} onChange={e =>
+						setPhone(e.target.value)} />
+					{userType == 'buyer' ?
+						<>
+							<FormItem className="half" type="text" placeholder="Mail Index" name="mailindex" value={mailindex} onChange={e =>
+								setMailindex(e.target.value)} />
+							<FormItem type="text" placeholder="Interests" name="interests" value={interests} onChange={e =>
+								setInterests(e.target.value)} />
+						</>
+						: null}
+					{userType == 'seller' ?
+						<FormItem className="half" type="text" placeholder="Certificate Codes" name="sertificateCodes" value={sertificateCodes} onChange={e =>
 							setSertificateCodes(e.target.value)} />
-					</label>
-					: null}
-				<button type="submit">Submit</button>
-			</form>
+						: null}
+					<FormButton type="submit">Submit</FormButton>
+				</FormFields>
+			</FormContainer>
 			<p style={{ color: 'red' }}>{error}</p>
 		</div>
 	)

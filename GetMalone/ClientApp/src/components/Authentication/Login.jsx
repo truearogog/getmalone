@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
-import styled from 'styled-components'
 import { UserContext } from '../../services/UserContext';
 import { variables } from '../../services/variables';
-
+import {FormContainer, FormTitle, FormFields, FormItem, FormButton} from '../Form/FormTemplate'
 import { useHistory } from 'react-router-dom';
 
 
@@ -53,27 +52,18 @@ export function Login({ handlePageChange }) {
 	}
 
 	return (
-		<div style={{ padding: '16px', marginTop: '48px' }}>
-			<StyledForm onSubmit={handleSubmit}>
-				<h2>Login:</h2>
-				<label>
-					email:
-					<input type="text" name="email" value={email} onChange={e =>
+		<div>
+			<FormContainer onSubmit={handleSubmit}>
+				<FormTitle>Login:</FormTitle>
+				<FormFields>
+					<FormItem type="text" placeholder="Email" name="email" value={email} onChange={e =>
 						setEmail(e.target.value)} />
-				</label>
-				<label>
-					password:
-					<input type="password" name="password" value={password} onChange={e =>
+					<FormItem type="password" placeholder="Password" name="password" value={password} onChange={e =>
 						setPassword(e.target.value)} />
-				</label>
-				<button type="submit">Submit</button>
-			</StyledForm>
+					<FormButton type="submit">Submit</FormButton>
+				</FormFields>
+			</FormContainer>
 			<p style={{ color: 'red' }}>{error}</p>
 		</div>
 	)
 }
-
-const StyledForm = styled.form`
-	display: flex;
-	flex-direction: column;
-`

@@ -93,4 +93,11 @@ const Price = styled.p`
 const Info = styled.div`
 	font-family: 'Nanum Gothic', sans-serif;
 	font-size: 16px;
+	line-height: 15px;
+	b {
+		white-space: pre;
+	}
+	@media (max-width: 1400px) {
+		font-size: 14px;
+	}
 `;
