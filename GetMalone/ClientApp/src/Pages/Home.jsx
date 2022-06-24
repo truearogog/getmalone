@@ -23,7 +23,7 @@ export function Home() {
       setProducts(data.data);
 		}
 		catch (err) {
-			console.log("Home - "+err)
+			console.log(err)
 			setError(err)
 		}
 	}

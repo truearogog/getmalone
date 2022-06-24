@@ -37,7 +37,7 @@ export function AddProduct({ handlePageChange }) {
 			alert("Product added");
 		}
 		catch (err) {
-			console.log("AddProduct - "+err)
+			console.log(err)
 			setError(err)
 		}
 	}
@@ -56,7 +56,7 @@ export function AddProduct({ handlePageChange }) {
 			setCurrentCategory(data.data[0]);
 		}
 		catch (err) {
-			console.log("AddProduct - "+err)
+			console.log(err)
 			setError(err)
 		}
 	}
