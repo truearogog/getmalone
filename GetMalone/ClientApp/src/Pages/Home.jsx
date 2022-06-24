@@ -24,7 +24,7 @@ export function Home() {
 		}
 		catch (err) {
 			console.log(err)
-			setError(err)
+			setError(""+err)
 		}
 	}
 

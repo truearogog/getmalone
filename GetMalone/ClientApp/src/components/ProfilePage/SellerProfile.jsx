@@ -31,7 +31,7 @@ export function SellerProfile({ user }) {
 		}
 		catch (err) {
 			console.log(err)
-			setError(err)
+			setError(""+err)
 		}
 	}
 

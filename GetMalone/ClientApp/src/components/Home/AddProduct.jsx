@@ -38,7 +38,7 @@ export function AddProduct({ handlePageChange }) {
 		}
 		catch (err) {
 			console.log(err)
-			setError(err)
+			setError(""+err)
 		}
 	}
 
