@@ -10,22 +10,21 @@ export function SellerProfile({ user }) {
   const [error, setError] = useState('')
 
   async function getSellerProducts() {
+
+    const formData = { id: user.id }
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    }
+    console.log(requestOptions)
+
 		try {
-
-      const formData = { id: user.id }
-		  const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      }
-      console.log(requestOptions)
-
 			const response = await fetch(variables.API_URL + 'product/sellerproducts', requestOptions);
       console.log(response)
 			if (!response.ok) throw new Error(response.statusText, requestOptions)
 
 			const data = await response.json();
-      console.log(data)
 			if (data.success == false) throw new Error(data.error, requestOptions)
 
       setSellerProducts(data.data);

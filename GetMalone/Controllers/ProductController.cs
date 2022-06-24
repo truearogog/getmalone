@@ -47,7 +47,7 @@ namespace GetMalone.Controllers
             return Ok(response);
         }
 
-        [HttpGet("categoryproducts")]
+        [HttpPost("categoryproducts")]
         public IActionResult GetCategoryProducts([FromBody] IdDto dto)
         {
             var response = new ApiResponseDto(() =>
@@ -65,7 +65,7 @@ namespace GetMalone.Controllers
             return Ok(response);
         }
 
-        [HttpGet("product")]
+        [HttpPost("product")]
         public IActionResult GetProductById([FromBody] IdDto dto)
         {
             var response = new ApiResponseDto(() =>
@@ -84,7 +84,7 @@ namespace GetMalone.Controllers
             return Ok(response);
         }
 
-        [HttpGet("sellerproducts")]
+        [HttpPost("sellerproducts")]
         public IActionResult GetSellerProducts([FromBody] IdDto dto)
         {
             var response = new ApiResponseDto(() =>
