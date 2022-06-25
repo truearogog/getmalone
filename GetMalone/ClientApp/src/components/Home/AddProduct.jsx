@@ -26,7 +26,7 @@ export function AddProduct({ handlePageChange }) {
 		}
 
 		try {
-			const response = await fetch(variables.API_URL + 'product/addproduct', requestOptions)
+			const response = await fetch(variables.API_URL + 'product/create', requestOptions)
 			if (!response.ok) throw new Error(response.statusText, requestOptions)
 
 			const data = await response.json();

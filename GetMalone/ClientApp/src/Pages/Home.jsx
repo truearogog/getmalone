@@ -61,11 +61,11 @@ export function Home() {
 
   useEffect(() => {
     if (categories != [] && products!=[]) {
-      products.map(product => {product.category = typeof(categories[product.categoryId]) != 'undefined' ? categories[product.categoryId].name : null})
+      products.map(product => product.category = typeof(categories.find(category => category.id === product.categoryId)) != 'undefined'
+        ? categories.find(category => category.id === product.categoryId).name
+        : null)
     }
-    console.log(categories)
-    console.log(products)
-  },[categories, products])
+  }, [categories, products])
 
 
 
@@ -95,8 +95,9 @@ export function Home() {
     allPages[name] = true
 
     setpageEnabled(allPages)
-
-    forceUpdate()
+    
+    getProducts()
+    getCategories()
   }
 
   function userButton() {
