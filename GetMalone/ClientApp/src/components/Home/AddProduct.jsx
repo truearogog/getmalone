@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {FormContainer, FormTitle, FormFields, FormItem, FormDropDown, FormButton} from '../Form/FormTemplate'
+import { FormContainer, FormTitle, FormFields, FormItem, FormDropDown, FormButton } from '../Form/FormTemplate'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid';
 import { UserContext } from '../../services/UserContext';
@@ -38,7 +38,7 @@ export function AddProduct({ handlePageChange }) {
 		}
 		catch (err) {
 			console.log(err)
-			setError(""+err)
+			setError("" + err)
 		}
 	}
 

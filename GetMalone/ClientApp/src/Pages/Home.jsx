@@ -11,36 +11,63 @@ export function Home() {
   const [products, setProducts] = useState([])
   const { user, setUser } = useContext(UserContext);
   const [error, setError] = useState('')
-  
+
   const [chosenProducts, setChosenProducts] = useState([])
+  const [categories, setCategories] = useState([])
+  
+  const [pageEnabled, setpageEnabled] =
+  useState({
+    'AddProductPage': false,
+    'ShoppingCartPage': false,
+    'HomePage': true
+  });
   
   async function getProducts() {
+    try {
+      const response = await fetch(variables.API_URL + 'product/allproducts');
+      if (!response.ok) throw new Error(response.statusText)
+
+      const data = await response.json();
+      if (data.success == false) throw new Error(data.error)
+
+      setProducts(data.data);
+    }
+    catch (err) {
+      console.log(err)
+      setError("" + err)
+    }
+  }
+  
+  async function getCategories() {
 		try {
-			const response = await fetch(variables.API_URL + 'product/allproducts');
+			const response = await fetch(variables.API_URL + 'product/allcategories');
 			if (!response.ok) throw new Error(response.statusText)
 
 			const data = await response.json();
 			if (data.success == false) throw new Error(data.error)
-
-      setProducts(data.data);
+      
+			setCategories(data.data);
 		}
 		catch (err) {
 			console.log(err)
-			setError(""+err)
+			setError(err)
 		}
 	}
+  
+  useEffect(() => {
+    getProducts()
+    getCategories()
+  }, [])
 
-	useEffect(() => {
-		getProducts()
-	}, [])
+  useEffect(() => {
+    if (categories != [] && products!=[]) {
+      products.map(product => {product.category = typeof(categories[product.categoryId]) != 'undefined' ? categories[product.categoryId].name : null})
+    }
+    console.log(categories)
+    console.log(products)
+  },[categories, products])
 
 
-  const [pageEnabled, setpageEnabled] =
-    useState({
-      'AddProductPage': false,
-      'ShoppingCartPage': false,
-      'HomePage': true
-    });
 
   const forceUpdate = React.useReducer(() => ({}), {})[1]
 
@@ -82,24 +109,28 @@ export function Home() {
       return <Button onClick={() => changeActiveWindow('AddProductPage')}><p>Add product</p></Button>
 
   }
-  
+
   function handleChosenProductChange(product) {
+    if (product === 'reset') {
+      setChosenProducts([])
+      return
+    }
+
     let tempChosenProducts = chosenProducts
-    
     if (tempChosenProducts.some(item => item.id === product.id)) {
       tempChosenProducts = tempChosenProducts.filter(item => item.id !== product.id)
     }
     else {
       tempChosenProducts.push(product)
     }
-    
+
     setChosenProducts(tempChosenProducts)
   }
-  
+
   return (
     <div>
       {pageEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
-      {pageEnabled['ShoppingCartPage'] ? <ShoppingCart handlePageChange={name => changeActiveWindow(name)} /> : null}
+      {pageEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} /> : null}
       {pageEnabled['HomePage'] ?
         <div>
           <Row>
@@ -109,7 +140,7 @@ export function Home() {
           <ProductList handleProductChange={product => handleChosenProductChange(product)} products={products} chosenProducts={chosenProducts} />
         </div>
         : null}
-        <p style={{ color: 'red' }}>{error}</p>
+      <p style={{ color: 'red' }}>{error}</p>
     </div>
   );
 }
