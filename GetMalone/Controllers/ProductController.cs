@@ -65,7 +65,7 @@ namespace GetMalone.Controllers
             return Ok(response);
         }
 
-        [HttpPost("product")]
+        [HttpPost("get")]
         public IActionResult GetProductById([FromBody] IdDto dto)
         {
             var response = new ApiResponseDto(() =>
@@ -113,8 +113,8 @@ namespace GetMalone.Controllers
             return Ok(response);
         }
 
-        [HttpPost("addproduct")]
-        public IActionResult AddProduct([FromBody] AddProductDto dto)
+        [HttpPost("create")]
+        public IActionResult CreateProduct([FromBody] CreateProductDto dto)
         {
             var response = new ApiResponseDto(() =>
             {
@@ -147,7 +147,33 @@ namespace GetMalone.Controllers
             return Ok(response);
         }
 
-        [HttpPost("deleteproduct")]
+        [HttpPost("update")]
+        public IActionResult UpdateProduct([FromBody] EditProductDto dto)
+        {
+            var response = new ApiResponseDto(() =>
+            {
+                var jwt = Request.Cookies["jwt"];
+                var token = _jwtService.Verify(jwt);
+                var userId = int.Parse(token.Issuer);
+                var seller = _sellerRepository.GetById(userId);
+                if (seller == null) throw new Exception();
+
+                var product = _productRepository.GetById(dto.Id);
+                if (product.SellerId != userId) throw new Exception();
+
+                product.Name = dto.Name;
+                product.Description = dto.Description;
+                product.CategoryId = dto.CategoryId;
+                product.PriceEuro = dto.PriceEuro;
+
+                product = _productRepository.Update(product);
+
+                return product;
+            }, "Unauthorized");
+            return Ok(response);
+        }
+
+        [HttpPost("delete")]
         public IActionResult DeleteProduct([FromBody] IdDto dto)
         {
             var response = new ApiResponseDto(() =>

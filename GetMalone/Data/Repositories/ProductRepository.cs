@@ -36,5 +36,12 @@
         {
             return _context.Products.Where(p => p.SellerId.Equals(sellerId));
         }
+
+        public Product? Update(Product product)
+        {
+            _context.Products.Update(product);
+            _context.SaveChanges();
+            return product;
+        }
     }
 }
