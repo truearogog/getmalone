@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import { FormButton } from '../Form/FormTemplate'
 import { v4 as uuidv4 } from 'uuid';
 
 const id = 0
 let forceUpdate
-export function ProductList({ title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
+export function ProductList({ handlePageChange, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 
 	return (
@@ -13,27 +13,26 @@ export function ProductList({ title = "Product List", handleProductChange = () =
 			<ListTitle>
 				{title}
 			</ListTitle>
-			<List handleProductChange={name => handleProductChange(name)} data={products} chosenProducts={chosenProducts} />
+			<List handlePageChange={name => handlePageChange(name)} handleProductChange={name => handleProductChange(name)} data={products} chosenProducts={chosenProducts} />
 		</ProductListWrapper>
 	)
 }
 
-function List({ handleProductChange, data, chosenProducts }) {
+function List({ handlePageChange, handleProductChange, data, chosenProducts }) {
 	return (
 		<ListWrapper>
-			{data.map(dataItem => <ProductItem handleProductChange={name => handleProductChange(name)} key={uuidv4()} data={dataItem}
+			{data.map(dataItem => <ProductItem handlePageChange={name => handlePageChange(name)} handleProductChange={name => handleProductChange(name)} key={uuidv4()} data={dataItem}
 				isChosen={typeof (chosenProducts.some(item => item.id === dataItem.id)) != 'undefined' ? chosenProducts.some(item => item.id === dataItem.id) : false} />)}
 		</ListWrapper>
 	)
 }
 
-function ProductItem({ handleProductChange, data, isChosen }) {
+function ProductItem({ handlePageChange, handleProductChange, data, isChosen }) {
 	return (
-		<ProductItemWrapper /* onClick={() => {
-			handleProductChange(data)
-			forceUpdate()
+		<ProductItemWrapper onClick={() => {
+			handlePageChange('ProductPage')
 		}
-		}  */style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
+		} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
 			<Image src={require('../../images/product-pictures/' + id + '.png')} />
 			<Title>{data.name}</Title>
 			<Description>{data.description}</Description>
