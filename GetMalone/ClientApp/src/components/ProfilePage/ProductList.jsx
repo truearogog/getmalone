@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const id = 0;
 let forceUpdate
-export function ProductList({ title = "Product List", handleProductChange, products, chosenProducts }) {
+export function ProductList({ title = "Product List", handleProductChange, products, chosenProducts=[] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 	
 	return (
@@ -75,6 +75,7 @@ const ProductItemWrapper = styled.div`
   padding-bottom: 20px;
 	line-height: 10px;
 	transition: .2s;
+	border-radius: 5px;
 	
 	&:hover{
 		cursor: pointer;
