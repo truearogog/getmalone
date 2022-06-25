@@ -34,14 +34,7 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                var products = _productRepository.GetAll().ToList().Select(product => new {
-                    product.Id,
-                    product.Name,
-                    product.Description,
-                    product.Category,
-                    product.SellerId,
-                    product.PriceEuro
-                });
+                var products = _productRepository.GetAll().ToList();
                 return products;
             });
             return Ok(response);
@@ -52,14 +45,7 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                var products = _productRepository.GetByCategoryId(dto.Id).ToList().Select(product => new {
-                    product.Id,
-                    product.Name,
-                    product.Description,
-                    product.Category,
-                    product.SellerId,
-                    product.PriceEuro
-                });
+                var products = _productRepository.GetByCategoryId(dto.Id).ToList();
                 return products;
             });
             return Ok(response);
@@ -72,14 +58,7 @@ namespace GetMalone.Controllers
             {
                 var product = _productRepository.GetById(dto.Id);
                 if (product == null) throw new Exception("Wrong product id!");
-                return new {
-                    product.Id,
-                    product.Name,
-                    product.Description,
-                    product.Category,
-                    product.SellerId,
-                    product.PriceEuro
-                };
+                return product;
             });
             return Ok(response);
         }
@@ -89,14 +68,7 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                var products = _productRepository.GetBySellerId(dto.Id).ToList().Select(product => new {
-                    product.Id,
-                    product.Name,
-                    product.Description,
-                    product.Category,
-                    product.SellerId,
-                    product.PriceEuro
-                });
+                var products = _productRepository.GetBySellerId(dto.Id).ToList();
                 return products;
             });
             return Ok(response);
@@ -136,13 +108,7 @@ namespace GetMalone.Controllers
                     PriceEuro = dto.PriceEuro
                 });
 
-                return new {
-                    product.Id,
-                    product.Name,
-                    product.Description,
-                    product.SellerId,
-                    product.PriceEuro
-                };
+                return product;
             }, "Unauthorized");
             return Ok(response);
         }
@@ -164,6 +130,7 @@ namespace GetMalone.Controllers
                 product.Name = dto.Name;
                 product.Description = dto.Description;
                 product.CategoryId = dto.CategoryId;
+                product.Category = _productCategoryRepository.GetById(dto.CategoryId);
                 product.PriceEuro = dto.PriceEuro;
 
                 product = _productRepository.Update(product);
@@ -190,6 +157,12 @@ namespace GetMalone.Controllers
                 _productRepository.Delete(product);
             }, "Unauthorized");
             return Ok(response);
+        }
+
+        [HttpGet("recommended")]
+        public IActionResult GetRecommendedProducts()
+        {
+            throw new NotImplementedException();
         }
     }
 }
