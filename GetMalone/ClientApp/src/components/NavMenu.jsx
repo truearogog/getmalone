@@ -26,13 +26,25 @@ export function NavMenu({ handlePageChange }) {
     }
   }
 
+  function userButton() {
+    if (user === false || !user)
+      return null
+
+    if (user.user === 'buyer')
+      return <Button onClick={() => handlePageChange('ShoppingCartPage')}><p>Shopping cart</p></Button>
+    else
+      return <Button onClick={() => handlePageChange('AddProductPage')}><p>Add product</p></Button>
+
+  }
+
   return (
     <header>
       <Navbar>
-        <div className="links" onClick={() => { handlePageChange('MainPage') }}>
-          <Link tag={Link} style={{ textDecoration: 'none' }} to="/">Home</Link>
-          <Link tag={Link} style={{ textDecoration: 'none' }} to="/profile">Profile</Link>
-          <Link tag={Link} style={{ textDecoration: 'none' }} to="/about">About</Link>
+        <div className="links">
+          <Link onClick={() => { handlePageChange('MainPage') }} tag={Link} style={{ textDecoration: 'none' }} to="/">Home</Link>
+          <Link onClick={() => { handlePageChange('MainPage') }} tag={Link} style={{ textDecoration: 'none' }} to="/profile">Profile</Link>
+          <Link onClick={() => { handlePageChange('MainPage') }} tag={Link} style={{ textDecoration: 'none' }} to="/about">About</Link>
+          {userButton()}
         </div>
         <div>
           {user != false ?
@@ -74,6 +86,11 @@ const Navbar = styled.div`
 
   .links {
     padding-left: 80px;
+
+    div {
+      width: 200px;
+      height: auto;
+    }
   }
 
   a {
