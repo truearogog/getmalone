@@ -11,7 +11,9 @@ export function Home() {
   const [products, setProducts] = useState([])
   const { user, setUser } = useContext(UserContext);
   const [error, setError] = useState('')
-
+  
+  const [chosenProducts, setChosenProducts] = useState([])
+  
   async function getProducts() {
 		try {
 			const response = await fetch(variables.API_URL + 'product/allproducts');
@@ -80,7 +82,20 @@ export function Home() {
       return <Button onClick={() => changeActiveWindow('AddProductPage')}><p>Add product</p></Button>
 
   }
-
+  
+  function handleChosenProductChange(product) {
+    let tempChosenProducts = chosenProducts
+    
+    if (tempChosenProducts.some(item => item.id === product.id)) {
+      tempChosenProducts = tempChosenProducts.filter(item => item.id !== product.id)
+    }
+    else {
+      tempChosenProducts.push(product)
+    }
+    
+    setChosenProducts(tempChosenProducts)
+  }
+  
   return (
     <div>
       {pageEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
@@ -89,12 +104,9 @@ export function Home() {
         <div>
           <Row>
             <h1>GetMalone.lv</h1>
-            {
-              userButton()
-            }
-
+            {userButton()}
           </Row>
-          <ProductList products={products} />
+          <ProductList handleProductChange={product => handleChosenProductChange(product)} products={products} chosenProducts={chosenProducts} />
         </div>
         : null}
         <p style={{ color: 'red' }}>{error}</p>
