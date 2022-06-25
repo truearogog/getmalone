@@ -9,42 +9,72 @@ let products = [
   {
     name: "Apple",
     description: "best apples",
-    cost: 0.99,
+    priceEuro: 0.99,
     type: "Fruits",
     date: "2022-06-23",
-    seller: 2
+    category: { name: 'aa' },
+    seller: {
+      user: {
+        name: 'bb',
+        surname: 'cc'
+      },
+    },
   },
-  {
+{
     name: "Potato",
     description: "nice and cheap",
-    cost: 0.39,
+    priceEuro: 0.39,
     type: "Vegetables",
     date: "2022-07-13",
-    seller: 3
+    category: { name: 'aa' },
+    seller: {
+      user: {
+        name: 'bb',
+        surname: 'cc'
+      },
+    },
   },
   {
     name: "Cucumber",
     description: "fresh and homemade",
-    cost: 0.49,
+    priceEuro: 0.49,
     type: "Vegetables",
     date: "2022-07-19",
-    seller: 2
+    category: { name: 'aa' },
+    seller: {
+      user: {
+        name: 'bb',
+        surname: 'cc'
+      },
+    },
   },
   {
     name: "Pear",
     description: "yummy",
-    cost: 1.29,
+    priceEuro: 1.29,
     type: "Fruits",
     date: "2022-05-14",
-    seller: 1
+    category: { name: 'aa' },
+    seller: {
+      user: {
+        name: 'bb',
+        surname: 'cc'
+      },
+    },
   },
   {
     name: "Beetroot",
     description: null,
-    cost: 0.79,
+    priceEuro: 0.79,
     type: "Vegetables",
     date: "2022-09-23",
-    seller: 8
+    category: { name: 'aa' },
+    seller: {
+      user: {
+        name: 'bb',
+        surname: 'cc'
+      },
+    },
   },
 ]
 

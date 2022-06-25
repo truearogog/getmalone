@@ -127,7 +127,7 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                return _userRepository.GetSellerById(dto.Id).Products;
+                return _productRepository.GetBySellerId(dto.Id).ToList();
             });
             return Ok(response);
         }

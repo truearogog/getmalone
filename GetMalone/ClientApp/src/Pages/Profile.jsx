@@ -54,11 +54,11 @@ export function Profile() {
 }
 
 function GetUserRole({ handlePageChange, user }) {
-	if (user.user === 'buyer') {
-		return <UserProfile handlePageChange={name => handlePageChange(name)} user={user} />;
+	if (user.role === 'buyer') {
+		return <UserProfile handlePageChange={name => handlePageChange(name)} user={user.info} />;
 	}
-	else if (user.user === 'seller') {
-		return <SellerProfile handlePageChange={name => handlePageChange(name)} user={user} />;
+	else if (user.role === 'seller') {
+		return <SellerProfile handlePageChange={name => handlePageChange(name)} user={user.info} />;
 	}
 	else
 		return <div></div>

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const id = 0
 let forceUpdate
-export function ProductList({ handlePageChange, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
+export function ProductList({ handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 
 	return (
@@ -22,12 +22,15 @@ function List({ handlePageChange, handleProductChange, data, chosenProducts }) {
 	return (
 		<ListWrapper>
 			{data.map(dataItem => <ProductItem handlePageChange={name => handlePageChange(name)} handleProductChange={name => handleProductChange(name)} key={uuidv4()} data={dataItem}
-				isChosen={typeof (chosenProducts.some(item => item.id === dataItem.id)) != 'undefined' ? chosenProducts.some(item => item.id === dataItem.id) : false} />)}
+				isChosen={typeof (chosenProducts.some(item => item.id === dataItem.id)) != 'undefined'
+					? chosenProducts.some(item => item.id === dataItem.id)
+					: false} />)}
 		</ListWrapper>
 	)
 }
 
 function ProductItem({ handlePageChange, handleProductChange, data, isChosen }) {
+	//console.log(data)
 	return (
 		<ProductItemWrapper onClick={() => {
 			handlePageChange('ProductPage')
@@ -38,8 +41,8 @@ function ProductItem({ handlePageChange, handleProductChange, data, isChosen }) 
 			<Description>{data.description}</Description>
 			<Price>{data.priceEuro}€</Price>
 			<Info>
-				{/* <p>Type: <b>{data.category.name}</b></p>
-				<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p> */}
+				<p>Category: <b>{data.category.name}</b></p>
+				<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p>
 			</Info>
 			<FormButton onClick={() => {
 				handleProductChange(data)

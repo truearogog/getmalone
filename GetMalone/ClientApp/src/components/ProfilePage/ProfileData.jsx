@@ -11,7 +11,7 @@ export function ProfileData({ data }) {
 				<Rating data={data.rating} />
 			</ProfileLogo>
 			<ProfileInfo>
-				<Name user={data}/>
+				<Name user={data.user}/>
 				<Info info={data}/>
 			</ProfileInfo>
 
@@ -44,8 +44,8 @@ function Info({ info }) {
 			<InfoTitle>
 				Contacts: 
 			</InfoTitle>
-			<p>phone: {info.phone}</p>
-			<p>mail: {info.email}</p>
+			<p>phone: {info.user.phone}</p>
+			<p>mail: {info.user.email}</p>
 			<Interests data={info.interests}/>
 			<Certificates data={info.sertificateCodes}/>
 		</InfoWrapper>

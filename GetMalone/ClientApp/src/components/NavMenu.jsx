@@ -30,7 +30,7 @@ export function NavMenu({ handlePageChange }) {
     if (user === false || !user)
       return null
 
-    if (user.user === 'buyer')
+    if (user.role === 'buyer')
       return <Button onClick={() => handlePageChange('ShoppingCartPage')}><p>Shopping cart</p></Button>
     else
       return <Button onClick={() => handlePageChange('AddProductPage')}><p>Add product</p></Button>

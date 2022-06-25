@@ -13,17 +13,12 @@ export default function App() {
   const [user, setUser] = useState(false)
 
   async function checkAunthentication() {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    }
-    
     try {
       const response = await fetch(variables.API_URL + 'auth/user')
-      if (!response.ok) throw new Error(response.statusText, requestOptions)
+      if (!response.ok) throw new Error(response.statusText)
       
       const data = await response.json();
-      if(data.success == false) throw new Error(data.error, requestOptions)
+      if(data.success == false) throw new Error(data.error)
       
       setUser(data.data)
     }

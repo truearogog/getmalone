@@ -23,7 +23,7 @@ export function Home() {
   
   async function getProducts() {
     try {
-      const response = await fetch(variables.API_URL + 'product/allproducts');
+      const response = await fetch(variables.API_URL + 'product/all');
       if (!response.ok) throw new Error(response.statusText)
 
       const data = await response.json();
@@ -75,7 +75,7 @@ export function Home() {
     if (user === false || !user)
       return null
 
-    if (user.user === 'buyer')
+    if (user.role === 'buyer')
       return <Button onClick={() => changeActiveWindow('ShoppingCartPage')}><p>Shopping cart</p></Button>
     else
       return <Button onClick={() => changeActiveWindow('AddProductPage')}><p>Add product</p></Button>
