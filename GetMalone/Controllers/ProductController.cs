@@ -29,12 +29,24 @@ namespace GetMalone.Controllers
             _jwtService = jwtService;
         }
 
+        private object SellerProduct(Product product)
+        {
+            return new {
+                product.Id,
+                product.Name,
+                product.Description,
+                seller = _sellerRepository.GetById(product.SellerId),
+                category = _productCategoryRepository.GetById(product.CategoryId),
+                product.PriceEuro
+            };
+        }
+
         [HttpGet("allproducts")]
         public IActionResult GetAllProducts()
         {
             var response = new ApiResponseDto(() =>
             {
-                var products = _productRepository.GetAll().ToList();
+                var products = _productRepository.GetAll().Select(product => SellerProduct(product)).ToList();
                 return products;
             });
             return Ok(response);
@@ -45,7 +57,7 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                var products = _productRepository.GetByCategoryId(dto.Id).ToList();
+                var products = _productRepository.GetByCategoryId(dto.Id).Select(product => SellerProduct(product)).ToList();
                 return products;
             });
             return Ok(response);
@@ -58,7 +70,7 @@ namespace GetMalone.Controllers
             {
                 var product = _productRepository.GetById(dto.Id);
                 if (product == null) throw new Exception("Wrong product id!");
-                return product;
+                return SellerProduct(product);
             });
             return Ok(response);
         }
@@ -68,7 +80,7 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                var products = _productRepository.GetBySellerId(dto.Id).ToList();
+                var products = _productRepository.GetBySellerId(dto.Id).Select(product => SellerProduct(product)).ToList();
                 return products;
             });
             return Ok(response);
@@ -108,7 +120,7 @@ namespace GetMalone.Controllers
                     PriceEuro = dto.PriceEuro
                 });
 
-                return product;
+                return SellerProduct(product);
             }, "Unauthorized");
             return Ok(response);
         }
@@ -135,7 +147,7 @@ namespace GetMalone.Controllers
 
                 product = _productRepository.Update(product);
 
-                return product;
+                return SellerProduct(product);
             }, "Unauthorized");
             return Ok(response);
         }
