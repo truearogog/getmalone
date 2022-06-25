@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 const id = 0;
 let forceUpdate
-export function ProductList({ title = "Product List", handleProductChange, products, chosenProducts=[] }) {
+export function ProductList({ title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
-	
+
 	return (
 		<ProductListWrapper>
 			<ListTitle>
@@ -21,7 +21,7 @@ function List({ handleProductChange, data, chosenProducts }) {
 	return (
 		<ListWrapper>
 			{data.map(dataItem => <ProductItem handleProductChange={name => handleProductChange(name)} key={uuidv4()} data={dataItem}
-				isChosen={typeof(chosenProducts.some(item => item.id === dataItem.id)) != 'undefined' ? chosenProducts.some(item => item.id === dataItem.id) : false} />)}
+				isChosen={typeof (chosenProducts.some(item => item.id === dataItem.id)) != 'undefined' ? chosenProducts.some(item => item.id === dataItem.id) : false} />)}
 		</ListWrapper>
 	)
 }
@@ -33,13 +33,13 @@ function ProductItem({ handleProductChange, data, isChosen }) {
 			forceUpdate()
 		}
 		} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
-			<Image src={require('../../images/product-pictures/'+id+'.png')} />
+			<Image src={require('../../images/product-pictures/' + id + '.png')} />
 			<Title>{data.name}</Title>
 			<Description>{data.description}</Description>
 			<Price>{data.priceEuro}€</Price>
 			<Info>
 				<p>Type: <b>{data.category}</b></p>
-				<p>Seller: <b>{data.sellerId}</b></p>
+				<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p>
 			</Info>
 		</ProductItemWrapper>
 	)
