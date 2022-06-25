@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components'
+import { FormButton } from '../Form/FormTemplate'
 import { v4 as uuidv4 } from 'uuid';
 
-const id = 0;
+const id = 0
 let forceUpdate
 export function ProductList({ title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
@@ -28,19 +29,25 @@ function List({ handleProductChange, data, chosenProducts }) {
 
 function ProductItem({ handleProductChange, data, isChosen }) {
 	return (
-		<ProductItemWrapper onClick={() => {
+		<ProductItemWrapper /* onClick={() => {
 			handleProductChange(data)
 			forceUpdate()
 		}
-		} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
+		}  */style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
 			<Image src={require('../../images/product-pictures/' + id + '.png')} />
 			<Title>{data.name}</Title>
 			<Description>{data.description}</Description>
 			<Price>{data.priceEuro}€</Price>
 			<Info>
-				<p>Type: <b>{data.category.name}</b></p>
-				<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p>
+				{/* <p>Type: <b>{data.category.name}</b></p>
+				<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p> */}
 			</Info>
+			<FormButton onClick={() => {
+				handleProductChange(data)
+				forceUpdate()
+			}}>
+				Add to cart
+			</FormButton>
 		</ProductItemWrapper>
 	)
 }
