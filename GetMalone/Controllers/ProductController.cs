@@ -10,89 +10,24 @@ namespace GetMalone.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly ISellerRepository _sellerRepository;
         private readonly IProductRepository _productRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly JwtService _jwtService;
 
-        public ProductController(
-            IUserRepository userRepository, 
-            ISellerRepository sellerRepository, 
-            IProductRepository productRepository, 
-            IProductCategoryRepository productCategoryRepository, 
-            JwtService jwtService)
+        public ProductController(IUserRepository userRepository, IProductRepository productRepository, IProductCategoryRepository productCategoryRepository, JwtService jwtService)
         {
             _userRepository = userRepository;
-            _sellerRepository = sellerRepository;
             _productRepository = productRepository;
             _productCategoryRepository = productCategoryRepository;
             _jwtService = jwtService;
         }
 
-        private object SellerProduct(Product product)
-        {
-            return new {
-                product.Id,
-                product.Name,
-                product.Description,
-                seller = _sellerRepository.GetById(product.SellerId),
-                category = _productCategoryRepository.GetById(product.CategoryId),
-                product.PriceEuro
-            };
-        }
-
-        [HttpGet("allproducts")]
+        [HttpGet("all")]
         public IActionResult GetAllProducts()
         {
             var response = new ApiResponseDto(() =>
             {
-                var products = _productRepository.GetAll().Select(product => SellerProduct(product)).ToList();
-                return products;
-            });
-            return Ok(response);
-        }
-
-        [HttpPost("categoryproducts")]
-        public IActionResult GetCategoryProducts([FromBody] IdDto dto)
-        {
-            var response = new ApiResponseDto(() =>
-            {
-                var products = _productRepository.GetByCategoryId(dto.Id).Select(product => SellerProduct(product)).ToList();
-                return products;
-            });
-            return Ok(response);
-        }
-
-        [HttpPost("get")]
-        public IActionResult GetProductById([FromBody] IdDto dto)
-        {
-            var response = new ApiResponseDto(() =>
-            {
-                var product = _productRepository.GetById(dto.Id);
-                if (product == null) throw new Exception("Wrong product id!");
-                return SellerProduct(product);
-            });
-            return Ok(response);
-        }
-
-        [HttpPost("sellerproducts")]
-        public IActionResult GetSellerProducts([FromBody] IdDto dto)
-        {
-            var response = new ApiResponseDto(() =>
-            {
-                var products = _productRepository.GetBySellerId(dto.Id).Select(product => SellerProduct(product)).ToList();
-                return products;
-            });
-            return Ok(response);
-        }
-
-        [HttpGet("allcategories")]
-        public IActionResult GetAllCategories()
-        {
-            var response = new ApiResponseDto(() =>
-            {
-                var productCategories = _productCategoryRepository.GetAll().ToList();
-                return productCategories;
+                return _productRepository.GetAll().ToList();
             });
             return Ok(response);
         }
@@ -105,22 +40,19 @@ namespace GetMalone.Controllers
                 var jwt = Request.Cookies["jwt"];
                 var token = _jwtService.Verify(jwt);
                 var userId = int.Parse(token.Issuer);
-                var seller = _sellerRepository.GetById(userId);
+                var seller = _userRepository.GetSellerById(userId);
                 if (seller == null) throw new Exception();
 
-                var product = _productRepository.Create(new Product
+                var product = new Product
                 {
-                    Created = DateTime.Now,
-                    SellerId = userId,
                     Seller = seller,
                     Name = dto.Name,
                     Description = dto.Description,
                     CategoryId = dto.CategoryId,
-                    Category = _productCategoryRepository.GetById(dto.CategoryId),
                     PriceEuro = dto.PriceEuro
-                });
+                };
 
-                return SellerProduct(product);
+                return _productRepository.Create(product);
             }, "Unauthorized");
             return Ok(response);
         }
@@ -133,21 +65,20 @@ namespace GetMalone.Controllers
                 var jwt = Request.Cookies["jwt"];
                 var token = _jwtService.Verify(jwt);
                 var userId = int.Parse(token.Issuer);
-                var seller = _sellerRepository.GetById(userId);
+                var seller = _userRepository.GetSellerById(userId);
                 if (seller == null) throw new Exception();
 
                 var product = _productRepository.GetById(dto.Id);
-                if (product.SellerId != userId) throw new Exception();
+                if (product == null) throw new Exception();
 
                 product.Name = dto.Name;
                 product.Description = dto.Description;
                 product.CategoryId = dto.CategoryId;
-                product.Category = _productCategoryRepository.GetById(dto.CategoryId);
                 product.PriceEuro = dto.PriceEuro;
 
                 product = _productRepository.Update(product);
 
-                return SellerProduct(product);
+                return product;
             }, "Unauthorized");
             return Ok(response);
         }
@@ -160,7 +91,7 @@ namespace GetMalone.Controllers
                 var jwt = Request.Cookies["jwt"];
                 var token = _jwtService.Verify(jwt);
                 var userId = int.Parse(token.Issuer);
-                var seller = _sellerRepository.GetById(userId);
+                var seller = _userRepository.GetSellerById(userId);
                 if (seller == null) throw new Exception();
 
                 var product = _productRepository.GetById(dto.Id);
@@ -168,6 +99,46 @@ namespace GetMalone.Controllers
 
                 _productRepository.Delete(product);
             }, "Unauthorized");
+            return Ok(response);
+        }
+
+        [HttpPost("category")]
+        public IActionResult GetCategoryProducts([FromBody] IdDto dto)
+        {
+            var response = new ApiResponseDto(() =>
+            {
+                return _productRepository.GetByCategoryId(dto.Id).ToList();
+            });
+            return Ok(response);
+        }
+
+        [HttpPost("get")]
+        public IActionResult GetProductById([FromBody] IdDto dto)
+        {
+            var response = new ApiResponseDto(() =>
+            {
+                return _productRepository.GetById(dto.Id);
+            });
+            return Ok(response);
+        }
+
+        [HttpPost("seller")]
+        public IActionResult GetSellerProducts([FromBody] IdDto dto)
+        {
+            var response = new ApiResponseDto(() =>
+            {
+                return _userRepository.GetSellerById(dto.Id).Products;
+            });
+            return Ok(response);
+        }
+
+        [HttpGet("allcategories")]
+        public IActionResult GetAllCategories()
+        {
+            var response = new ApiResponseDto(() =>
+            {
+                return _productCategoryRepository.GetAll();
+            });
             return Ok(response);
         }
 

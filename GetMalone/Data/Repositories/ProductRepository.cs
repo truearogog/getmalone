@@ -1,4 +1,6 @@
-﻿namespace GetMalone.Data
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace GetMalone.Data
 {
     public class ProductRepository : Repository, IProductRepository
     {
@@ -19,22 +21,25 @@
 
         public IQueryable<Product> GetAll()
         {
-            return _context.Products;
+            return _context.Products
+                .Include(p => p.Seller)
+                .Include(p => p.Seller.User)
+                .Include(p => p.Category);
         }
 
         public IQueryable<Product> GetByCategoryId(int categoryId)
         {
-            return _context.Products.Where(p => p.CategoryId.Equals(categoryId));
+            return GetAll().Where(p => p.CategoryId.Equals(categoryId));
         }
 
         public Product? GetById(int productId)
         {
-            return _context.Products.FirstOrDefault(p => p.Id.Equals(productId));
+            return GetAll().FirstOrDefault(p => p.Id.Equals(productId));
         }
 
         public IQueryable<Product> GetBySellerId(int sellerId)
         {
-            return _context.Products.Where(p => p.SellerId.Equals(sellerId));
+            return GetAll().Where(p => p.SellerId.Equals(sellerId));
         }
 
         public Product? Update(Product product)

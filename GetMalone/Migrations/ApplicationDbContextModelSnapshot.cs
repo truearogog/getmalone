@@ -34,9 +34,6 @@ namespace GetMalone.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
                     b.ToTable("Buyers");
                 });
 
@@ -53,6 +50,7 @@ namespace GetMalone.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -106,9 +104,6 @@ namespace GetMalone.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
                     b.ToTable("Sellers");
                 });
 
@@ -152,8 +147,8 @@ namespace GetMalone.Migrations
             modelBuilder.Entity("GetMalone.Data.Buyer", b =>
                 {
                     b.HasOne("GetMalone.Data.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Buyer")
+                        .HasForeignKey("GetMalone.Data.Buyer", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -171,7 +166,7 @@ namespace GetMalone.Migrations
                     b.HasOne("GetMalone.Data.Seller", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -182,8 +177,8 @@ namespace GetMalone.Migrations
             modelBuilder.Entity("GetMalone.Data.Seller", b =>
                 {
                     b.HasOne("GetMalone.Data.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Seller")
+                        .HasForeignKey("GetMalone.Data.Seller", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -198,6 +193,15 @@ namespace GetMalone.Migrations
             modelBuilder.Entity("GetMalone.Data.Seller", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.User", b =>
+                {
+                    b.Navigation("Buyer")
+                        .IsRequired();
+
+                    b.Navigation("Seller")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

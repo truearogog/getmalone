@@ -11,7 +11,7 @@
 
         public ProductCategory? GetById(int categoryId)
         {
-            return _context.ProductCategories.FirstOrDefault(c => c.Id.Equals(categoryId));
+            return _context.ProductCategories.FirstOrDefault(pc => pc.Id.Equals(categoryId));
         }
     }
 }

@@ -10,20 +10,17 @@ namespace GetMalone.Controllers
     public class SellerController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly ISellerRepository _sellerRepository;
         private readonly IProductRepository _productRepository;
         private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly JwtService _jwtService;
 
         public SellerController(
             IUserRepository userRepository,
-            ISellerRepository sellerRepository,
             IProductRepository productRepository,
             IProductCategoryRepository productCategoryRepository,
             JwtService jwtService)
         {
             _userRepository = userRepository;
-            _sellerRepository = sellerRepository;
             _productRepository = productRepository;
             _productCategoryRepository = productCategoryRepository;
             _jwtService = jwtService;
@@ -34,7 +31,7 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                var sellers = _sellerRepository.GetAll().ToList();
+                var sellers = _userRepository.GetAll().Where(u => u.Seller != null).Select(u => u.Seller).ToList();
                 return sellers;
             });
             return Ok(response);
@@ -45,7 +42,7 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                var seller = _sellerRepository.GetById(dto.Id);
+                var seller = _userRepository.GetById(dto.Id).Seller;
                 return seller;
             });
             return Ok(response);

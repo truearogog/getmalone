@@ -10,53 +10,41 @@ namespace GetMalone.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IBuyerRepository _buyerRepository;
-        private readonly ISellerRepository _sellerRepository;
         private readonly JwtService _jwtService;
 
-        public AuthController(
-            IUserRepository userRepository, 
-            IBuyerRepository buyerRepository, 
-            ISellerRepository sellerRepository, 
-            JwtService jwtService)
+        public AuthController(IUserRepository userRepository, JwtService jwtService)
         {
             _userRepository = userRepository;
-            _buyerRepository = buyerRepository;
-            _sellerRepository = sellerRepository;
             _jwtService = jwtService;
         }
 
-        private static object? BuyerUser(User user, Buyer buyer)
+        private User NewUser(RegisterDto dto)
         {
-            return new {
-                user = "buyer",
-                user.Id, user.Created, user.Email, user.Phone, user.Name, user.Surname,
-                buyer.MailIndex, buyer.Interests
-            };
-        }
-
-        private static object? SellerUser(User user, Seller seller)
-        {
-            return new
+            return new User
             {
-                user = "seller",
-                user.Id, user.Created, user.Email, user.Phone, user.Name, user.Surname,
-                seller.Rating, seller.SertificateCodes
-            };
-        }
-
-        private User Register(RegisterDto dto)
-        {
-            var user = _userRepository.Create(new User
-            {
-                Created = DateTime.Now,
                 Email = dto.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                 Phone = dto.Phone,
                 Name = dto.Name,
                 Surname = dto.Surname
-            });
-            return user;
+            };
+        }
+
+        private Buyer NewBuyer(BuyerRegisterDto dto)
+        {
+            return new Buyer
+            {
+                MailIndex = dto.MailIndex,
+                Interests = dto.Interests
+            };
+        }
+
+        private Seller NewSeller(SellerRegisterDto dto)
+        {
+            return new Seller
+            {
+                SertificateCodes = dto.SertificateCodes
+            };
         }
 
         [HttpPost("register/buyer")]
@@ -64,17 +52,9 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                var user = Register(dto);
-
-                var buyer = _buyerRepository.Create(new Buyer
-                {
-                    UserId = user.Id,
-                    User = user,
-                    MailIndex = dto.MailIndex,
-                    Interests = dto.Interests
-                });
-
-                return BuyerUser(user, buyer);
+                var user = NewUser(dto);
+                var buyer = NewBuyer(dto);
+                return _userRepository.CreateBuyer(user, buyer);
             }, "This email is already used");
             return Ok(response);
         }
@@ -84,19 +64,12 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                var user = Register(dto);
-
-                var seller = _sellerRepository.Create(new Seller {
-                    UserId = user.Id,
-                    User = user,
-                    SertificateCodes = dto.SertificateCodes
-                });
-
-                return SellerUser(user, seller);
+                var user = NewUser(dto);
+                var seller = NewSeller(dto);
+                return _userRepository.CreateSeller(user, seller);
             }, "This email is already used");
             return Ok(response);
         }
-
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginDto dto)
@@ -128,13 +101,13 @@ namespace GetMalone.Controllers
                 var userId = int.Parse(token.Issuer);
                 var user = _userRepository.GetById(userId);
 
-                var buyer = _buyerRepository.GetById(userId);
-                if (buyer != null) return BuyerUser(user, buyer);
+                var buyer = _userRepository.GetBuyerById(userId);
+                if (buyer != null) return new { role = "buyer", buyer };
 
-                var seller = _sellerRepository.GetById(userId);
-                if (seller != null) return SellerUser(user, seller);
+                var seller = _userRepository.GetSellerById(userId);
+                if (seller != null) return new { role = "seller", seller };
 
-                return user;
+                throw new Exception();
             }, "Unauthorized");
             return Ok(response);
         }

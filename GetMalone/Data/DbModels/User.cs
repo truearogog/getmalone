@@ -7,18 +7,34 @@ namespace GetMalone.Data
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public DateTime Created { get; set; }
-        [Required]
+        public DateTime Created { get; set; } = DateTime.Now;
         public string Email { get; set; }
-        [Required]
-        [JsonIgnore]
-        public string PasswordHash { get; set; }
-        [Required]
+        [JsonIgnore] public string PasswordHash { get; set; }
         public string Phone { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Surname { get; set; }
+
+        [JsonIgnore] public Seller Seller { get; set; }
+        [JsonIgnore] public Buyer Buyer { get; set; }
+    }
+
+    public class Seller
+    {
+        [Key]
+        [JsonIgnore] public int UserId { get; set; }
+        public User User { get; set; }
+        public float Rating { get; set; } = 0;
+        public List<string> SertificateCodes { get; set; }
+
+        [JsonIgnore] public List<Product> Products { get; set; }
+    }
+
+    public class Buyer
+    {
+        [Key]
+        [JsonIgnore] public int UserId { get; set; }
+        public User User { get; set; }
+        public string MailIndex { get; set; }
+        public List<string> Interests { get; set; }
     }
 }
