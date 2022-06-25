@@ -71,9 +71,10 @@ export const FormButton = styled.button`
 	background: #1089ff!important;
     color: #fff;
 	transition: background .3s;
-
+	
 	&:hover {
 		border: 1px solid #006fdc!important;
-    	background: #006fdc!important;
+    background: #006fdc!important;
+		cursor: pointer;
 	}
 `;

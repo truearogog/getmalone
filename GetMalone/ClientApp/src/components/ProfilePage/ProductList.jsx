@@ -3,29 +3,36 @@ import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid';
 
 const id = 0;
-
-export function ProductList({ title = "Product List", products }) {
+let forceUpdate
+export function ProductList({ title = "Product List", handleProductChange, products, chosenProducts }) {
+	forceUpdate = React.useReducer(() => ({}), {})[1]
+	
 	return (
 		<ProductListWrapper>
 			<ListTitle>
 				{title}
 			</ListTitle>
-			<List data={products}/>
+			<List handleProductChange={name => handleProductChange(name)} data={products} chosenProducts={chosenProducts} />
 		</ProductListWrapper>
 	)
 }
 
-function List({ data }) {
+function List({ handleProductChange, data, chosenProducts }) {
 	return (
 		<ListWrapper>
-			{data.map(data => <ProductItem key={uuidv4()} data={data}/>)}
+			{data.map(dataItem => <ProductItem handleProductChange={name => handleProductChange(name)} key={uuidv4()} data={dataItem}
+				isChosen={chosenProducts.some(item => item.id === dataItem.id)} />)}
 		</ListWrapper>
 	)
 }
 
-function ProductItem({ data }) {
+function ProductItem({ handleProductChange, data, isChosen }) {
 	return (
-		<ProductItemWrapper>
+		<ProductItemWrapper onClick={() => {
+			handleProductChange(data)
+			forceUpdate()
+		}
+		} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
 			<Image src={require('../../images/product-pictures/'+id+'.png')} />
 			<Title>{data.name}</Title>
 			<Description>{data.description}</Description>
@@ -65,8 +72,14 @@ const ProductItemWrapper = styled.div`
 	width: 25%;
 	text-align: center;
 	padding-top: 30px;
-  	padding-bottom: 20px;
+  padding-bottom: 20px;
 	line-height: 10px;
+	transition: .2s;
+	
+	&:hover{
+		cursor: pointer;
+		background-color: #adadad;
+	}
 `;
 const Image = styled.img`
 	object-fit: cover;
