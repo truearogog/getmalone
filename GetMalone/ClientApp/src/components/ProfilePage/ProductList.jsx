@@ -38,7 +38,7 @@ function ProductItem({ handleProductChange, data, isChosen }) {
 			<Description>{data.description}</Description>
 			<Price>{data.priceEuro}€</Price>
 			<Info>
-				<p>Type: <b>{data.category}</b></p>
+				<p>Type: <b>{data.category.name}</b></p>
 				<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p>
 			</Info>
 		</ProductItemWrapper>
