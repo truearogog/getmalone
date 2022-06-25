@@ -102,10 +102,10 @@ namespace GetMalone.Controllers
                 var user = _userRepository.GetById(userId);
 
                 var buyer = _userRepository.GetBuyerById(userId);
-                if (buyer != null) return new { role = "buyer", buyer };
+                if (buyer != null) return new { role = "buyer", info = buyer };
 
                 var seller = _userRepository.GetSellerById(userId);
-                if (seller != null) return new { role = "seller", seller };
+                if (seller != null) return new { role = "seller", info = seller };
 
                 throw new Exception();
             }, "Unauthorized");
