@@ -21,7 +21,7 @@ function List({ handleProductChange, data, chosenProducts }) {
 	return (
 		<ListWrapper>
 			{data.map(dataItem => <ProductItem handleProductChange={name => handleProductChange(name)} key={uuidv4()} data={dataItem}
-				isChosen={chosenProducts.some(item => item.id === dataItem.id)} />)}
+				isChosen={typeof(chosenProducts.some(item => item.id === dataItem.id)) != 'undefined' ? chosenProducts.some(item => item.id === dataItem.id) : false} />)}
 		</ListWrapper>
 	)
 }
