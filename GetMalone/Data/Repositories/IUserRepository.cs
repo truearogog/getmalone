@@ -10,5 +10,6 @@
         Buyer? GetBuyerById(int id);
         Seller CreateSeller(User user, Seller userSeller);
         Seller? GetSellerById(int id);
+        IQueryable<Seller> GetAllSellers();
     }
 }

@@ -59,8 +59,13 @@ namespace GetMalone.Data
         {
             return _context.Sellers
                 .Include(s => s.User)
-                .Include(s => s.Products)
                 .FirstOrDefault(s => s.UserId.Equals(id));
+        }
+
+        public IQueryable<Seller> GetAllSellers()
+        {
+            return _context.Sellers
+                .Include(s => s.User);
         }
     }
 }
