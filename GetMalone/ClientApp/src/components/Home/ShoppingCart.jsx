@@ -23,19 +23,19 @@ export function ShoppingCart({ handleProductChange, chosenProducts, handlePageCh
 	}
 	
 	return (
-		<div style={{ padding: '16px', marginTop: '48px' }}>
-			<Button onClick={() => handlePageChange('HomePage')}>Get me HOME!!!!</Button>
-			<h2>SHOPPING CARTTTTTTTTTTT</h2>
-			{<ProductList handleProductChange={name => handleProductChange(name)} products={chosenProducts} />}
+		<Container>
+			{<ProductList handleProductChange={name => handleProductChange(name)} products={chosenProducts} title={"Your Shopping Cart"}/>}
 			{<p>Total cost: {getTotalCost()}€</p>}
 			<FormButton onClick={handleOrderConfirm}>Confirm order</FormButton>
-		</div>
+			<FormButton onClick={() => handlePageChange('HomePage')}>Cancel</FormButton>
+		</Container>
 	);
 }
 
-const Button = styled.div`
-  border-radius: 5px;
-	border: solid;
-  padding: 4px;
-  cursor: pointer;
+const Container = styled.div`
+  width: 60%;
+  margin: 0 auto;
+  padding: 0 100px 50px 100px;
+  background: #f3f3f3;
+  text-align: center;
 `
