@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const id = 0;
 let forceUpdate
-export function ProductList({ title = "Product List", handleProductChange, products, chosenProducts=[] }) {
+export function ProductList({ title = "Product List", handleProductChange = () => { }, products, chosenProducts=[] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 	
 	return (

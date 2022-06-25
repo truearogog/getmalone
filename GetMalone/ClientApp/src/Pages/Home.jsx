@@ -13,7 +13,6 @@ export function Home() {
   const [error, setError] = useState('')
 
   const [chosenProducts, setChosenProducts] = useState([])
-  const [categories, setCategories] = useState([])
   
   const [pageEnabled, setpageEnabled] =
   useState({
@@ -38,36 +37,9 @@ export function Home() {
     }
   }
   
-  async function getCategories() {
-		try {
-			const response = await fetch(variables.API_URL + 'product/allcategories');
-			if (!response.ok) throw new Error(response.statusText)
-
-			const data = await response.json();
-			if (data.success == false) throw new Error(data.error)
-      
-			setCategories(data.data);
-		}
-		catch (err) {
-			console.log(err)
-			setError(err)
-		}
-	}
-  
   useEffect(() => {
     getProducts()
-    getCategories()
   }, [])
-
-  useEffect(() => {
-    if (categories != [] && products!=[]) {
-      products.map(product => product.category = typeof(categories.find(category => category.id === product.categoryId)) != 'undefined'
-        ? categories.find(category => category.id === product.categoryId).name
-        : null)
-    }
-  }, [categories, products])
-
-
 
   const forceUpdate = React.useReducer(() => ({}), {})[1]
 
@@ -97,7 +69,6 @@ export function Home() {
     setpageEnabled(allPages)
     
     getProducts()
-    getCategories()
   }
 
   function userButton() {
