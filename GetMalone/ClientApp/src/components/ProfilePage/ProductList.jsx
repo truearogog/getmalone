@@ -34,8 +34,7 @@ function ProductItem({ handlePageChange, handleProductChange, data, isChosen }) 
 	return (
 		<ProductItemWrapper onClick={() => {
 			handlePageChange('ProductPage')
-		}
-		} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
+		}} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
 			<Image src={require('../../images/product-pictures/' + id + '.png')} />
 			<Title>{data.name}</Title>
 			<Description>{data.description}</Description>
@@ -48,8 +47,9 @@ function ProductItem({ handlePageChange, handleProductChange, data, isChosen }) 
 				handleProductChange(data)
 				forceUpdate()
 			}}>
-				Add to cart
+				{isChosen === true ? "Remove from Cart" : "Add to Cart"}
 			</FormButton>
+			<p style={isChosen === true ? { color: 'green' } : null}> {isChosen === true ? "Successfully Added!" : <br/>}</p>
 		</ProductItemWrapper>
 	)
 }
