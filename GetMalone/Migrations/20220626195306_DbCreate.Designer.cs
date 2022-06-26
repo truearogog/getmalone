@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetMalone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220626002853_DbCreate")]
+    [Migration("20220626195306_DbCreate")]
     partial class DbCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

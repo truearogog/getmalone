@@ -1,5 +1,13 @@
 import styled from 'styled-components'
 
+export const Container = styled.div`
+  width: 60%;
+  margin: 0 auto;
+  padding: 0 100px 50px 100px;
+  background: #f3f3f3;
+  text-align: center;
+`
+
 export const FormContainer = styled.form`
 	padding-top: 60px;
 	width: 50%;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 
 import { ProductList } from '../ProfilePage/ProductList';
-import { FormButton } from '../Form/FormTemplate'
+import { Container, FormButton } from '../Form/FormTemplate'
 
 export function ShoppingCart({ handleProductChange, chosenProducts, handlePageChange }) {
 	function handleOrderConfirm() {
@@ -32,11 +32,3 @@ export function ShoppingCart({ handleProductChange, chosenProducts, handlePageCh
 		</Container>
 	);
 }
-
-const Container = styled.div`
-  width: 60%;
-  margin: 0 auto;
-  padding: 0 100px 50px 100px;
-  background: #f3f3f3;
-  text-align: center;
-`

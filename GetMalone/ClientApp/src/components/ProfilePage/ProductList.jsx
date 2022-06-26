@@ -34,9 +34,9 @@ function ProductItem({ getId, handlePageChange, handleProductChange, data, isCho
 	return (
 		<ProductItemWrapper onClick={() => {
 			handlePageChange('ProductPage')
-			console.log(data)
-			console.log(data.id)
-			getId('4')
+			//console.log(data)
+			data.id ? getId(data.id) : getId(null);
+			
 		}} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
 			<Image src={require('../../images/product-pictures/' + id + '.png')} />
 			<Title>{data.name}</Title>

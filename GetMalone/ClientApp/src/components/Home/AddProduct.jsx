@@ -75,7 +75,6 @@ export function AddProduct({ handlePageChange }) {
 
 	return (
 		<div style={{ padding: '16px', marginTop: '48px' }}>
-			<Button onClick={() => handlePageChange('HomePage')}>Get me HOME!!!!</Button>
 			<FormContainer onSubmit={handleSubmit}>
 				<FormTitle>Add product:</FormTitle>
 				<FormFields>
@@ -92,6 +91,7 @@ export function AddProduct({ handlePageChange }) {
 					<FormItem type="text" placeholder="Price of the product in euro" name="priceEuro" value={priceEuro} onChange={e =>
 						onChange(e, setPriceEuro, 6)} />
 					<FormButton type="submit">Submit</FormButton>
+					<FormButton onClick={() => handlePageChange('HomePage')}>Cancel</FormButton>
 				</FormFields>
 			</FormContainer>
 			<p style={{ color: 'red' }}>{error}</p>
