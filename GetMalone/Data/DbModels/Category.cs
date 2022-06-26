@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace GetMalone.Data
 {
-    public class ProductCategory
+    public class Category
     {
         [Key]
         public int Id { get; set; }

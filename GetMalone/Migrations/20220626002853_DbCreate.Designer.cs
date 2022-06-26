@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetMalone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220625145740_DbCreate")]
+    [Migration("20220626002853_DbCreate")]
     partial class DbCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,52 @@ namespace GetMalone.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Buyers");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuyerId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("GetMalone.Data.Product", b =>
@@ -74,22 +120,35 @@ namespace GetMalone.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("GetMalone.Data.ProductCategory", b =>
+            modelBuilder.Entity("GetMalone.Data.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Body")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SellerId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.HasIndex("BuyerId");
+
+                    b.HasIndex("SellerId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("GetMalone.Data.Seller", b =>
@@ -157,12 +216,31 @@ namespace GetMalone.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("GetMalone.Data.Comment", b =>
+                {
+                    b.HasOne("GetMalone.Data.Buyer", "Buyer")
+                        .WithMany("Comments")
+                        .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GetMalone.Data.Product", "Product")
+                        .WithMany("Comments")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("GetMalone.Data.Product", b =>
                 {
-                    b.HasOne("GetMalone.Data.ProductCategory", "Category")
+                    b.HasOne("GetMalone.Data.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GetMalone.Data.Seller", "Seller")
@@ -172,6 +250,25 @@ namespace GetMalone.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("Seller");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.Review", b =>
+                {
+                    b.HasOne("GetMalone.Data.Buyer", "Buyer")
+                        .WithMany("Reviews")
+                        .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GetMalone.Data.Seller", "Seller")
+                        .WithMany("Reviews")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
 
                     b.Navigation("Seller");
                 });
@@ -187,14 +284,28 @@ namespace GetMalone.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("GetMalone.Data.ProductCategory", b =>
+            modelBuilder.Entity("GetMalone.Data.Buyer", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.Product", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("GetMalone.Data.Seller", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("GetMalone.Data.User", b =>

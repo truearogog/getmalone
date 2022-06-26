@@ -15,7 +15,9 @@ namespace GetMalone.Data
         public DbSet<Buyer> Buyers { get; set; }
         public DbSet<Seller> Sellers { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<ProductCategory> ProductCategories{ get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,18 +44,42 @@ namespace GetMalone.Data
                 .HasOne(s => s.User)
                 .WithOne(u => u.Seller)
                 .HasForeignKey<Seller>(s => s.UserId);
+            // category - product
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Products)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
             // seller - product
             modelBuilder.Entity<Seller>()
                 .HasMany(s => s.Products)
                 .WithOne(p => p.Seller)
                 .HasForeignKey(p => p.SellerId)
                 .OnDelete(DeleteBehavior.Restrict);
-            // category - product
-            modelBuilder.Entity<ProductCategory>()
-                .HasMany(c => c.Products)
-                .WithOne(p => p.Category)
-                .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull);
+            // comment - product
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Product)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(c => c.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+            // comment - buyer
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Buyer)
+                .WithMany(b => b.Comments)
+                .HasForeignKey(c => c.BuyerId)
+                .OnDelete(DeleteBehavior.Restrict);
+            // review - seller
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Seller)
+                .WithMany(s => s.Reviews)
+                .HasForeignKey(r => r.SellerId)
+                .OnDelete(DeleteBehavior.Restrict);
+            // review - buyer
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Buyer)
+                .WithMany(b => b.Reviews)
+                .HasForeignKey(r => r.BuyerId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

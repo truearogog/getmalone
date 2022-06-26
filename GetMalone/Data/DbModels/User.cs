@@ -23,10 +23,12 @@ namespace GetMalone.Data
         [Key]
         [JsonIgnore] public int UserId { get; set; }
         public User User { get; set; }
-        public float Rating { get; set; } = 0;
+        [Range(0f, 5f)]
+        public float Rating { get; set; } = 0f;
         public List<string> SertificateCodes { get; set; }
 
         [JsonIgnore] public List<Product> Products { get; set; }
+        [JsonIgnore] public List<Review> Reviews { get; set; }
     }
 
     public class Buyer
@@ -36,5 +38,8 @@ namespace GetMalone.Data
         public User User { get; set; }
         public string MailIndex { get; set; }
         public List<string> Interests { get; set; }
+
+        [JsonIgnore] public List<Comment> Comments { get; set; }
+        [JsonIgnore] public List<Review> Reviews { get; set; }
     }
 }

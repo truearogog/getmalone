@@ -11,10 +11,10 @@ namespace GetMalone.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IProductRepository _productRepository;
-        private readonly IProductCategoryRepository _productCategoryRepository;
+        private readonly ICategoryRepository _productCategoryRepository;
         private readonly JwtService _jwtService;
 
-        public ProductController(IUserRepository userRepository, IProductRepository productRepository, IProductCategoryRepository productCategoryRepository, JwtService jwtService)
+        public ProductController(IUserRepository userRepository, IProductRepository productRepository, ICategoryRepository productCategoryRepository, JwtService jwtService)
         {
             _userRepository = userRepository;
             _productRepository = productRepository;

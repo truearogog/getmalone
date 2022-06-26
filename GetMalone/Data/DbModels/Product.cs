@@ -17,8 +17,10 @@ namespace GetMalone.Data
         public string Description { get; set; }
 
         public int CategoryId { get; set; }
-        public ProductCategory Category { get; set; }
+        public Category Category { get; set; }
 
         public decimal PriceEuro { get; set; }
+
+        [JsonIgnore] public List<Comment> Comments { get; set; }
     }
 }
