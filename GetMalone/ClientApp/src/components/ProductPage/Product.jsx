@@ -1,7 +1,7 @@
 import React from 'react';
 
-export function Product({ handlePageChange }) {
+export function Product({ handlePageChange, productid }) {
   return (
-    <p>product</p>
+    <p>{productid}</p>
   );
 }

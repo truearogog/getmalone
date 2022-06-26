@@ -27,6 +27,7 @@ export function ShoppingCart({ handleProductChange, chosenProducts, handlePageCh
 			{<ProductList handleProductChange={name => handleProductChange(name)} products={chosenProducts} title={"Your Shopping Cart"}/>}
 			{<p>Total cost: {getTotalCost()}€</p>}
 			<FormButton onClick={handleOrderConfirm}>Confirm order</FormButton>
+			<br/>
 			<FormButton onClick={() => handlePageChange('HomePage')}>Cancel</FormButton>
 		</Container>
 	);

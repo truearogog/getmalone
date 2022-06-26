@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const id = 0
 let forceUpdate
-export function ProductList({ handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
+export function ProductList({ getId = () => { }, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 
 	return (
@@ -13,15 +13,15 @@ export function ProductList({ handlePageChange = () => { }, title = "Product Lis
 			<ListTitle>
 				{title}
 			</ListTitle>
-			<List handlePageChange={name => handlePageChange(name)} handleProductChange={name => handleProductChange(name)} data={products} chosenProducts={chosenProducts} />
+			<List getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} handleProductChange={name => handleProductChange(name)} data={products} chosenProducts={chosenProducts} />
 		</ProductListWrapper>
 	)
 }
 
-function List({ handlePageChange, handleProductChange, data, chosenProducts }) {
+function List({ getId, handlePageChange, handleProductChange, data, chosenProducts }) {
 	return (
 		<ListWrapper>
-			{data.map(dataItem => <ProductItem handlePageChange={name => handlePageChange(name)} handleProductChange={name => handleProductChange(name)} key={uuidv4()} data={dataItem}
+			{data.map(dataItem => <ProductItem getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} handleProductChange={name => handleProductChange(name)} key={uuidv4()} data={dataItem}
 				isChosen={typeof (chosenProducts.some(item => item.id === dataItem.id)) != 'undefined'
 					? chosenProducts.some(item => item.id === dataItem.id)
 					: false} />)}
@@ -29,11 +29,14 @@ function List({ handlePageChange, handleProductChange, data, chosenProducts }) {
 	)
 }
 
-function ProductItem({ handlePageChange, handleProductChange, data, isChosen }) {
+function ProductItem({ getId, handlePageChange, handleProductChange, data, isChosen }) {
 	//console.log(data)
 	return (
 		<ProductItemWrapper onClick={() => {
 			handlePageChange('ProductPage')
+			console.log(data)
+			console.log(data.id)
+			getId('4')
 		}} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
 			<Image src={require('../../images/product-pictures/' + id + '.png')} />
 			<Title>{data.name}</Title>
@@ -70,6 +73,7 @@ const ListTitle = styled.div`
 //-----List-----
 const ListWrapper = styled.div`
 	display: flex;
+	justify-content: space-evenly;
     flex-wrap: wrap;
     width: 100%;
 	margin-top: 25px;
@@ -78,10 +82,10 @@ const ListWrapper = styled.div`
 
 //-----ProductItem-----
 const ProductItemWrapper = styled.div`
-	width: 25%;
+	width: 21%;
 	text-align: center;
-	padding-top: 30px;
-  padding-bottom: 20px;
+	padding-top: 40px;
+	margin-top: 40px;
 	line-height: 10px;
 	transition: .2s;
 	border-radius: 5px;

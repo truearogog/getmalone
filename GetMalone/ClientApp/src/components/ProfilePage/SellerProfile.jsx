@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { ProfileData } from './ProfileData';
 import { ProductList } from './ProductList';
 
-export function SellerProfile({ handlePageChange, user }) {
+export function SellerProfile({ getId, handlePageChange, user }) {
 
   const [products, setSellerProducts] = useState([])
   const [error, setError] = useState('')
@@ -42,7 +42,7 @@ export function SellerProfile({ handlePageChange, user }) {
   return (
     <Container>
       <ProfileData data={user} />
-      {<ProductList handlePageChange={name => handlePageChange(name)} products={products} />}
+      {<ProductList getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} products={products} />}
       <p style={{ color: 'red' }}>{error}</p>
     </Container>
   );

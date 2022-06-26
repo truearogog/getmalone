@@ -78,11 +78,11 @@ let products = [
   },
 ]
 
-export function UserProfile({ handlePageChange, user }) {
+export function UserProfile({ getId, handlePageChange, user }) {
   return (
     <Container>
       <ProfileData data={user} />
-      <ProductList handlePageChange={name => handlePageChange(name)} title={title} products={products} />
+      <ProductList getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} title={title} products={products} />
     </Container>
   );
 }

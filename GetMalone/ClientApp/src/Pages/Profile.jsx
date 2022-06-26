@@ -38,14 +38,33 @@ export function Profile() {
 		setpageEnabled(allPages)
 	}
 
+	const [productId, setId] =
+	useState({
+		'id': -1
+	});
+
+	function getId(id) {
+		function reset() {
+			let prodId = productId
+
+			setId(prodId)
+			return prodId
+		}
+
+		let prodId = reset()
+		prodId['id'] = id
+
+		setId(prodId)
+	}
+
 	const { user, setUser } = useContext(UserContext);
 
 	return (
 		<div>
 			{user != null ?
 				<>
-					{pageEnabled['MainPage'] ? <GetUserRole handlePageChange={name => changeActiveWindow(name)} user={user} /> : null}
-					{pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} /> : null}
+					{pageEnabled['MainPage'] ? <GetUserRole getId={id => getId(id)} handlePageChange={name => changeActiveWindow(name)} user={user} /> : null}
+					{pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} productid={productId.id}/> : null}
 				</>
 				: "Please Log in"
 			}
@@ -53,12 +72,12 @@ export function Profile() {
 	);
 }
 
-function GetUserRole({ handlePageChange, user }) {
+function GetUserRole({ getId, handlePageChange, user }) {
 	if (user.role === 'buyer') {
-		return <UserProfile handlePageChange={name => handlePageChange(name)} user={user.info} />;
+		return <UserProfile getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} user={user.info} />;
 	}
 	else if (user.role === 'seller') {
-		return <SellerProfile handlePageChange={name => handlePageChange(name)} user={user.info} />;
+		return <SellerProfile getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} user={user.info} />;
 	}
 	else
 		return <div></div>
