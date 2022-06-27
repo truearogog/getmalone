@@ -17,7 +17,7 @@ export function Login({ handlePageChange }) {
 	async function handleSubmit(e) {
 		e.preventDefault()
 
-		let formData = { email: email, password: password }
+		const formData = { email: email, password: password }
 		const requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
