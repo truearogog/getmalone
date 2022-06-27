@@ -84,7 +84,7 @@ export function Profile() {
 			{user != null ?
 				<>
 					{pageEnabled['MainPage'] ? <GetUserRole getId={id => getId(id)} handlePageChange={name => changeActiveWindow(name)} user={user} /> : null}
-					{pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} productid={productId.id}/> : null}
+					{pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} userId={user.info.user.id} productid={productId.id}/> : null}
 				</>
 				: "Please Log in"
 			}
