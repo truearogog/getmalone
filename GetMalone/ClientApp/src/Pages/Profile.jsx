@@ -5,13 +5,31 @@ import { Product } from '../components/ProductPage/Product'
 import { UserContext } from '../services/UserContext';
 
 export function Profile() {
-
+	const { user, setUser } = useContext(UserContext);
+	
+	
 	const [pageEnabled, setpageEnabled] =
 	useState({
 		'ProductPage': false,
 		'MainPage': true
 	});
-
+	
+	async function checkAunthentication() {
+    try {
+      const response = await fetch(variables.API_URL + 'auth/user')
+      if (!response.ok) throw new Error(response.statusText)
+      
+      const data = await response.json();
+      if(data.success == false) throw new Error(data.error)
+      
+      setUser(data.data)
+    }
+    catch (err) {
+      setUser(null);
+      console.log(err)
+    }
+  }
+	
 	function changeActiveWindow(name) {
 		function getPages() {
 			let pagesDict = []
@@ -34,7 +52,9 @@ export function Profile() {
 
 		let allPages = reset()
 		allPages[name] = true
-
+		
+		
+		checkAunthentication()
 		setpageEnabled(allPages)
 	}
 
@@ -56,8 +76,6 @@ export function Profile() {
 
 		setId(prodId)
 	}
-
-	const { user, setUser } = useContext(UserContext);
 
 	return (
 		<div>
