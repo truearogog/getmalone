@@ -6,7 +6,7 @@ import { Search } from './Search'
 
 const id = 0
 let forceUpdate
-export function ProductList({  getId = () => { }, handleSearchClick, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
+export function ProductList({ getId = () => { }, handleSearchClick, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 
 	return (
@@ -34,22 +34,21 @@ function List({ getId, handlePageChange, handleProductChange, data, chosenProduc
 }
 
 function ProductItem({ getId, handlePageChange, handleProductChange, data, isChosen }) {
-	//console.log(data)
 	return (
-		<ProductItemWrapper onClick={() => {
-			handlePageChange('ProductPage')
-			//console.log(data)
-			data.id ? getId(data.id) : getId(null);
-
-		}} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
-			<Image src={require('../../images/product-pictures/' + id + '.png')} />
-			<Title>{data.name}</Title>
-			<Description>{data.description}</Description>
-			<Price>{data.priceEuro}€</Price>
-			<Info>
-				<p>Category: <b>{data.category.name}</b></p>
-				<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p>
-			</Info>
+		<ProductItemWrapper style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
+			<div onClick={() => {
+				handlePageChange('ProductPage')
+				data.id ? getId(data.id) : getId(null);
+			}}>
+				<Image src={require('../../images/product-pictures/' + id + '.png')} />
+				<Title>{data.name}</Title>
+				<Description>{data.description}</Description>
+				<Price>{data.priceEuro}€</Price>
+				<Info>
+					<p>Category: <b>{data.category.name}</b></p>
+					<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p>
+				</Info>
+			</div>
 			<FormButton onClick={() => {
 				handleProductChange(data)
 				forceUpdate()
