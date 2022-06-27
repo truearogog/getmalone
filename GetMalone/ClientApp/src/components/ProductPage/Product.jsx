@@ -114,8 +114,6 @@ export function Product({ handlePageChange, productid: productId }) {
 			if (data.success == false) throw new Error(data.error, requestOptions)
 
 			setUpdateStatus(true)
-
-			alert("Product updated!")
 		}
 		catch (err) {
 			console.log(err)

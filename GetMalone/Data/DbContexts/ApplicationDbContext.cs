@@ -61,7 +61,7 @@ namespace GetMalone.Data
                 .HasOne(c => c.Product)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
             // comment - buyer
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Buyer)
