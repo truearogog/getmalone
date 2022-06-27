@@ -112,7 +112,8 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 			const data = await response.json();
 			if (data.success == false) throw new Error(data.error, requestOptions)
 
-			setUpdateStatus(true)
+			handlePageChange('MainPage')
+			alert("Product Updated!")
 		}
 		catch (err) {
 			console.log(err)
@@ -182,7 +183,6 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 							<Red>
 								<BigFormButton onClick={handleProductDelete}>Delete Product</BigFormButton>
 							</Red>
-							<SuccessMessage>{isUpdated === true ? "Successfully Updated!" : <br/>}</SuccessMessage>
 						</FormFields>
 					</FormContainer>
 				: 
