@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { variables } from '../../services/variables';
 import { v4 as uuidv4 } from 'uuid';
-import { Container, FormContainer, FormTitle, FormFields, FormItem, FormDropDown, FormButton, BigFormButton } from '../Form/FormTemplate'
+import { Container, FormContainer, FormFields, FormItem, FormDropDown, FormButton, BigFormButton } from '../Form/FormTemplate'
 import { Comment } from './Comments/Comment'
 import { CommentForm } from './Comments/CommentForm'
 import styled from 'styled-components';
 
 
-export function Product({ handlePageChange, productid: productId }) {
+export function Product({ handlePageChange, productid: productId, userId }) {
 
 	const [product, setProductById] = useState('')
 	const [comments, setComments] = useState('')
@@ -95,7 +95,6 @@ export function Product({ handlePageChange, productid: productId }) {
 			getCategories()
 	}, [product])
 
-
 	async function handleSubmit(e) {
 		e.preventDefault()
 
@@ -161,32 +160,41 @@ export function Product({ handlePageChange, productid: productId }) {
 				<Logo>
 					<Image src={require('../../images/product-pictures/0.png')} />
 				</Logo>
-				<FormContainer onSubmit={handleSubmit}>
-					<FormFields>
-						Category:
-						<FormDropDown onChange={(e) => setCurrentCategory(categories[e.target.value - 1])} value={currentCategory.id} name="categories">
-							{categories !== []
-								? categories.map(item => <option key={uuidv4()} value={item.id}>{item.name}</option>)
-								: null}
-						</FormDropDown>
-						Name:
-						<FormItem type="text" placeholder="Product name" name="name" value={name} onChange={e =>
-							setName(e.target.value)} />
-						Description:
-						<FormItem type="text" placeholder="Product description" name="description" value={description} onChange={e =>
-							setDescription(e.target.value)} />
-						Price:
-						<FormItem type="text" placeholder="Price of the product in euro" name="priceEuro" value={priceEuro} onChange={e =>
-							onChange(e, setPriceEuro, 6)} />
-						<BigFormButton type="submit">Save Changes</BigFormButton>
-						<SuccessMessage>{isUpdated === true ? "Successfully Updated!" : <br/>}</SuccessMessage>
-					</FormFields>
-				</FormContainer>
+				{(typeof (product.seller) !== 'undefined' && product.seller.user.id == userId) ? 
+					<FormContainer onSubmit={handleSubmit}>
+						<FormFields>
+							Category:
+							<FormDropDown onChange={(e) => setCurrentCategory(categories[e.target.value - 1])} value={currentCategory.id} name="categories">
+								{categories !== []
+									? categories.map(item => <option key={uuidv4()} value={item.id}>{item.name}</option>)
+									: null}
+							</FormDropDown>
+							Name:
+							<FormItem type="text" placeholder="Product name" name="name" value={name} onChange={e =>
+								setName(e.target.value)} />
+							Description:
+							<FormItem type="text" placeholder="Product description" name="description" value={description} onChange={e =>
+								setDescription(e.target.value)} />
+							Price:
+							<FormItem type="text" placeholder="Price of the product in euro" name="priceEuro" value={priceEuro} onChange={e =>
+								onChange(e, setPriceEuro, 6)} />
+							<BigFormButton type="submit">Save Changes</BigFormButton>
+							<Red>
+								<BigFormButton onClick={handleProductDelete}>Delete Product</BigFormButton>
+							</Red>
+							<SuccessMessage>{isUpdated === true ? "Successfully Updated!" : <br/>}</SuccessMessage>
+						</FormFields>
+					</FormContainer>
+				: 
+					<InfoContainer>
+						<p><span className="bold">Name: </span>{name}</p>
+						<p><span className="bold">Description: </span>{description}</p>
+						<p><span className="bold">Price: </span>{priceEuro}€</p>
+						<p><span className="bold">Category: </span>{currentCategory.name}</p>
+						<p><span className="bold">Seller: </span>{(typeof (product.seller) !== 'undefined') ? <span>{product.seller.user.name} {product.seller.user.surname}</span> : "Loading:"}</p>
+					</InfoContainer>}
 			</ProductItem>
 			
-			<Red>
-				<FormButton onClick={handleProductDelete}>Delete Product</FormButton>
-			</Red>
 			<FormButton onClick={() => handlePageChange('MainPage')}>Cancel</FormButton>
 
 			<CommentWrapper>
@@ -239,3 +247,14 @@ const Red = styled.div`
 		}
 	}
 `
+const InfoContainer = styled.div`
+	padding-top: 100px;
+	padding-left: 15%;
+	width: 40%;
+	text-align: left;
+	font-size: 20px;
+
+	.bold {
+		font-weight: 600;
+	}
+`;

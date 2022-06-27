@@ -126,7 +126,7 @@ export function Home() {
 
   return (
     <div>
-      {pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} productid={productId.id} /> : null}
+      {pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} userId={user.info.user.id} productid={productId.id} /> : null}
       {pageEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
       {pageEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} /> : null}
       {pageEnabled['MainPage'] ?
