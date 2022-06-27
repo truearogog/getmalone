@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import styled from 'styled-components'
 import { FormButton } from '../Form/FormTemplate'
 import { v4 as uuidv4 } from 'uuid';
+import { Search } from './Search'
 
 const id = 0
 let forceUpdate
-export function ProductList({ getId = () => { }, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
+export function ProductList({  getId = () => { }, handleSearchClick, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 
 	return (
 		<ProductListWrapper>
+			<Float>
+				<Search handleSearchClick={handleSearchClick} />
+			</Float>
 			<ListTitle>
 				{title}
 			</ListTitle>
@@ -36,7 +40,7 @@ function ProductItem({ getId, handlePageChange, handleProductChange, data, isCho
 			handlePageChange('ProductPage')
 			//console.log(data)
 			data.id ? getId(data.id) : getId(null);
-			
+
 		}} style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
 			<Image src={require('../../images/product-pictures/' + id + '.png')} />
 			<Title>{data.name}</Title>
@@ -52,12 +56,15 @@ function ProductItem({ getId, handlePageChange, handleProductChange, data, isCho
 			}}>
 				{isChosen === true ? "Remove from Cart" : "Add to Cart"}
 			</FormButton>
-			<p style={isChosen === true ? { color: 'green' } : null}> {isChosen === true ? "Successfully Added!" : <br/>}</p>
+			<p style={isChosen === true ? { color: 'green' } : null}> {isChosen === true ? "Successfully Added!" : <br />}</p>
 		</ProductItemWrapper>
 	)
 }
 
 //-----ProductList-----
+const Float = styled.div`
+	position: absolute;
+`
 const ProductListWrapper = styled.div`
 	padding-top: 90px;
 	width: 90%;
