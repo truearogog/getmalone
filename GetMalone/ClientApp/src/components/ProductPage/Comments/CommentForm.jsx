@@ -3,7 +3,7 @@ import { variables } from '../../../services/variables';
 import {FormContainer, FormTitle, FormFields, FormItem, FormButton} from '../../Form/FormTemplate'
 
 
-export function CommentForm({ productId }) {
+export function CommentForm({ productId, getComments = () => {} }) {
 
 	const [text, setText] = useState('')
 	const [error, setError] = useState('')
@@ -24,6 +24,10 @@ export function CommentForm({ productId }) {
 
 			let data = await response.json();
 			if (data.success == false) throw new Error(data.error, requestOptions)
+
+			setText("");
+
+			getComments();
 
 			alert("Comment posted");
 		}

@@ -5,6 +5,7 @@ import { ShoppingCart } from '../components/Home/ShoppingCart'
 import { UserContext } from '../services/UserContext';
 import { variables } from '../services/variables';
 import { ProductList } from '../components/ProfilePage/ProductList';
+import { Product } from '../components/ProductPage/Product'
 
 export function Home() {
 
@@ -19,7 +20,13 @@ export function Home() {
     useState({
       'AddProductPage': false,
       'ShoppingCartPage': false,
+      'ProductPage': false,
       'HomePage': true
+    });
+
+  const [productId, setId] =
+    useState({
+      'id': -1
     });
 
   async function getProducts() {
@@ -42,6 +49,20 @@ export function Home() {
   useEffect(() => {
     getProducts()
   }, [])
+
+  function getId(id) {
+		function reset() {
+			let prodId = productId
+
+			setId(prodId)
+			return prodId
+		}
+
+		let prodId = reset()
+		prodId['id'] = id
+
+		setId(prodId)
+	}
 
   function changeActiveWindow(name) {
     function getPages() {
@@ -105,6 +126,7 @@ export function Home() {
 
   return (
     <div>
+      {pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} productid={productId.id}/> : null}
       {pageEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
       {pageEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} /> : null}
       {pageEnabled['HomePage'] ?
@@ -113,7 +135,7 @@ export function Home() {
             <h1>GetMalone.lv</h1>
             {userButton()}
           </Row>
-          <ProductList handleSearchClick={name => handleSearchClick(name)} handleProductChange={product => handleChosenProductChange(product)} products={productsFiltered} chosenProducts={chosenProducts} />
+          <ProductList handleSearchClick={name => handleSearchClick(name)} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} handleProductChange={product => handleChosenProductChange(product)} products={productsFiltered} chosenProducts={chosenProducts} />
         </div>
         : null}
       <p style={{ color: 'red' }}>{error}</p>

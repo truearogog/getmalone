@@ -190,7 +190,7 @@ export function Product({ handlePageChange, productid: productId }) {
 			<FormButton onClick={() => handlePageChange('MainPage')}>Cancel</FormButton>
 
 			<CommentWrapper>
-				<CommentForm productId={product.id} />
+				<CommentForm productId={product.id} getComments={getComments}/>
 				
 				{comments != ''
 					? comments.map(comment => <Comment key={uuidv4()} data={comment} />)
