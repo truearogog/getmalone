@@ -15,6 +15,11 @@ export function Profile() {
 		'MainPage': true
 	});
 	
+	const [productId, setId] =
+	useState({
+		'id': -1
+	});
+	
 	async function checkAunthentication() {
     try {
       const response = await fetch(variables.API_URL + 'auth/user')
@@ -59,11 +64,6 @@ export function Profile() {
 		setpageEnabled(allPages)
 	}
 
-	const [productId, setId] =
-	useState({
-		'id': -1
-	});
-
 	function getId(id) {
 		function reset() {
 			let prodId = productId
@@ -78,6 +78,7 @@ export function Profile() {
 		setId(prodId)
 	}
 
+	
 	return (
 		<div>
 			{user != null ?

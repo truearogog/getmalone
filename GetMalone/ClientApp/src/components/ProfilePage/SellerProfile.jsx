@@ -9,25 +9,25 @@ export function SellerProfile({ getId, handlePageChange, user }) {
   const [products, setSellerProducts] = useState([])
   const [error, setError] = useState('')
 
+  const [productsFiltered, setProductsFiltered] = useState([])
+  
   async function getSellerProducts() {
-    //console.log(user.user.id)
     const formData = { id: user.user.id }
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     }
-    //console.log(requestOptions)
 
 		try {
 			const response = await fetch(variables.API_URL + 'product/seller', requestOptions);
-      //console.log(response)
 			if (!response.ok) throw new Error(response.statusText, requestOptions)
 
 			const data = await response.json();
 			if (data.success == false) throw new Error(data.error, requestOptions)
 
       setSellerProducts(data.data);
+      setProductsFiltered(data.data)
 		}
 		catch (err) {
 			console.log(err)
@@ -38,11 +38,15 @@ export function SellerProfile({ getId, handlePageChange, user }) {
 	useEffect(() => {
 		getSellerProducts()
 	}, [])
-
+  
+  function handleSearchClick(name) {
+    setProductsFiltered(products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
+  }
+  
   return (
     <Container>
       <ProfileData data={user} />
-      {<ProductList getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} products={products} />}
+      {<ProductList handleSearchClick={name => handleSearchClick(name)} getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} products={productsFiltered} />}
       <p style={{ color: 'red' }}>{error}</p>
     </Container>
   );

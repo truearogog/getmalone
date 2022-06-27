@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import { ProfileData } from './ProfileData';
 import { ProductList } from './ProductList';
@@ -20,7 +20,7 @@ let products = [
       },
     },
   },
-{
+  {
     name: "Potato",
     description: "nice and cheap",
     priceEuro: 0.39,
@@ -78,11 +78,23 @@ let products = [
   },
 ]
 
+
+
 export function UserProfile({ getId, handlePageChange, user }) {
+  const [productsFiltered, setProductsFiltered] = useState([])
+  
+  function handleSearchClick(name) {
+    setProductsFiltered(products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
+  }
+  
+  useEffect(() => {
+    setProductsFiltered(products)
+  }, [])
+  
   return (
     <Container>
       <ProfileData data={user} />
-      <ProductList getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} title={title} products={products} />
+      <ProductList handleSearchClick={name => handleSearchClick(name)} getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} title={title} products={productsFiltered} />
     </Container>
   );
 }
