@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { UserProfile } from '../components/ProfilePage/UserProfile';
 import { SellerProfile } from '../components/ProfilePage/SellerProfile';
 import { Product } from '../components/ProductPage/Product'
+import { variables } from '../services/variables';
 import { UserContext } from '../services/UserContext';
 
 export function Profile() {
