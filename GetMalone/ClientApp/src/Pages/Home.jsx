@@ -8,10 +8,10 @@ import { ProductList } from '../components/ProfilePage/ProductList';
 import { Product } from '../components/ProductPage/Product'
 
 export function Home() {
+  const { user, setUser } = useContext(UserContext);
 
   const [products, setProducts] = useState([])
   const [productsFiltered, setProductsFiltered] = useState([])
-  const { user, setUser } = useContext(UserContext);
   const [error, setError] = useState('')
 
   const [chosenProducts, setChosenProducts] = useState([])
@@ -21,7 +21,7 @@ export function Home() {
       'AddProductPage': false,
       'ShoppingCartPage': false,
       'ProductPage': false,
-      'HomePage': true
+      'MainPage': true
     });
 
   const [productId, setId] =
@@ -37,7 +37,7 @@ export function Home() {
       const data = await response.json();
       if (data.success == false) throw new Error(data.error)
 
-      setProducts(data.data);
+      setProducts(data.data)
       setProductsFiltered(data.data)
     }
     catch (err) {
@@ -51,18 +51,18 @@ export function Home() {
   }, [])
 
   function getId(id) {
-		function reset() {
-			let prodId = productId
+    function reset() {
+      let prodId = productId
 
-			setId(prodId)
-			return prodId
-		}
+      setId(prodId)
+      return prodId
+    }
 
-		let prodId = reset()
-		prodId['id'] = id
+    let prodId = reset()
+    prodId['id'] = id
 
-		setId(prodId)
-	}
+    setId(prodId)
+  }
 
   function changeActiveWindow(name) {
     function getPages() {
@@ -126,10 +126,10 @@ export function Home() {
 
   return (
     <div>
-      {pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} productid={productId.id}/> : null}
+      {pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} productid={productId.id} /> : null}
       {pageEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
       {pageEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} /> : null}
-      {pageEnabled['HomePage'] ?
+      {pageEnabled['MainPage'] ?
         <div>
           <Row>
             <h1>GetMalone.lv</h1>

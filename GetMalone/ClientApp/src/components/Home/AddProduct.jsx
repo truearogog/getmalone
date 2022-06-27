@@ -32,7 +32,7 @@ export function AddProduct({ handlePageChange }) {
 			const data = await response.json();
 			if (data.success == false) throw new Error(data.error, requestOptions)
 
-			handlePageChange('HomePage')
+			handlePageChange('MainPage')
 
 			alert("Product added");
 		}
@@ -91,7 +91,7 @@ export function AddProduct({ handlePageChange }) {
 					<FormItem type="text" placeholder="Price of the product in euro" name="priceEuro" value={priceEuro} onChange={e =>
 						onChange(e, setPriceEuro, 6)} />
 					<FormButton type="submit">Submit</FormButton>
-					<FormButton onClick={() => handlePageChange('HomePage')}>Cancel</FormButton>
+					<FormButton onClick={() => handlePageChange('MainPage')}>Cancel</FormButton>
 				</FormFields>
 			</FormContainer>
 			<p style={{ color: 'red' }}>{error}</p>

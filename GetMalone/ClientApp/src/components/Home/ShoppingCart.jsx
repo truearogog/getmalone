@@ -6,12 +6,12 @@ import { Container, FormButton } from '../Form/FormTemplate'
 
 export function ShoppingCart({ handleProductChange, chosenProducts, handlePageChange }) {
 	const [productsFiltered, setProductsFiltered] = useState(chosenProducts)
-	
+
 	const searchText = useRef('');
-	
+
 	function handleOrderConfirm() {
 		handleProductChange('reset')
-		handlePageChange('HomePage')
+		handlePageChange('MainPage')
 
 		alert("Order confirmed!");
 	}
@@ -25,24 +25,24 @@ export function ShoppingCart({ handleProductChange, chosenProducts, handlePageCh
 
 		return (Math.round((cost + Number.EPSILON) * 100) / 100).toFixed(2);
 	}
-	
+
 	useEffect(() => {
 		setProductsFiltered(chosenProducts)
 		handleSearchClick(searchText.current)
 	}, [chosenProducts])
-	
+
 	function handleSearchClick(name) {
 		searchText.current = name
-    setProductsFiltered(chosenProducts.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
-  }
-	
+		setProductsFiltered(chosenProducts.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
+	}
+
 	return (
 		<Container>
 			{<ProductList handleSearchClick={name => handleSearchClick(name)} handleProductChange={name => handleProductChange(name)} products={productsFiltered} title={"Your Shopping Cart"} />}
 			{<p>Total cost: {getTotalCost()}€</p>}
 			<FormButton onClick={handleOrderConfirm}>Confirm order</FormButton>
 			<br />
-			<FormButton onClick={() => handlePageChange('HomePage')}>Cancel</FormButton>
+			<FormButton onClick={() => handlePageChange('MainPage')}>Cancel</FormButton>
 		</Container>
 	);
 }
