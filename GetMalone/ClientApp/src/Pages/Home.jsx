@@ -9,18 +9,19 @@ import { ProductList } from '../components/ProfilePage/ProductList';
 export function Home() {
 
   const [products, setProducts] = useState([])
+  const [productsFiltered, setProductsFiltered] = useState([])
   const { user, setUser } = useContext(UserContext);
   const [error, setError] = useState('')
 
   const [chosenProducts, setChosenProducts] = useState([])
-  
+
   const [pageEnabled, setpageEnabled] =
-  useState({
-    'AddProductPage': false,
-    'ShoppingCartPage': false,
-    'HomePage': true
-  });
-  
+    useState({
+      'AddProductPage': false,
+      'ShoppingCartPage': false,
+      'HomePage': true
+    });
+
   async function getProducts() {
     try {
       const response = await fetch(variables.API_URL + 'product/all');
@@ -30,18 +31,17 @@ export function Home() {
       if (data.success == false) throw new Error(data.error)
 
       setProducts(data.data);
+      setProductsFiltered(data.data)
     }
     catch (err) {
       console.log(err)
       setError("" + err)
     }
   }
-  
+
   useEffect(() => {
     getProducts()
   }, [])
-
-  const forceUpdate = React.useReducer(() => ({}), {})[1]
 
   function changeActiveWindow(name) {
     function getPages() {
@@ -67,7 +67,7 @@ export function Home() {
     allPages[name] = true
 
     setpageEnabled(allPages)
-    
+
     getProducts()
   }
 
@@ -99,6 +99,10 @@ export function Home() {
     setChosenProducts(tempChosenProducts)
   }
 
+  function handleSearchClick(name) {
+    setProductsFiltered(products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
+  }
+
   return (
     <div>
       {pageEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
@@ -109,7 +113,7 @@ export function Home() {
             <h1>GetMalone.lv</h1>
             {userButton()}
           </Row>
-          <ProductList handleProductChange={product => handleChosenProductChange(product)} products={products} chosenProducts={chosenProducts} />
+          <ProductList handleSearchClick={name => handleSearchClick(name)} handleProductChange={product => handleChosenProductChange(product)} products={productsFiltered} chosenProducts={chosenProducts} />
         </div>
         : null}
       <p style={{ color: 'red' }}>{error}</p>
