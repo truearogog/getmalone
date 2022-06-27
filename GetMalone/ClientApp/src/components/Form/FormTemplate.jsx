@@ -68,7 +68,7 @@ export const FormDropDown = styled.select`
 	}
 `;
 
-export const FormButton = styled.button`
+export const FormButton= styled.button`
 	width: 45%;
 	min-width: 120px;
 	margin: 0 auto;
@@ -82,7 +82,26 @@ export const FormButton = styled.button`
 	
 	&:hover {
 		border: 1px solid #006fdc!important;
-    background: #006fdc!important;
+    	background: #006fdc!important;
+		cursor: pointer;
+	}
+`;
+
+export const BigFormButton= styled.button`
+	width: 55%;
+	min-width: 120px;
+	margin: 0 auto;
+	margin-top: 15px;
+	height: 40px;
+	border-radius: 4px;
+	border: 1px solid #77dd77;
+	background: #77dd77!important;
+    color: #fff;
+	transition: background .3s;
+	
+	&:hover {
+		border: 1px solid #4ed34e!important;
+    	background: #4ed34e!important;
 		cursor: pointer;
 	}
 `;
