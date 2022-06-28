@@ -33,6 +33,8 @@ namespace GetMalone.Data
                 .Include(o => o.DeliveryOption.DeliveryType)
                 .Include(o => o.Products)
                 .ThenInclude(p => p.Category)
+                .Include(o => o.Products)
+                .ThenInclude(p => p.Seller)
                 .Where(o => o.BuyerId.Equals(buyerId));
         }
 
