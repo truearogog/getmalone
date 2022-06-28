@@ -8,7 +8,7 @@ export function ProfileData({ data }) {
 
 			<ProfileLogo>
 				<Image src={data.user.imageUrl} />
-				<Rating data={data.rating} />
+				{/*<Rating data={data.rating} />*/}
 			</ProfileLogo>
 			<ProfileInfo>
 				<Name user={data.user} />
