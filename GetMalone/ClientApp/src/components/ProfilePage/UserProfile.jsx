@@ -137,4 +137,5 @@ const Container = styled.div`
   width: 60%;
 	margin: 0 auto;
 	background: #f3f3f3;
+  padding-bottom: 50px;
 `;
