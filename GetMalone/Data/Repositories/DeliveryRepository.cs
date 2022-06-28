@@ -33,6 +33,16 @@ namespace GetMalone.Data
             return GetAllOptions().FirstOrDefault(dop => dop.Id.Equals(optionId));
         }
 
+        public IQueryable<DeliveryOption> GetOptionsByCompanyId(int companyId)
+        {
+            return GetAllOptions().Where(dop => dop.DeliveryCompanyId.Equals(companyId));
+        }
+
+        public IQueryable<DeliveryOption> GetOptionsByTypeId(int typeId)
+        {
+            return GetAllOptions().Where(dop => dop.DeliveryTypeId.Equals(typeId));
+        }
+
         public DeliveryType? GetTypeById(int typeId)
         {
             return GetAllTypes().FirstOrDefault(dt => dt.Id.Equals(typeId));
