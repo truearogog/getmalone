@@ -112,7 +112,6 @@ export function UserProfile({ getId, handlePageChange, user }) {
       const data = await response.json();
       if (data.success == false) throw new Error(data.error)
 
-      console.log(data.data)
       setOrders(data.data)
     }
     catch (err) {
