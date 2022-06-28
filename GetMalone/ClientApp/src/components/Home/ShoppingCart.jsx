@@ -104,7 +104,7 @@ export function ShoppingCart({ getId, handleProductChange, chosenProducts, handl
 				</FormDropDown>
 				{<p>Total cost: <b>{getTotalCost()}€</b></p>}
 			</>
-			: <p>Total cost: <b>0.00€</b></p>
+			: <div><p>Nothing was added yet...</p><p>Total cost: <b>0.00€</b></p></div>
 			}
 			{ (chosenProducts.length != 0) ? <FormButton onClick={e => handleOrderConfirm(e)}>Confirm order</FormButton> : null }
 			<br />

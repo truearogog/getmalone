@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { variables } from '../../../services/variables';
-import {FormContainer, FormTitle, FormFields, FormItem, FormButton} from '../../Form/FormTemplate'
+import {FormContainer, FormTitle, FormFields, FormTextArea, FormButton} from '../../Form/FormTemplate'
 
 
 export function CommentForm({ productId, getComments = () => {} }) {
@@ -41,11 +41,9 @@ export function CommentForm({ productId, getComments = () => {} }) {
 		<div>
 			<FormContainer onSubmit={handleSubmit}>
 				<FormTitle>Add comment:</FormTitle>
-				<FormFields>
-					<FormItem type="text" placeholder="Text" name="text" value={text} onChange={e =>
-						setText(e.target.value)} />
-					<FormButton type="submit">Submit</FormButton>
-				</FormFields>
+				<FormTextArea type="text" placeholder="Text" name="text" value={text} onChange={e =>
+					setText(e.target.value)} />
+				<FormButton type="submit">Submit</FormButton>
 			</FormContainer>
 			<p style={{ color: 'red' }}>{error}</p>
 		</div>

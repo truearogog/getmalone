@@ -48,6 +48,27 @@ export const FormItem = styled.input`
 	}
 `;
 
+export const FormTextArea = styled.textarea`
+	width: 100%;
+	font-size: 17px;
+	margin-bottom: 15px;
+	height: 80px;
+	resize: none;
+	padding: 10px;
+    box-shadow: none!important;
+	border-radius: 4px;
+    border: 1px solid rgba(0,0,0,.1);
+	z-index: 1;
+
+	&.half {
+		width: 42%;
+	}
+
+	&:focus {
+		outline: none;
+	}
+`;
+
 export const FormDropDown = styled.select`
 	width: 100%;
 	font-size: 14px;

@@ -89,14 +89,25 @@ const ProfileDataWrapper = styled.div`
 
 //-------left side---------------
 const ProfileLogo = styled.div`
-  width: 40%;
+	width: 40%;
 	text-align: center;
 `;
 const Image = styled.img`
-  width: 250px;
-	height: 250px;
 	padding-top: 40px;
 	border-radius: 50%;
+
+	max-width: 100%;
+  	width: 250px;
+	height: 250px;
+
+	@media (max-width: 1400px) {
+		width: 200px;
+		height: 200px;
+	}
+	@media (max-width: 1000px) {
+		width: 150px;
+		height: 150px;
+	}
 `;
 const RatingWrapper = styled.p`
 	font-size: 30px;
@@ -114,10 +125,22 @@ const NameWrapper = styled.div`
 	padding-top: 20px;
 	padding-left: 80px;
 	margin-bottom: -20px;
+
+	@media (max-width: 1000px) {
+		font-size: 30px;
+	}
 `;
 const InfoWrapper = styled.div`
 	line-height: 10px;
 	padding-left: 100px;
+
+	@media (max-width: 1000px) {
+		font-size: 16px;
+		p {
+			line-height: 20px;
+		}
+	}
+	
 `;
 const InfoTitle = styled.p`
 	padding-top: 10px;
@@ -125,4 +148,8 @@ const InfoTitle = styled.p`
 	margin-left: -20px;
 	line-height: 15px;
 	font-weight: 600;
+
+	@media (max-width: 1000px) {
+		font-size: 18px;
+	}
 `;
