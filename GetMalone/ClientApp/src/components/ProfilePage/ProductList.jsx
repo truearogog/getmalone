@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components'
 import { FormButton } from '../Form/FormTemplate'
 import { v4 as uuidv4 } from 'uuid';
 import { Search } from './Search'
+import { UserContext } from '../../services/Contexts'
+
 
 const id = 0
 let forceUpdate
@@ -34,6 +36,8 @@ function List({ getId, handlePageChange, handleProductChange, data, chosenProduc
 }
 
 function ProductItem({ getId, handlePageChange, handleProductChange, data, isChosen }) {
+	const { user, setUser } = useContext(UserContext);
+
 	return (
 		<ProductItemWrapper style={isChosen === true ? { backgroundColor: '#cecccc' } : null}>
 			<div onClick={() => {
@@ -49,13 +53,17 @@ function ProductItem({ getId, handlePageChange, handleProductChange, data, isCho
 					<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p>
 				</Info>
 			</div>
-			<FormButton onClick={() => {
-				handleProductChange(data)
-				forceUpdate()
-			}}>
-				{isChosen === true ? "Remove from Cart" : "Add to Cart"}
-			</FormButton>
-			<p style={isChosen === true ? { color: 'green' } : null}> {isChosen === true ? "Successfully Added!" : <br />}</p>
+			{user?.role === 'buyer' ?
+				<>
+					<FormButton onClick={() => {
+						handleProductChange(data)
+						forceUpdate()
+					}}>
+						{isChosen === true ? "Remove from Cart" : "Add to Cart"}
+					</FormButton>
+					<p style={isChosen === true ? { color: 'green' } : null}> {isChosen === true ? "Successfully Added!" : <br />}</p>
+				</>
+				: null}
 		</ProductItemWrapper>
 	)
 }
