@@ -3,10 +3,12 @@ import { variables } from '../../services/variables';
 import styled from 'styled-components'
 import { ProfileData } from './ProfileData';
 import { ProductList } from './ProductList';
+import { Orders } from './Orders'
 
 export function SellerProfile({ getId, handlePageChange, user }) {
-
+  
   const [products, setSellerProducts] = useState([])
+  const [ordersData, setOrdersData] = useState([])
   const [error, setError] = useState('')
 
   const [productsFiltered, setProductsFiltered] = useState([])
@@ -34,9 +36,31 @@ export function SellerProfile({ getId, handlePageChange, user }) {
       setError("" + err)
     }
   }
+  
+  async function getOrders() {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    }
 
+    try {
+      const response = await fetch(variables.API_URL + 'order/seller', requestOptions);
+      if (!response.ok) throw new Error(response.statusText)
+
+      const data = await response.json();
+      if (data.success == false) throw new Error(data.error)
+
+      setOrdersData(data.data)
+    }
+    catch (err) {
+      console.log(err)
+      setError(err)
+    }
+  }
+  
   useEffect(() => {
     getSellerProducts()
+    getOrders()
   }, [])
 
   function handleSearchClick(name) {
@@ -47,7 +71,7 @@ export function SellerProfile({ getId, handlePageChange, user }) {
     <Container>
       <ProfileData data={user} />
       {<ProductList handleSearchClick={name => handleSearchClick(name)} getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} products={productsFiltered} />}
-      <p style={{ color: 'red' }}>{error}</p>
+      <Orders title='Orders on Your products' data={ordersData} />
     </Container>
   );
 }

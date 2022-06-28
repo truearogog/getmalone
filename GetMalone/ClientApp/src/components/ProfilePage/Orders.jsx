@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid';
 
-export function Orders({ data }) {
+export function Orders({ title='Your orders', data }) {
 	return (
 		<>
-			<ListTitle>Orders</ListTitle>
+			<ListTitle>{title}</ListTitle>
 			{data.map(item => <OrderItem key={uuidv4()} data={item} />)}
 		</>
 	)
