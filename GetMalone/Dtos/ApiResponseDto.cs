@@ -24,7 +24,7 @@ namespace GetMalone.Dtos
                 Success = false;
             }
         }
-        public ApiResponseDto(Func<object> func, string? error = null)
+        public ApiResponseDto(Func<object?> func, string? error = null)
         {
             try
             {

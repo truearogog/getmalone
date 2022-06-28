@@ -6,6 +6,11 @@ namespace GetMalone.Data
 {
     public class Product
     {
+        public Product()
+        {
+            Orders = new HashSet<Order>();
+        }
+
         [Key]
         public int Id { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
@@ -22,5 +27,6 @@ namespace GetMalone.Data
         public decimal PriceEuro { get; set; }
 
         [JsonIgnore] public List<Comment> Comments { get; set; }
+        [JsonIgnore] public virtual ICollection<Order> Orders { get; set; }
     }
 }

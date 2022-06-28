@@ -10,7 +10,7 @@ namespace GetMalone.Data
         public DateTime Created { get; set; } = DateTime.Now;
         public string Body { get; set; }
         public int BuyerId { get; set; }
-        [JsonIgnore] public Buyer Buyer { get; set; }
+        public Buyer Buyer { get; set; }
         public int ProductId { get; set; }
         [JsonIgnore] public Product Product { get; set; }
     }

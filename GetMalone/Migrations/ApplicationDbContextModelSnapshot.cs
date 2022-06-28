@@ -83,6 +83,87 @@ namespace GetMalone.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("GetMalone.Data.DeliveryCompany", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeliveryCompanies");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.DeliveryOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeliveryCompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeliveryTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PriceEuro")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveryCompanyId");
+
+                    b.HasIndex("DeliveryTypeId");
+
+                    b.ToTable("DeliveryOptions");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.DeliveryType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeliveryTypes");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("DeliveryOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PriceEuro")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuyerId");
+
+                    b.HasIndex("DeliveryOptionId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("GetMalone.Data.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -203,6 +284,21 @@ namespace GetMalone.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrdersId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("OrderProduct");
+                });
+
             modelBuilder.Entity("GetMalone.Data.Buyer", b =>
                 {
                     b.HasOne("GetMalone.Data.User", "User")
@@ -231,6 +327,44 @@ namespace GetMalone.Migrations
                     b.Navigation("Buyer");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.DeliveryOption", b =>
+                {
+                    b.HasOne("GetMalone.Data.DeliveryCompany", "DeliveryCompany")
+                        .WithMany("DeliveryOptions")
+                        .HasForeignKey("DeliveryCompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GetMalone.Data.DeliveryType", "DeliveryType")
+                        .WithMany("DeliveryOptions")
+                        .HasForeignKey("DeliveryTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DeliveryCompany");
+
+                    b.Navigation("DeliveryType");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.Order", b =>
+                {
+                    b.HasOne("GetMalone.Data.Buyer", "Buyer")
+                        .WithMany("Orders")
+                        .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GetMalone.Data.DeliveryOption", "DeliveryOption")
+                        .WithMany()
+                        .HasForeignKey("DeliveryOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("DeliveryOption");
                 });
 
             modelBuilder.Entity("GetMalone.Data.Product", b =>
@@ -282,9 +416,26 @@ namespace GetMalone.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.HasOne("GetMalone.Data.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GetMalone.Data.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GetMalone.Data.Buyer", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Orders");
 
                     b.Navigation("Reviews");
                 });
@@ -292,6 +443,16 @@ namespace GetMalone.Migrations
             modelBuilder.Entity("GetMalone.Data.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.DeliveryCompany", b =>
+                {
+                    b.Navigation("DeliveryOptions");
+                });
+
+            modelBuilder.Entity("GetMalone.Data.DeliveryType", b =>
+                {
+                    b.Navigation("DeliveryOptions");
                 });
 
             modelBuilder.Entity("GetMalone.Data.Product", b =>

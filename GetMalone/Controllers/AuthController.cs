@@ -1,6 +1,7 @@
 ﻿using GetMalone.Data;
 using GetMalone.Dtos;
 using GetMalone.Helpers;
+using GetMalone.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GetMalone.Controllers
@@ -20,6 +21,14 @@ namespace GetMalone.Controllers
 
         private User NewUser(RegisterDto dto)
         {
+            if (!RegexUtilities.IsValidEmail(dto.Email))
+                throw new Exception("Email is not valid");
+            if (string.IsNullOrEmpty(dto.Password))
+                throw new Exception("Password does not match requirements");
+            if (string.IsNullOrEmpty(dto.Name))
+                throw new Exception("Name cannot be empty");
+            if (string.IsNullOrEmpty(dto.Surname))
+                throw new Exception("Surname cannot be empty");
             return new User
             {
                 Email = dto.Email,

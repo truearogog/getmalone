@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System.Reflection;
 
 namespace GetMalone.Data
 {
@@ -18,6 +17,10 @@ namespace GetMalone.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<DeliveryType> DeliveryTypes { get; set; }
+        public DbSet<DeliveryCompany> DeliveryCompanies { get; set; }
+        public DbSet<DeliveryOption> DeliveryOptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -80,6 +83,21 @@ namespace GetMalone.Data
                 .WithMany(b => b.Reviews)
                 .HasForeignKey(r => r.BuyerId)
                 .OnDelete(DeleteBehavior.Restrict);
+            // order - buyer
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Buyer)
+                .WithMany(b => b.Orders)
+                .HasForeignKey(o => o.BuyerId);
+            // deliveryOption - deliveryType
+            modelBuilder.Entity<DeliveryOption>()
+                .HasOne(dop => dop.DeliveryType)
+                .WithMany(dt => dt.DeliveryOptions)
+                .HasForeignKey(dop => dop.DeliveryTypeId);
+            // deliveryOption - deliveryCompany
+            modelBuilder.Entity<DeliveryOption>()
+                .HasOne(dop => dop.DeliveryCompany)
+                .WithMany(dc => dc.DeliveryOptions)
+                .HasForeignKey(dop => dop.DeliveryCompanyId);
         }
     }
 }
