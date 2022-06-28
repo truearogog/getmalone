@@ -10,11 +10,13 @@ namespace GetMalone.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly Config _config;
         private readonly IUserRepository _userRepository;
         private readonly JwtService _jwtService;
 
-        public AuthController(IUserRepository userRepository, JwtService jwtService)
+        public AuthController(Config config, IUserRepository userRepository, JwtService jwtService)
         {
+            _config = config;
             _userRepository = userRepository;
             _jwtService = jwtService;
         }
@@ -29,13 +31,15 @@ namespace GetMalone.Controllers
                 throw new Exception("Name cannot be empty");
             if (string.IsNullOrEmpty(dto.Surname))
                 throw new Exception("Surname cannot be empty");
+            dto.ImageUrl ??= _config.DefaultUserImageUrl;
             return new User
             {
                 Email = dto.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                 Phone = dto.Phone,
                 Name = dto.Name,
-                Surname = dto.Surname
+                Surname = dto.Surname,
+                ImageUrl = dto.ImageUrl
             };
         }
 

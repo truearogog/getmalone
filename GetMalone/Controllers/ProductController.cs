@@ -43,13 +43,17 @@ namespace GetMalone.Controllers
                 var seller = _userRepository.GetSellerById(userId);
                 if (seller == null) throw new Exception();
 
+                var category = _productCategoryRepository.GetById(dto.CategoryId);
+                if (category == null) throw new Exception();
+
                 var product = new Product
                 {
                     Seller = seller,
                     Name = dto.Name,
                     Description = dto.Description,
                     CategoryId = dto.CategoryId,
-                    PriceEuro = dto.PriceEuro
+                    PriceEuro = dto.PriceEuro,
+                    ImageUrl = dto.ImageUrl ?? category.ImageUrl
                 };
 
                 return _productRepository.Create(product);
@@ -71,10 +75,14 @@ namespace GetMalone.Controllers
                 var product = _productRepository.GetById(dto.Id);
                 if (product == null) throw new Exception();
 
+                var category = _productCategoryRepository.GetById(dto.CategoryId);
+                if (category == null) throw new Exception();
+
                 product.Name = dto.Name;
                 product.Description = dto.Description;
                 product.CategoryId = dto.CategoryId;
                 product.PriceEuro = dto.PriceEuro;
+                product.ImageUrl = dto.ImageUrl ?? category.ImageUrl;
 
                 product = _productRepository.Update(product);
 

@@ -1,4 +1,6 @@
-﻿namespace GetMalone.Data
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace GetMalone.Data
 {
     public class CategoryRepository : Repository, ICategoryRepository
     {
@@ -11,7 +13,7 @@
 
         public Category? GetById(int categoryId)
         {
-            return _context.Categories.FirstOrDefault(pc => pc.Id.Equals(categoryId));
+            return _context.Categories.FirstOrDefault(c => c.Id.Equals(categoryId));
         }
     }
 }

@@ -23,8 +23,8 @@ namespace GetMalone.Data
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-
         public decimal PriceEuro { get; set; }
+        public string ImageUrl { get; set; }
 
         [JsonIgnore] public List<Comment> Comments { get; set; }
         [JsonIgnore] public virtual ICollection<Order> Orders { get; set; }

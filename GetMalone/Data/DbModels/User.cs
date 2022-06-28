@@ -13,7 +13,7 @@ namespace GetMalone.Data
         public string Phone { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-
+        public string ImageUrl { get; set; }
         [JsonIgnore] public Seller Seller { get; set; }
         [JsonIgnore] public Buyer Buyer { get; set; }
     }
