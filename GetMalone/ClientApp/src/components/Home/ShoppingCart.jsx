@@ -93,7 +93,7 @@ export function ShoppingCart({ handleProductChange, chosenProducts, handlePageCh
 
 	return (
 		<Container>
-			{<ProductList handleSearchClick={name => handleSearchClick(name)} handleProductChange={name => handleProductChange(name)} products={productsFiltered} title={"Your Shopping Cart"} />}
+			{<ProductList handleSearchClick={name => handleSearchClick(name)} handleProductChange={name => handleProductChange(name)} chosenProducts={chosenProducts} products={productsFiltered} title={"Your Shopping Cart"} />}
 			Delivery type:
 					<FormDropDown onChange={(e) => setCurrentDelivery(deliveries[e.target.value - 1])} value={currentDelivery.id} name="categories">
 						{deliveries.map(item => {
