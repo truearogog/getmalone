@@ -98,15 +98,15 @@ const ListWrapper = styled.div`
 const ProductItemWrapper = styled.div`
 	width: 21%;
 
-	@media(max-width: 1200px) {
+	@media(max-width: 1500px) {
 		width: 30%;
 	}
 
-	@media(max-width: 800px) {
+	@media(max-width: 1000px) {
 		width: 45%;
 	}
 
-	@media(max-width: 600px) {
+	@media(max-width: 700px) {
 		width: 90%;
 	}
 

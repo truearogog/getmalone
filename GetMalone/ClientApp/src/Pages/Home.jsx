@@ -5,6 +5,7 @@ import { ShoppingCart } from '../components/Home/ShoppingCart'
 import { UserContext, ProductContext, PagesContext } from '../services/Contexts';
 import { variables } from '../services/variables';
 import { ProductList } from '../components/ProfilePage/ProductList';
+import { Container } from '../components/Form/FormTemplate';
 import { Product } from '../components/ProductPage/Product'
 
 export function Home() {
@@ -121,13 +122,13 @@ export function Home() {
       {componentEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
       {componentEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} /> : null}
       {componentEnabled['MainPage'] ?
-        <div>
+        <Container>         
           <Row>
             <h1>GetMalone.lv</h1>
             {userButton()}
           </Row>
           <ProductList handleSearchClick={name => handleSearchClick(name)} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} handleProductChange={product => handleChosenProductChange(product)} products={productsFiltered} chosenProducts={chosenProducts} />
-        </div>
+        </Container>
         : null}
       <p style={{ color: 'red' }}>{error}</p>
     </div>
