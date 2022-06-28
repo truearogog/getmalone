@@ -16,6 +16,7 @@ namespace GetMalone.Data
         public Order? GetById(int orderId)
         {
             return _context.Orders
+                .Include(o => o.DeliveryOption)
                 .Include(o => o.Buyer)
                 .Include(o => o.Products)
                 .FirstOrDefault(o => o.Id.Equals(orderId));
@@ -24,6 +25,7 @@ namespace GetMalone.Data
         public IQueryable<Order> GetByBuyerId(int buyerId)
         {
             return _context.Orders
+                .Include(o => o.DeliveryOption)
                 .Include(o => o.Products)
                 .Where(o => o.BuyerId.Equals(buyerId));
         }
@@ -31,6 +33,7 @@ namespace GetMalone.Data
         public IQueryable<Order> GetBySellerId(int sellerId)
         {
             return _context.Orders
+                .Include(o => o.DeliveryOption)
                 .Include(o => o.Buyer)
                 .Include(o => o.Products)
                 .Where(o => o.Products.Any(p => p.SellerId.Equals(sellerId)))
@@ -41,6 +44,8 @@ namespace GetMalone.Data
                     PriceEuro = o.PriceEuro,
                     BuyerId = o.BuyerId,
                     Buyer = o.Buyer,
+                    DeliveryOptionId = o.DeliveryOptionId,
+                    DeliveryOption = o.DeliveryOption,
                     Products = o.Products.Where(p => p.SellerId.Equals(sellerId)).ToHashSet()
                 });
         }
