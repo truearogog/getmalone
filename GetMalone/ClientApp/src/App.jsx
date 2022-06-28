@@ -6,12 +6,12 @@ import { Profile } from './Pages/Profile';
 import { About } from './Pages/About';
 
 import './custom.css'
-import { UserContext } from './services/UserContext';
+import { UserContext } from './services/Contexts';
 import { variables } from './services/variables';
 
 export default function App() {
   const [user, setUser] = useState(false)
-
+  
   async function checkAunthentication() {
     try {
       const response = await fetch(variables.API_URL + 'auth/user')

@@ -2,19 +2,17 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { AddProduct } from '../components/Home/AddProduct'
 import { ShoppingCart } from '../components/Home/ShoppingCart'
-import { UserContext } from '../services/UserContext';
+import { UserContext, ProductContext } from '../services/Contexts';
 import { variables } from '../services/variables';
 import { ProductList } from '../components/ProfilePage/ProductList';
 import { Product } from '../components/ProductPage/Product'
 
 export function Home() {
   const { user, setUser } = useContext(UserContext);
+  const { products, setProducts, chosenProducts, setChosenProducts } = useContext(ProductContext)
 
-  const [products, setProducts] = useState([])
   const [productsFiltered, setProductsFiltered] = useState([])
   const [error, setError] = useState('')
-
-  const [chosenProducts, setChosenProducts] = useState([])
 
   const [pageEnabled, setpageEnabled] =
     useState({
@@ -126,7 +124,7 @@ export function Home() {
 
   return (
     <div>
-      {pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} userId={user.info.user.id} productid={productId.id} /> : null}
+      {pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} userId={user?.info.user.id} productid={productId.id} /> : null}
       {pageEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
       {pageEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} /> : null}
       {pageEnabled['MainPage'] ?

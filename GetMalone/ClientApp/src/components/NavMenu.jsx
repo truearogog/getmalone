@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { UserContext } from '../services/UserContext';
+import { UserContext } from '../services/Contexts';
 import { variables } from '../services/variables';
 
 export function NavMenu({ handlePageChange }) {

@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components'
 import { ProfileData } from './ProfileData';
 import { ProductList } from './ProductList';
+import { ProductContext } from '../../services/Contexts'
 
 let title = "Recommended Products";
 
 let products = [
   {
+    id: 101,
     name: "Apple",
     description: "best apples",
     priceEuro: 0.99,
@@ -21,6 +23,7 @@ let products = [
     },
   },
   {
+    id: 102,
     name: "Potato",
     description: "nice and cheap",
     priceEuro: 0.39,
@@ -35,6 +38,7 @@ let products = [
     },
   },
   {
+    id: 103,
     name: "Cucumber",
     description: "fresh and homemade",
     priceEuro: 0.49,
@@ -49,6 +53,7 @@ let products = [
     },
   },
   {
+    id: 104,
     name: "Pear",
     description: "yummy",
     priceEuro: 1.29,
@@ -63,6 +68,7 @@ let products = [
     },
   },
   {
+    id: 105,
     name: "Beetroot",
     description: null,
     priceEuro: 0.79,
@@ -78,23 +84,40 @@ let products = [
   },
 ]
 
-
-
 export function UserProfile({ getId, handlePageChange, user }) {
-  const [productsFiltered, setProductsFiltered] = useState([])
+  const { chosenProducts, setChosenProducts } = useContext(ProductContext)
   
+  const [productsFiltered, setProductsFiltered] = useState([])
+
   function handleSearchClick(name) {
     setProductsFiltered(products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
+  }
+  
+  function handleChosenProductChange(product) {
+    if (product === 'reset') {
+      setChosenProducts([])
+      return
+    }
+
+    let tempChosenProducts = chosenProducts
+    if (tempChosenProducts.some(item => item.id === product.id)) {
+      tempChosenProducts = tempChosenProducts.filter(item => item.id !== product.id)
+    }
+    else {
+      tempChosenProducts.push(product)
+    }
+
+    setChosenProducts(tempChosenProducts)
   }
   
   useEffect(() => {
     setProductsFiltered(products)
   }, [])
-  
+
   return (
     <Container>
       <ProfileData data={user} />
-      <ProductList handleSearchClick={name => handleSearchClick(name)} getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} title={title} products={productsFiltered} />
+      <ProductList handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handleSearchClick={name => handleSearchClick(name)} getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} title={title} products={productsFiltered} />
     </Container>
   );
 }

@@ -3,7 +3,7 @@ import { UserProfile } from '../components/ProfilePage/UserProfile';
 import { SellerProfile } from '../components/ProfilePage/SellerProfile';
 import { Product } from '../components/ProductPage/Product'
 import { variables } from '../services/variables';
-import { UserContext } from '../services/UserContext';
+import { UserContext } from '../services/Contexts';
 
 export function Profile() {
 	const { user, setUser } = useContext(UserContext);

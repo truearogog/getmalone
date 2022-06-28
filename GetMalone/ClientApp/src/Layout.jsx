@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { NavMenu } from './components/NavMenu';
 import { Login } from './components/Authentication/Login';
 import { Register } from './components/Authentication/Register';
+import { ProductContext } from './services/Contexts';
 
 export function Layout(component) {
+  const [products, setProducts] = useState([])
+  const [chosenProducts, setChosenProducts] = useState([])
 
   const [pageEnabled, setpageEnabled] =
     useState({
@@ -40,14 +43,16 @@ export function Layout(component) {
 
   return (
     <div>
-      <NavMenu handlePageChange={name => changeActiveWindow(name)} />
-      {pageEnabled['MainPage'] ? <div style={{ padding: '16px', marginTop: '48px' }}>
-        {
-          component.children
-        }
-      </div> : null}
-      {pageEnabled['LoginPage'] ? <Login handlePageChange={name => changeActiveWindow(name)} /> : null}
-      {pageEnabled['RegisterPage'] ? <Register handlePageChange={name => changeActiveWindow(name)} /> : null}
+      <ProductContext.Provider value={{ products, setProducts, chosenProducts, setChosenProducts }}>
+        <NavMenu handlePageChange={name => changeActiveWindow(name)} />
+        {pageEnabled['MainPage'] ? <div style={{ padding: '16px', marginTop: '48px' }}>
+          {
+            component.children
+          }
+        </div> : null}
+        {pageEnabled['LoginPage'] ? <Login handlePageChange={name => changeActiveWindow(name)} /> : null}
+        {pageEnabled['RegisterPage'] ? <Register handlePageChange={name => changeActiveWindow(name)} /> : null}
+      </ProductContext.Provider>
     </div>
   );
 }
