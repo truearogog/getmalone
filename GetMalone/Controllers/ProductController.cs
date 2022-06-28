@@ -82,7 +82,7 @@ namespace GetMalone.Controllers
                 product.Description = dto.Description;
                 product.CategoryId = dto.CategoryId;
                 product.PriceEuro = dto.PriceEuro;
-                product.ImageUrl = dto.ImageUrl ?? category.ImageUrl;
+                product.ImageUrl = string.IsNullOrEmpty(dto.ImageUrl) ? category.ImageUrl : dto.ImageUrl;
 
                 product = _productRepository.Update(product);
 
