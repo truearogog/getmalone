@@ -2,7 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components'
 import { ProfileData } from './ProfileData';
 import { ProductList } from './ProductList';
+import { Orders } from './Orders'
 import { ProductContext } from '../../services/Contexts'
+import { variables } from '../../services/variables';
 
 let title = "Recommended Products";
 
@@ -53,21 +55,6 @@ let products = [
     },
   },
   {
-    id: 104,
-    name: "Pear",
-    description: "yummy",
-    priceEuro: 1.29,
-    type: "Fruits",
-    date: "2022-05-14",
-    category: { name: 'aa' },
-    seller: {
-      user: {
-        name: 'bb',
-        surname: 'cc'
-      },
-    },
-  },
-  {
     id: 105,
     name: "Beetroot",
     description: null,
@@ -86,13 +73,15 @@ let products = [
 
 export function UserProfile({ getId, handlePageChange, user }) {
   const { chosenProducts, setChosenProducts } = useContext(ProductContext)
-  
   const [productsFiltered, setProductsFiltered] = useState([])
+  const [orders, setOrders] = useState([])
+
+  const [error, setError] = useState('')
 
   function handleSearchClick(name) {
     setProductsFiltered(products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
   }
-  
+
   function handleChosenProductChange(product) {
     if (product === 'reset') {
       setChosenProducts([])
@@ -109,15 +98,39 @@ export function UserProfile({ getId, handlePageChange, user }) {
 
     setChosenProducts(tempChosenProducts)
   }
-  
+
+  async function getOrders() {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    }
+
+    try {
+      const response = await fetch(variables.API_URL + 'order/buyer', requestOptions);
+      if (!response.ok) throw new Error(response.statusText)
+
+      const data = await response.json();
+      if (data.success == false) throw new Error(data.error)
+
+      console.log(data.data)
+      setOrders(data.data)
+    }
+    catch (err) {
+      console.log(err)
+      setError(err)
+    }
+  }
+
   useEffect(() => {
     setProductsFiltered(products)
+    getOrders()
   }, [])
 
   return (
     <Container>
       <ProfileData data={user} />
       <ProductList handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handleSearchClick={name => handleSearchClick(name)} getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} title={title} products={productsFiltered} />
+      <Orders data={orders} />
     </Container>
   );
 }
