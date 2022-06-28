@@ -53,7 +53,7 @@ namespace GetMalone.Controllers
                     Description = dto.Description,
                     CategoryId = dto.CategoryId,
                     PriceEuro = dto.PriceEuro,
-                    ImageUrl = dto.ImageUrl ?? category.ImageUrl
+                    ImageUrl = string.IsNullOrEmpty(dto.ImageUrl) ? category.ImageUrl : dto.ImageUrl
                 };
 
                 return _productRepository.Create(product);

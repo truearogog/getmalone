@@ -49,6 +49,7 @@ namespace GetMalone.Data
                 .Include(o => o.DeliveryOption.DeliveryCompany)
                 .Include(o => o.DeliveryOption.DeliveryType)
                 .Include(o => o.Buyer)
+                .ThenInclude(b => b.User)
                 .Include(o => o.Products)
                 .ThenInclude(p => p.Category)
                 .Where(o => o.Products.Any(p => p.SellerId.Equals(sellerId)))
