@@ -77,7 +77,8 @@ export const FormButton= styled.button`
 	border-radius: 4px;
 	border: 1px solid #1089ff;
 	background: #1089ff!important;
-    color: #fff;
+	padding: 4px;
+  color: #fff;
 	transition: background .3s;
 	
 	&:hover {
