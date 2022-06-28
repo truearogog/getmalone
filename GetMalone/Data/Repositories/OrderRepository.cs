@@ -22,6 +22,9 @@ namespace GetMalone.Data
                 .Include(o => o.Buyer)
                 .Include(o => o.Products)
                 .ThenInclude(p => p.Category)
+                .Include(o => o.Products)
+                .ThenInclude(p => p.Seller)
+                .ThenInclude(s => s.User)
                 .FirstOrDefault(o => o.Id.Equals(orderId));
         }
 
@@ -35,6 +38,7 @@ namespace GetMalone.Data
                 .ThenInclude(p => p.Category)
                 .Include(o => o.Products)
                 .ThenInclude(p => p.Seller)
+                .ThenInclude(s => s.User)
                 .Where(o => o.BuyerId.Equals(buyerId));
         }
 
