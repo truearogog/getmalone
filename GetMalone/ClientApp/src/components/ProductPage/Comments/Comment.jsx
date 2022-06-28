@@ -4,7 +4,6 @@ import styled from 'styled-components'
 export function Comment({ data }) {
 	return (
 		<>
-			{console.log(data)}
 			<p>{data?.created.substring(0, data.created.indexOf('T'))} {data?.created.substring(data.created.indexOf('T') + 1, data?.created.indexOf('T') + 6)}</p>
 			<Image src={data?.buyer.user.imageUrl} />
 			<p>{data?.buyer.user.name} 

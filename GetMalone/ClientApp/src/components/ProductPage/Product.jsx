@@ -16,6 +16,7 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 	const [comments, setComments] = useState('')
 	const [name, setName] = useState('')
 	const [description, setDescription] = useState('')
+	const [imageUrl, setImageUrl] = useState('')
 	const [categories, setCategories] = useState([])
 	const [priceEuro, setPriceEuro] = useState('')
 	const [currentCategory, setCurrentCategory] = useState({ id: 1 })
@@ -38,6 +39,7 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 			setProductById(data.data)
 			setName(data.data.name)
 			setDescription(data.data.description)
+			setImageUrl(data.data.imageUrl)
 			setPriceEuro(data.data.priceEuro)
 		}
 		catch (err) {
@@ -100,7 +102,7 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 	async function handleSubmit(e) {
 		e.preventDefault()
 
-		const formData = { id: product.id, name: name, description: description, categoryId: currentCategory.id, priceEuro: priceEuro }
+		const formData = { id: product.id, name: name, description: description, imageUrl: imageUrl, categoryId: currentCategory.id, priceEuro: priceEuro }
 		const requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -178,6 +180,9 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 							Description:
 							<FormItem type="text" placeholder="Product description" name="description" value={description} onChange={e =>
 								setDescription(e.target.value)} />
+							Image URL:
+							<FormItem type="text" placeholder="Image URL" name="ImageUrl" value={imageUrl} onChange={e =>
+								setImageUrl(e.target.value)} />
 							Price:
 							<FormItem type="text" placeholder="Price of the product in euro" name="priceEuro" value={priceEuro} onChange={e =>
 								onChange(e, setPriceEuro, 6)} />
@@ -203,7 +208,7 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 				{user?.role === 'buyer' ?
 					< CommentForm productId={product.id} getComments={getComments} />
 					: null
-			}
+				}
 				{comments != ''
 					? comments.map(comment => <Comment key={uuidv4()} data={comment} />)
 					: <p>No comments yet...</p>}

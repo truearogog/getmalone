@@ -9,6 +9,7 @@ export function AddProduct({ handlePageChange }) {
 	const { user, setUser } = useContext(UserContext);
 
 	const [name, setName] = useState('')
+	const [imageUrl, setImageUrl] = useState('')
 	const [description, setDescription] = useState('')
 	const [categories, setCategories] = useState([])
 	const [priceEuro, setPriceEuro] = useState('')
@@ -18,7 +19,7 @@ export function AddProduct({ handlePageChange }) {
 	async function handleSubmit(e) {
 		e.preventDefault()
 
-		const formData = { name: name, description: description, categoryId: currentCategory.id, priceEuro: priceEuro }
+		const formData = { name: name, imageUrl: imageUrl, description: description, categoryId: currentCategory.id, priceEuro: priceEuro }
 		const requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -78,6 +79,7 @@ export function AddProduct({ handlePageChange }) {
 			<FormContainer onSubmit={handleSubmit}>
 				<FormTitle>Add product:</FormTitle>
 				<FormFields>
+					<Image src={imageUrl} />
 					Category:
 					<FormDropDown onChange={(e) => setCurrentCategory(categories[e.target.value - 1])} value={currentCategory.id} name="categories">
 						{categories.map(item => {
@@ -86,6 +88,8 @@ export function AddProduct({ handlePageChange }) {
 					</FormDropDown>
 					<FormItem type="text" placeholder="Product name" name="name" value={name} onChange={e =>
 						setName(e.target.value)} />
+					<FormItem type="text" placeholder="Image URL" name="ImageUrl" value={imageUrl} onChange={e =>
+						setImageUrl(e.target.value)} />
 					<FormItem type="text" placeholder="Product description" name="description" value={description} onChange={e =>
 						setDescription(e.target.value)} />
 					<FormItem type="text" placeholder="Price of the product in euro" name="priceEuro" value={priceEuro} onChange={e =>
@@ -99,9 +103,11 @@ export function AddProduct({ handlePageChange }) {
 	)
 }
 
-const Button = styled.div`
-  border-radius: 5px;
-	border: solid;
-  padding: 4px;
-  cursor: pointer;
-`
+const Image = styled.img`
+	padding-top: 60px;
+	object-fit: cover;
+	width: 300px;
+	height: 300px;
+	margin: 0 auto;
+	border-radius: 50%;
+`;
