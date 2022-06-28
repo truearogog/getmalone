@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  width: 60%;
-  margin: 0 auto;
-  padding: 0 100px 50px 100px;
-  background: #f3f3f3;
-  text-align: center;
+	width: 60%;
+	margin: 0 auto;
+	padding: 0 100px 50px 100px;
+	background: #f3f3f3;
+	text-align: center;
 `
 
 export const FormContainer = styled.form`
@@ -37,6 +37,7 @@ export const FormItem = styled.input`
     box-shadow: none!important;
 	border-radius: 4px;
     border: 1px solid rgba(0,0,0,.1);
+	z-index: 1;
 
 	&.half {
 		width: 42%;
@@ -78,7 +79,7 @@ export const FormButton= styled.button`
 	border: 1px solid #1089ff;
 	background: #1089ff!important;
 	padding: 4px;
-  color: #fff;
+  	color: #fff;
 	transition: background .3s;
 	
 	&:hover {

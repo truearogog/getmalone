@@ -89,9 +89,9 @@ export function Home() {
       return null
 
     if (user.role === 'buyer')
-      return <Button onClick={() => changeActiveWindow('ShoppingCartPage')}><p>Shopping cart</p></Button>
+      return <Button onClick={() => changeActiveWindow('ShoppingCartPage')}><div>Shopping cart</div></Button>
     else
-      return <Button onClick={() => changeActiveWindow('AddProductPage')}><p>Add product</p></Button>
+      return <Button onClick={() => changeActiveWindow('AddProductPage')}><div>Add product</div></Button>
 
   }
 
@@ -123,11 +123,7 @@ export function Home() {
       {componentEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} /> : null}
       {componentEnabled['MainPage'] ?
         <Container>         
-          <Row>
-            <h1>GetMalone.lv</h1>
-            {userButton()}
-          </Row>
-          <ProductList handleSearchClick={name => handleSearchClick(name)} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} handleProductChange={product => handleChosenProductChange(product)} products={productsFiltered} chosenProducts={chosenProducts} />
+          <ProductList userButton={userButton()} handleSearchClick={name => handleSearchClick(name)} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} handleProductChange={product => handleChosenProductChange(product)} products={productsFiltered} chosenProducts={chosenProducts} />
         </Container>
         : null}
       <p style={{ color: 'red' }}>{error}</p>
@@ -135,36 +131,23 @@ export function Home() {
   );
 }
 
-const Row = styled.div`
-  display: flex; 
-  text-align: center; 
-  flex-direction: row; 
-  align-items: center; 
-  column-gap: 1.5rem; 
-  
-  & > * {
-    width: 16%; 
-    margin: auto;
-  }
-`
-
 const Button = styled.div`
   border-radius: 5px;
-  background-color: blue;
-  padding: 16px;
+  background: #1089ff!important;
   cursor: pointer;
   transition: .5s;
+  width: 40%;
+  height: 50px;
   
   &:hover {
-    background-color: #1f03bb;
+    background: #006fdc!important;
   }
   
   & > * {
     color: white;
   }
   
-  & > p {
-    margin: 0;
-    padding: 0;
+  & > div {
+    padding-top: 10px;
   }
 `

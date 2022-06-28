@@ -8,17 +8,18 @@ import { UserContext } from '../../services/Contexts'
 
 const id = 0
 let forceUpdate
-export function ProductList({ isCart = false, getId = () => { }, handleSearchClick, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
+export function ProductList({ userButton, isCart = false, getId = () => { }, handleSearchClick, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 
 	return (
 		<ProductListWrapper>
-			<Float>
-				{ (chosenProducts.length != 0 || !isCart) ? <Search handleSearchClick={handleSearchClick} /> : null }
-			</Float>
 			<ListTitle>
 				{title}
 			</ListTitle>
+			<Float>
+				{ (chosenProducts.length != 0 || !isCart) ? <Search handleSearchClick={handleSearchClick} /> : null }
+				{ userButton }
+			</Float>
 			<List getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} handleProductChange={name => handleProductChange(name)} data={products} chosenProducts={chosenProducts} />
 		</ProductListWrapper>
 	)
@@ -69,11 +70,8 @@ function ProductItem({ getId, handlePageChange, handleProductChange, data, isCho
 }
 
 //-----ProductList-----
-const Float = styled.div`
-	position: absolute;
-`
 const ProductListWrapper = styled.div`
-	padding-top: 90px;
+	padding-top: 40px;
 	width: 90%;
 	margin: 0 auto;
 `;
@@ -83,6 +81,17 @@ const ListTitle = styled.div`
 	font-weight: 600;
 	text-align: center;
 `;
+const Float = styled.div`
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+
+	& > *: first-child {
+		top: 0;
+		width: 50%;
+	}
+`
 
 //-----List-----
 const ListWrapper = styled.div`
@@ -90,7 +99,6 @@ const ListWrapper = styled.div`
 	justify-content: space-evenly;
     flex-wrap: wrap;
     width: 100%;
-	margin-top: 25px;
 `;
 
 
@@ -111,7 +119,7 @@ const ProductItemWrapper = styled.div`
 	}
 
 	text-align: center;
-	padding-top: 40px;
+	padding-top: 20px;
 	margin-top: 40px;
 	line-height: 10px;
 	transition: .2s;

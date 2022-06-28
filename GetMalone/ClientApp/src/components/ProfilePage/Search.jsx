@@ -28,12 +28,8 @@ const Container = styled.div`
 	height: 48px;
 	
 	padding: 12px;
-	left: 90px;
+	left: 0;
 	top: 58px;
-	
-	@media only screen and (max-width: 1330px) {
-		left: 0;
-	}
 `
 
 const Icon = styled.img`
