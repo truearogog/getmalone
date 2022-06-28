@@ -21,7 +21,7 @@ namespace GetMalone.Data
                 .Include(o => o.DeliveryOption.DeliveryType)
                 .Include(o => o.Buyer)
                 .Include(o => o.Products)
-                .Include(o => o.Products.Select(p => p.Category))
+                .ThenInclude(p => p.Category)
                 .FirstOrDefault(o => o.Id.Equals(orderId));
         }
 
@@ -32,7 +32,7 @@ namespace GetMalone.Data
                 .Include(o => o.DeliveryOption.DeliveryCompany)
                 .Include(o => o.DeliveryOption.DeliveryType)
                 .Include(o => o.Products)
-                .Include(o => o.Products.Select(p => p.Category))
+                .ThenInclude(p => p.Category)
                 .Where(o => o.BuyerId.Equals(buyerId));
         }
 
@@ -44,7 +44,7 @@ namespace GetMalone.Data
                 .Include(o => o.DeliveryOption.DeliveryType)
                 .Include(o => o.Buyer)
                 .Include(o => o.Products)
-                .Include(o => o.Products.Select(p => p.Category))
+                .ThenInclude(p => p.Category)
                 .Where(o => o.Products.Any(p => p.SellerId.Equals(sellerId)))
                 .Select(o => new Order
                 {
