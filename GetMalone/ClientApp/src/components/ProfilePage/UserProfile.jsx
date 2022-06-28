@@ -38,7 +38,7 @@ export function UserProfile({ getId, handlePageChange, user }) {
   return (
     <Container>
       <ProfileData data={user} />
-      <Orders data={orders} />
+      <Orders getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} data={orders} />
     </Container>
   );
 }

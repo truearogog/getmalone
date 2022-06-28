@@ -4,18 +4,18 @@ import { v4 as uuidv4 } from 'uuid';
 
 let isSellerCurrent = false
 
-export function Orders({ isSeller = false, title = 'Your orders', data }) {
+export function Orders({ getId = () => { }, handlePageChange = () => { }, isSeller = false, title = 'Your orders', data }) {
 	isSellerCurrent = isSeller
 
 	return (
 		<>
 			<ListTitle>{title}</ListTitle>
-			{data.map(item => <OrderItem key={uuidv4()} data={item} />)}
+			{data.map(item => <OrderItem getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} key={uuidv4()} data={item} />)}
 		</>
 	)
 }
 
-function OrderItem({ data }) {
+function OrderItem({ getId, handlePageChange, data }) {
 	return (
 		<Order>
 			<p>Ordered at: <b>{data?.created?.substring(0, data.created.indexOf('T'))} {data?.created?.substring(data.created.indexOf('T') + 1, data.created.indexOf('T') + 6)}</b></p>
@@ -23,23 +23,26 @@ function OrderItem({ data }) {
 			<p>Delivery company: <b>{data.deliveryOption.deliveryCompany.name}</b></p>
 			<p>Delivery price: <b>{data.deliveryOption.priceEuro}€</b></p>
 			{isSellerCurrent ? <p>Buyer: <b>{data.buyer.user.name} {data.buyer.user.surname}</b></p> : null}
-			<ProductList data={data.products} />
+			<ProductList getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} data={data.products} />
 			<TotalPrice>Total price: <b>{data.priceEuro}€</b></TotalPrice>
 		</Order>
 	)
 }
 
-function ProductList({ data }) {
+function ProductList({ getId, handlePageChange, data }) {
 	return (
 		<ListWrapper>
-			{data.map(dataItem => <ProductItem key={uuidv4()} data={dataItem} />)}
+			{data.map(dataItem => <ProductItem getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} key={uuidv4()} data={dataItem} />)}
 		</ListWrapper>
 	)
 }
 
-function ProductItem({ data }) {
+function ProductItem({ getId, handlePageChange, data }) {
 	return (
-		<ProductItemWrapper>
+		<ProductItemWrapper onClick={() => {
+			handlePageChange('ProductPage')
+			data.id ? getId(data.id) : getId(null);
+		}}>
 			<Image src={data?.imageUrl} />
 			<Title>{data.name}</Title>
 			<Description>{data.description ? `"${data.description}"` : "no description available"}</Description>

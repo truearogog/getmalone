@@ -21,7 +21,10 @@ const CommentWrapper = styled.div`
 	margin: 0 auto;
 	width: 60%;
 	position: relative;
-	padding-top: 40px;
+	padding: 30px;
+	margin-top: 30px;
+	background: #dadada;
+	border-radius: 5px;
 `;
 
 const ProfileHeader = styled.div`
@@ -40,8 +43,8 @@ const User = styled.div`
 
 const Time = styled.span`
 	position: absolute;
-	top: 45px;
-	left: 15%;
+	top: 35px;
+	left: 80px;
 	flex-direction: row;
 	font-weight: 400;
 	font-size: 15px;
@@ -57,9 +60,12 @@ const Image = styled.img`
 `;
 
 const CommentField = styled.div`
-	padding: 20px 60px;
+	padding: 30px 40px 0 40px;
+	width: calc(100% - 150px);
 	p{
 		white-space: pre-line;
 		text-align: left;
+		word-wrap: break-word;
+  		hyphens: auto;
 	}
 `;

@@ -71,7 +71,7 @@ export function SellerProfile({ getId, handlePageChange, user }) {
     <Container>
       <ProfileData data={user} />
       {<ProductList handleSearchClick={name => handleSearchClick(name)} getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} products={productsFiltered} />}
-      <Orders isSeller={true} title='Orders on Your products' data={ordersData} />
+      <Orders getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} isSeller={true} title='Orders on Your products' data={ordersData} />
     </Container>
   );
 }
