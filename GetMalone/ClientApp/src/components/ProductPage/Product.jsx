@@ -163,9 +163,9 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 		<Container>
 			<ProductItem>
 				<Logo>
-					<Image src={product?.imageUrl ? product.imageUrl : product?.category?.imageUrl} />
+					<Image src={product?.imageUrl} />
 				</Logo>
-				{(typeof (product.seller) !== 'undefined' && product.seller.user.id == userId) ?
+				{(typeof (product?.seller) !== 'undefined' && product?.seller?.user.id == userId) ?
 					<FormContainer onSubmit={handleSubmit}>
 						<FormFields>
 							Category:

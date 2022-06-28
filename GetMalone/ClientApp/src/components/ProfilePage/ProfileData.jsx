@@ -7,7 +7,7 @@ export function ProfileData({ data }) {
 		<ProfileDataWrapper>
 
 			<ProfileLogo>
-				<Image src={data.user.imageUrl} />
+				<Image src={data?.user?.imageUrl} />
 				{/*<Rating data={data.rating} />*/}
 			</ProfileLogo>
 			<ProfileInfo>

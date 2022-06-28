@@ -2,7 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid';
 
-export function Orders({ title='Your orders', data }) {
+let isSellerCurrent = false
+
+export function Orders({ isSeller = false, title = 'Your orders', data }) {
+	isSellerCurrent = isSeller
+
 	return (
 		<>
 			<ListTitle>{title}</ListTitle>
@@ -18,6 +22,7 @@ function OrderItem({ data }) {
 			<p>Delivery option: <b>{data.deliveryOption.deliveryType.name}</b></p>
 			<p>Delivery company: <b>{data.deliveryOption.deliveryCompany.name}</b></p>
 			<p>Delivery price: <b>{data.deliveryOption.priceEuro}€</b></p>
+			{isSellerCurrent ? <p>Buyer: <b>{data.buyer.user.name} {data.buyer.user.surname}</b></p> : null}
 			<ProductList data={data.products} />
 			<TotalPrice>Total price: <b>{data.priceEuro}€</b></TotalPrice>
 		</Order>
@@ -35,13 +40,13 @@ function ProductList({ data }) {
 function ProductItem({ data }) {
 	return (
 		<ProductItemWrapper>
-			<Image src={data.imageUrl ? data.imageUrl : data.category.imageUrl} />
+			<Image src={data?.imageUrl} />
 			<Title>{data.name}</Title>
 			<Description>{data.description ? `"${data.description}"` : "no description available"}</Description>
 			<Price>{data.priceEuro}€</Price>
 			<Info>
 				<p>Category: <b>{data.category.name}</b></p>
-				<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p>
+				{!isSellerCurrent ? <p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p> : null}
 			</Info>
 		</ProductItemWrapper>
 	)
