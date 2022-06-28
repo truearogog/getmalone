@@ -2,25 +2,18 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { AddProduct } from '../components/Home/AddProduct'
 import { ShoppingCart } from '../components/Home/ShoppingCart'
-import { UserContext, ProductContext } from '../services/Contexts';
+import { UserContext, ProductContext, PagesContext } from '../services/Contexts';
 import { variables } from '../services/variables';
 import { ProductList } from '../components/ProfilePage/ProductList';
 import { Product } from '../components/ProductPage/Product'
 
 export function Home() {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext)
   const { products, setProducts, chosenProducts, setChosenProducts } = useContext(ProductContext)
+  const { componentEnabled, setComponentEnabled } = useContext(PagesContext)
 
   const [productsFiltered, setProductsFiltered] = useState([])
   const [error, setError] = useState('')
-
-  const [pageEnabled, setpageEnabled] =
-    useState({
-      'AddProductPage': false,
-      'ShoppingCartPage': false,
-      'ProductPage': false,
-      'MainPage': true
-    });
 
   const [productId, setId] =
     useState({
@@ -65,7 +58,7 @@ export function Home() {
   function changeActiveWindow(name) {
     function getPages() {
       let pagesDict = []
-      Object.entries(pageEnabled).forEach(([key, value]) => {
+      Object.entries(componentEnabled).forEach(([key, value]) => {
         pagesDict[key] = value
       })
 
@@ -78,14 +71,14 @@ export function Home() {
         allPages[i] = false
       }
 
-      setpageEnabled(allPages)
+      setComponentEnabled(allPages)
       return allPages
     }
 
     let allPages = reset()
     allPages[name] = true
 
-    setpageEnabled(allPages)
+    setComponentEnabled(allPages)
 
     getProducts()
   }
@@ -124,10 +117,10 @@ export function Home() {
 
   return (
     <div>
-      {pageEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} userId={user?.info.user.id} productid={productId.id} /> : null}
-      {pageEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
-      {pageEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} /> : null}
-      {pageEnabled['MainPage'] ?
+      {componentEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} userId={user?.info.user.id} productid={productId.id} /> : null}
+      {componentEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
+      {componentEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} /> : null}
+      {componentEnabled['MainPage'] ?
         <div>
           <Row>
             <h1>GetMalone.lv</h1>
