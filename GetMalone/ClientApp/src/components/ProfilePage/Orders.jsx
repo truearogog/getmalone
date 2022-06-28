@@ -37,7 +37,7 @@ function ProductItem({ data }) {
 		<ProductItemWrapper>
 			<Image src={data.imageUrl ? data.imageUrl : data.category.imageUrl} />
 			<Title>{data.name}</Title>
-			<Description>{data.description}</Description>
+			<Description>{data.description ? `"${data.description}"` : "no description available"}</Description>
 			<Price>{data.priceEuro}€</Price>
 			<Info>
 				<p>Category: <b>{data.category.name}</b></p>
@@ -81,7 +81,7 @@ const ListWrapper = styled.div`
 
 //-----ProductItem-----
 const ProductItemWrapper = styled.div`
-	width: 21%;
+	width: 31%;
 	text-align: center;
 	padding-top: 40px;
 	margin-top: 40px;

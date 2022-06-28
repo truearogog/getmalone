@@ -119,7 +119,7 @@ export function Home() {
     <div>
       {componentEnabled['ProductPage'] ? <Product handlePageChange={name => changeActiveWindow(name)} userId={user?.info.user.id} productid={productId.id} /> : null}
       {componentEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
-      {componentEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} /> : null}
+      {componentEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} /> : null}
       {componentEnabled['MainPage'] ?
         <div>
           <Row>

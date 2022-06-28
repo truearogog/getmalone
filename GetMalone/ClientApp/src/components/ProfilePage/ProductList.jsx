@@ -8,13 +8,13 @@ import { UserContext } from '../../services/Contexts'
 
 const id = 0
 let forceUpdate
-export function ProductList({ getId = () => { }, handleSearchClick, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
+export function ProductList({ isCart = false, getId = () => { }, handleSearchClick, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 
 	return (
 		<ProductListWrapper>
 			<Float>
-				<Search handleSearchClick={handleSearchClick} />
+				{ (chosenProducts.length != 0 || !isCart) ? <Search handleSearchClick={handleSearchClick} /> : null }
 			</Float>
 			<ListTitle>
 				{title}
@@ -46,7 +46,7 @@ function ProductItem({ getId, handlePageChange, handleProductChange, data, isCho
 			}}>
 				<Image src={data.imageUrl ? data.imageUrl : data.category.imageUrl} />
 				<Title>{data.name}</Title>
-				<Description>{data.description}</Description>
+				<Description>{data.description ? `"${data.description}"` : "no description available"}</Description>
 				<Price>{data.priceEuro}€</Price>
 				<Info>
 					<p>Category: <b>{data.category.name}</b></p>
@@ -61,7 +61,7 @@ function ProductItem({ getId, handlePageChange, handleProductChange, data, isCho
 					}}>
 						{isChosen === true ? "Remove from Cart" : "Add to Cart"}
 					</FormButton>
-					<p style={isChosen === true ? { color: 'green' } : null}> {isChosen === true ? "Successfully Added!" : <br />}</p>
+					<p style={isChosen === true ? { color: 'green', lineHeight: '20px'} : null}> {isChosen === true ? "Successfully Added!" : <br />}</p>
 				</>
 				: null}
 		</ProductItemWrapper>
@@ -97,6 +97,19 @@ const ListWrapper = styled.div`
 //-----ProductItem-----
 const ProductItemWrapper = styled.div`
 	width: 21%;
+
+	@media(max-width: 1200px) {
+		width: 30%;
+	}
+
+	@media(max-width: 800px) {
+		width: 45%;
+	}
+
+	@media(max-width: 600px) {
+		width: 90%;
+	}
+
 	text-align: center;
 	padding-top: 40px;
 	margin-top: 40px;
@@ -113,6 +126,7 @@ const Image = styled.img`
 	object-fit: cover;
 	height: 150px;
 	width: 150px;
+	max-width: 95%;
 	margin: 0 auto;
 	border-radius: 50%;
 `;
@@ -134,6 +148,11 @@ const Info = styled.div`
 	font-family: 'Nanum Gothic', sans-serif;
 	font-size: 16px;
 	line-height: 15px;
+	p {
+		display: block;
+		width: 90%;
+		height: 20px;
+	}
 	b {
 		white-space: pre;
 	}

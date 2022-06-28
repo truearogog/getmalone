@@ -6,7 +6,7 @@ import { variables } from '../../services/variables';
 import { ProductList } from '../ProfilePage/ProductList';
 import { Container, FormButton } from '../Form/FormTemplate'
 
-export function ShoppingCart({ handleProductChange, chosenProducts, handlePageChange }) {
+export function ShoppingCart({ getId, handleProductChange, chosenProducts, handlePageChange }) {
 	const [productsFiltered, setProductsFiltered] = useState(chosenProducts)
 	
 	const [deliveries, setDeliveries] = useState([])
@@ -93,15 +93,20 @@ export function ShoppingCart({ handleProductChange, chosenProducts, handlePageCh
 
 	return (
 		<Container>
-			{<ProductList handleSearchClick={name => handleSearchClick(name)} handleProductChange={name => handleProductChange(name)} chosenProducts={chosenProducts} products={productsFiltered} title={"Your Shopping Cart"} />}
-			Delivery type:
-					<FormDropDown onChange={(e) => setCurrentDelivery(deliveries[e.target.value - 1])} value={currentDelivery.id} name="categories">
-						{deliveries.map(item => {
-							return <option key={uuidv4()} value={item.id}>Delivety type - {item.deliveryType.name}, delivery company - {item.deliveryCompany .name}, - cost {item.priceEuro}€</option>
-						})}
-					</FormDropDown>
-			{<p>Total cost: <b>{getTotalCost()}€</b></p>}
-			<FormButton onClick={e => handleOrderConfirm(e)}>Confirm order</FormButton>
+			{<ProductList isCart={true} getId={id => getId(id)}  handlePageChange={name => handlePageChange(name)} handleSearchClick={name => handleSearchClick(name)} handleProductChange={name => handleProductChange(name)} chosenProducts={chosenProducts} products={productsFiltered} title={"Your Shopping Cart"} />}
+			{ (chosenProducts.length != 0) ?
+			<>
+				Delivery type:
+				<FormDropDown onChange={(e) => setCurrentDelivery(deliveries[e.target.value - 1])} value={currentDelivery.id} name="categories">
+					{deliveries.map(item => {
+						return <option key={uuidv4()} value={item.id}>Delivety type - {item.deliveryType.name}, delivery company - {item.deliveryCompany .name}, - cost {item.priceEuro}€</option>
+					})}
+				</FormDropDown>
+				{<p>Total cost: <b>{getTotalCost()}€</b></p>}
+			</>
+			: <p>Total cost: <b>0.00€</b></p>
+			}
+			{ (chosenProducts.length != 0) ? <FormButton onClick={e => handleOrderConfirm(e)}>Confirm order</FormButton> : null }
 			<br />
 			<FormButton onClick={() => handlePageChange('MainPage')}>Cancel</FormButton>
 		</Container>
