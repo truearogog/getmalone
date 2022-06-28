@@ -7,12 +7,12 @@ export function ProfileData({ data }) {
 		<ProfileDataWrapper>
 
 			<ProfileLogo>
-				<Image src={require('../../images/profile-pictures/users/0.png')} />
+				<Image src={data.user.imageUrl} />
 				<Rating data={data.rating} />
 			</ProfileLogo>
 			<ProfileInfo>
-				<Name user={data.user}/>
-				<Info info={data}/>
+				<Name user={data.user} />
+				<Info info={data} />
 			</ProfileInfo>
 
 		</ProfileDataWrapper>
@@ -20,14 +20,14 @@ export function ProfileData({ data }) {
 }
 
 function Rating({ data }) {
-	if (typeof data !=='undefined')
-	  return (
-		<RatingWrapper>
-		  Rating: <span className="nr">{data}/5</span>
-		</RatingWrapper>
-	  )
+	if (typeof data !== 'undefined')
+		return (
+			<RatingWrapper>
+				Rating: <span className="nr">{data}/5</span>
+			</RatingWrapper>
+		)
 	else
-	  return <></>
+		return <></>
 }
 
 function Name({ user }) {
@@ -42,42 +42,42 @@ function Info({ info }) {
 	return (
 		<InfoWrapper>
 			<InfoTitle>
-				Contacts: 
+				Contacts:
 			</InfoTitle>
 			<p>phone: {info.user.phone}</p>
 			<p>mail: {info.user.email}</p>
-			<Interests data={info.interests}/>
-			<Certificates data={info.sertificateCodes}/>
+			<Interests data={info.interests} />
+			<Certificates data={info.sertificateCodes} />
 		</InfoWrapper>
 	)
 }
 
 function Interests({ data }) {
-  if (data)
-    return (
-      <>
-        <InfoTitle>
-          Interested in:
-        </InfoTitle>
-        <p>{data.join(', ')}</p>
-      </>
-    )
-  else
-	return <></>
+	if (data)
+		return (
+			<>
+				<InfoTitle>
+					Interested in:
+				</InfoTitle>
+				<p>{data.join(', ')}</p>
+			</>
+		)
+	else
+		return <></>
 }
 
 function Certificates({ data }) {
-  if (data)
-    return (
-      <>
-        <InfoTitle>
-          Certificates:
-        </InfoTitle>
-        <p>{data.join(', ')}</p>
-      </>
-    )
-  else
-	return <></>
+	if (data)
+		return (
+			<>
+				<InfoTitle>
+					Certificates:
+				</InfoTitle>
+				<p>{data.join(', ')}</p>
+			</>
+		)
+	else
+		return <></>
 }
 
 //-------container---------------
@@ -89,13 +89,14 @@ const ProfileDataWrapper = styled.div`
 
 //-------left side---------------
 const ProfileLogo = styled.div`
-  	width: 40%;
+  width: 40%;
 	text-align: center;
 `;
 const Image = styled.img`
-  	width: 250px;
+  width: 250px;
 	height: 250px;
 	padding-top: 40px;
+	border-radius: 50%;
 `;
 const RatingWrapper = styled.p`
 	font-size: 30px;
@@ -106,7 +107,7 @@ const RatingWrapper = styled.p`
 
 //-------right side---------------
 const ProfileInfo = styled.div`
-  	width: 60%;
+  width: 60%;
 `;
 const NameWrapper = styled.div`
 	font-size: 35px;

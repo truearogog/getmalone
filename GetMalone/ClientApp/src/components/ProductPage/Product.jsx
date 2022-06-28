@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { variables } from '../../services/variables';
 import { v4 as uuidv4 } from 'uuid';
 import { Container, FormContainer, FormFields, FormItem, FormDropDown, FormButton, BigFormButton } from '../Form/FormTemplate'
 import { Comment } from './Comments/Comment'
 import { CommentForm } from './Comments/CommentForm'
 import styled from 'styled-components';
+import { UserContext } from '../../services/Contexts'
 
 
 export function Product({ handlePageChange, productid: productId, userId }) {
+	const { user, setUser } = useContext(UserContext)
+
 
 	const [product, setProductById] = useState('')
 	const [comments, setComments] = useState('')
@@ -17,7 +20,6 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 	const [priceEuro, setPriceEuro] = useState('')
 	const [currentCategory, setCurrentCategory] = useState({ id: 1 })
 	const [error, setError] = useState('')
-	const [isUpdated, setUpdateStatus] = useState('')
 
 	async function getProductById() {
 		const formData = { id: productId }
@@ -139,7 +141,7 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 
 			handlePageChange('MainPage')
 			alert("Product Deleted!")
-			
+
 		}
 		catch (err) {
 			console.log(err)
@@ -159,9 +161,9 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 		<Container>
 			<ProductItem>
 				<Logo>
-					<Image src={require('../../images/product-pictures/0.png')} />
+					<Image src={product?.imageUrl ? product.imageUrl : product?.category?.imageUrl} />
 				</Logo>
-				{(typeof (product.seller) !== 'undefined' && product.seller.user.id == userId) ? 
+				{(typeof (product.seller) !== 'undefined' && product.seller.user.id == userId) ?
 					<FormContainer onSubmit={handleSubmit}>
 						<FormFields>
 							Category:
@@ -185,7 +187,7 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 							</Red>
 						</FormFields>
 					</FormContainer>
-				: 
+					:
 					<InfoContainer>
 						<p><span className="bold">Name: </span>{name}</p>
 						<p><span className="bold">Description: </span>{description}</p>
@@ -194,12 +196,14 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 						<p><span className="bold">Seller: </span>{(typeof (product.seller) !== 'undefined') ? <span>{product.seller.user.name} {product.seller.user.surname}</span> : "Loading:"}</p>
 					</InfoContainer>}
 			</ProductItem>
-			
+
 			<FormButton onClick={() => handlePageChange('MainPage')}>Cancel</FormButton>
 
-			<CommentWrapper>
-				<CommentForm productId={product.id} getComments={getComments}/>
-				
+			< CommentWrapper >
+				{user?.role === 'buyer' ?
+					< CommentForm productId={product.id} getComments={getComments} />
+					: null
+			}
 				{comments != ''
 					? comments.map(comment => <Comment key={uuidv4()} data={comment} />)
 					: <p>No comments yet...</p>}
@@ -231,11 +235,6 @@ const Image = styled.img`
 const CommentWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-`
-const SuccessMessage = styled.div`
-	color: #77dd77;
-	width: 100%;
-    padding-top: 15px;
 `
 const Red = styled.div`
 	button {

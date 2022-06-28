@@ -44,7 +44,7 @@ function ProductItem({ getId, handlePageChange, handleProductChange, data, isCho
 				handlePageChange('ProductPage')
 				data.id ? getId(data.id) : getId(null);
 			}}>
-				<Image src={require('../../images/product-pictures/' + id + '.png')} />
+				<Image src={data.imageUrl ? data.imageUrl : data.category.imageUrl} />
 				<Title>{data.name}</Title>
 				<Description>{data.description}</Description>
 				<Price>{data.priceEuro}€</Price>
