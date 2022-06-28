@@ -19,7 +19,7 @@ function OrderItem({ data }) {
 			<p>Delivery company: <b>{data.deliveryOption.deliveryCompany.name}</b></p>
 			<p>Delivery price: <b>{data.deliveryOption.priceEuro}€</b></p>
 			<ProductList data={data.products} />
-			<p>Total price: <b>{data.priceEuro}€</b></p>
+			<TotalPrice>Total price: <b>{data.priceEuro}€</b></TotalPrice>
 		</Order>
 	)
 }
@@ -47,13 +47,35 @@ function ProductItem({ data }) {
 	)
 }
 
+
+//-----Order-----
+const ListTitle = styled.div`
+	padding: 35px;
+	font-size: 40px;
+	font-weight: 600;
+	text-align: center;
+`;
+const Order = styled.div`
+	background: #dadada;
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+	border-radius: 5px;
+	margin-bottom: 50px;
+	padding: 20px;
+`
+const TotalPrice = styled.p`
+	padding-top: 10px;
+	font-size: 26px;
+`;
+
 //-----List-----
 const ListWrapper = styled.div`
 	display: flex;
 	justify-content: space-evenly;
     flex-wrap: wrap;
     width: 100%;
-	margin-top: 25px;
+	margin-top: -25px;
 `;
 
 
@@ -104,17 +126,3 @@ const Info = styled.div`
 		font-size: 14px;
 	}
 `;
-
-
-const ListTitle = styled.div`
-	padding-bottom: 15px;
-	font-size: 40px;
-	font-weight: 600;
-	text-align: center;
-`;
-
-const Order = styled.div`
-	background: #dadada;
-	
-	border-radius: 5px;
-`

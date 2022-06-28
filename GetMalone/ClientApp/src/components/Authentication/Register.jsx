@@ -102,36 +102,34 @@ export function Register({ handlePageChange }) {
 				<FormTitle>Registration:</FormTitle>
 				<FormFields>
 					<Image src={imageUrl} />
-					<div>
-						<FormDropDown name="userType" placeholder="Select Role" id="type" onChange={e => { setUserType(e.target.value) }} value={userType}>
-							<option value="buyer">Buyer</option>
-							<option value="seller">Seller</option>
-						</FormDropDown>
-						<FormItem className="half" type="text" placeholder="Name" name="name" value={name} onChange={e =>
-							setName(e.target.value)} />
-						<FormItem className="half" type="text" placeholder="Surname" name="surname" value={surname} onChange={e =>
-							setSurname(e.target.value)} />
-						<FormItem type="text" placeholder="Email" name="email" value={email} onChange={e =>
-							setEmail(e.target.value)} />
-						<FormItem type="password" placeholder="Password" name="password" value={password} onChange={e =>
-							setPassword(e.target.value)} />
-						<FormItem type="text" placeholder="Image URL" name="ImageUrl" value={imageUrl} onChange={e =>
-							setImageUrl(e.target.value)} />
-						<FormItem className="half" type="text" placeholder="Phone" name="phone" value={phone} onChange={e =>
-							setPhone(e.target.value)} />
-						{userType == 'buyer' ?
-							<>
-								<FormItem className="half" type="text" placeholder="Mail Index" name="mailindex" value={mailindex} onChange={e =>
-									setMailindex(e.target.value)} />
-								<FormItem type="text" placeholder="Interests" name="interests" value={interests} onChange={e =>
-									setInterests(e.target.value)} />
-							</>
-							: null}
-						{userType == 'seller' ?
-							<FormItem className="half" type="text" placeholder="Certificate Codes" name="sertificateCodes" value={sertificateCodes} onChange={e =>
-								setSertificateCodes(e.target.value)} />
-							: null}
-					</div>
+					<FormDropDown name="userType" placeholder="Select Role" id="type" onChange={e => { setUserType(e.target.value) }} value={userType}>
+						<option value="buyer">Buyer</option>
+						<option value="seller">Seller</option>
+					</FormDropDown>
+					<FormItem className="half" type="text" placeholder="Name" name="name" value={name} onChange={e =>
+						setName(e.target.value)} />
+					<FormItem className="half" type="text" placeholder="Surname" name="surname" value={surname} onChange={e =>
+						setSurname(e.target.value)} />
+					<FormItem type="text" placeholder="Email" name="email" value={email} onChange={e =>
+						setEmail(e.target.value)} />
+					<FormItem type="password" placeholder="Password" name="password" value={password} onChange={e =>
+						setPassword(e.target.value)} />
+					<FormItem type="text" placeholder="Image URL" name="ImageUrl" value={imageUrl} onChange={e =>
+						setImageUrl(e.target.value)} />
+					<FormItem className="half" type="text" placeholder="Phone" name="phone" value={phone} onChange={e =>
+						setPhone(e.target.value)} />
+					{userType == 'buyer' ?
+						<>
+							<FormItem className="half" type="text" placeholder="Mail Index" name="mailindex" value={mailindex} onChange={e =>
+								setMailindex(e.target.value)} />
+							<FormItem type="text" placeholder="Interests" name="interests" value={interests} onChange={e =>
+								setInterests(e.target.value)} />
+						</>
+						: null}
+					{userType == 'seller' ?
+						<FormItem className="half" type="text" placeholder="Certificate Codes" name="sertificateCodes" value={sertificateCodes} onChange={e =>
+							setSertificateCodes(e.target.value)} />
+						: null}
 					<FormButton type="submit">Submit</FormButton>
 				</FormFields>
 			</FormContainer>
@@ -142,6 +140,7 @@ export function Register({ handlePageChange }) {
 
 const Image = styled.img`
 	padding-top: 60px;
+	padding-bottom: 30px;
 	object-fit: cover;
 	width: 300px;
 	height: 300px;

@@ -23,6 +23,8 @@ namespace GetMalone.Controllers
 
         private User NewUser(RegisterDto dto)
         {
+            if (_userRepository.GetByEmail(dto.Email) != null)
+                throw new Exception("This email is already used");
             if (!RegexUtilities.IsValidEmail(dto.Email))
                 throw new Exception("Email is not valid");
             if (string.IsNullOrEmpty(dto.Password))
@@ -31,7 +33,6 @@ namespace GetMalone.Controllers
                 throw new Exception("Name cannot be empty");
             if (string.IsNullOrEmpty(dto.Surname))
                 throw new Exception("Surname cannot be empty");
-            dto.ImageUrl ??= _config.DefaultUserImageUrl;
             return new User
             {
                 Email = dto.Email,
@@ -39,7 +40,7 @@ namespace GetMalone.Controllers
                 Phone = dto.Phone,
                 Name = dto.Name,
                 Surname = dto.Surname,
-                ImageUrl = dto.ImageUrl
+                ImageUrl = string.IsNullOrEmpty(dto.ImageUrl) ? _config.DefaultUserImageUrl : dto.ImageUrl
             };
         }
 
@@ -68,7 +69,7 @@ namespace GetMalone.Controllers
                 var user = NewUser(dto);
                 var buyer = NewBuyer(dto);
                 return _userRepository.CreateBuyer(user, buyer);
-            }, "This email is already used");
+            });
             return Ok(response);
         }
 
@@ -80,7 +81,7 @@ namespace GetMalone.Controllers
                 var user = NewUser(dto);
                 var seller = NewSeller(dto);
                 return _userRepository.CreateSeller(user, seller);
-            }, "This email is already used");
+            });
             return Ok(response);
         }
 
