@@ -17,14 +17,15 @@ namespace GetMalone.Data
         {
             return _context.Comments
                 .Include(c => c.Buyer)
-                .Where(c => c.Id.Equals(commentId))
-                .FirstOrDefault();
+                .ThenInclude(b => b.User)
+                .FirstOrDefault(c => c.Id.Equals(commentId));
         }
 
         public IQueryable<Comment> GetByProductId(int productId)
         {
             return _context.Comments
                 .Include(c => c.Buyer)
+                .ThenInclude(b => b.User)
                 .Where(c => c.ProductId.Equals(productId));
         }
 
