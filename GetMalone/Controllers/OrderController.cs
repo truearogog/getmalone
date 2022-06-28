@@ -49,7 +49,7 @@ namespace GetMalone.Controllers
                     Buyer = buyer,
                     DeliveryOptionId = dto.DeliveryOptionId,
                     DeliveryOption = deliveryOption,
-                    Products = dto.Ids.Select(id => _productRepository.GetById(id)).ToHashSet()
+                    Products = dto.ProductIds.Select(id => _productRepository.GetById(id)).ToHashSet()
                 };
                 order.PriceEuro = order.Products.Sum(p => p.PriceEuro) + deliveryOption.PriceEuro;
 
