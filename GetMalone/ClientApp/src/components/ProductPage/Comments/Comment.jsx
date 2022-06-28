@@ -44,7 +44,7 @@ const User = styled.div`
 const Time = styled.span`
 	position: absolute;
 	top: 35px;
-	left: 80px;
+	left: 150px;
 	flex-direction: row;
 	font-weight: 400;
 	font-size: 15px;
