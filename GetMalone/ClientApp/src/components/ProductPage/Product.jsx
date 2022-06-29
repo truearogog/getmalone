@@ -186,10 +186,12 @@ export function Product({ handlePageChange, productid: productId, userId }) {
 							Price:
 							<FormItem type="text" placeholder="Price of the product in euro" name="priceEuro" value={priceEuro} onChange={e =>
 								onChange(e, setPriceEuro, 6)} />
-							<BigFormButton type="submit">Save Changes</BigFormButton>
-							<Red>
-								<BigFormButton onClick={handleProductDelete}>Delete Product</BigFormButton>
-							</Red>
+							<div>
+								<BigFormButton type="submit">Save Changes</BigFormButton>
+								<Red>
+									<BigFormButton onClick={handleProductDelete}>Delete Product</BigFormButton>
+								</Red>
+							</div>
 						</FormFields>
 					</FormContainer>
 					:

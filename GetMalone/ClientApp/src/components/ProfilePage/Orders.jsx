@@ -24,7 +24,7 @@ function OrderItem({ getId, handlePageChange, data }) {
 			<p>Delivery price: <b>{data.deliveryOption.priceEuro}€</b></p>
 			{isSellerCurrent ? <p>Buyer: <b>{data.buyer.user.name} {data.buyer.user.surname}</b></p> : null}
 			<ProductList getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} data={data.products} />
-			<TotalPrice>Total price: <b>{data.priceEuro}€</b></TotalPrice>
+			<TotalPrice>Total price: <b>{(Math.round((data.priceEuro + Number.EPSILON) * 100) / 100).toFixed(2)}€</b></TotalPrice>
 		</Order>
 	)
 }

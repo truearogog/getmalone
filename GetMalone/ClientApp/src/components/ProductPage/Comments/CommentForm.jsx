@@ -10,7 +10,9 @@ export function CommentForm({ productId, getComments = () => {} }) {
 	
 	async function handleSubmit(e) {
 		e.preventDefault()
-
+		
+		if (text === "")
+			return
 		const formData = { body: text, productId: productId }
 		const requestOptions = {
 			method: 'POST',

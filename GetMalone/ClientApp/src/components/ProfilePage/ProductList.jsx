@@ -48,7 +48,7 @@ function ProductItem({ getId, handlePageChange, handleProductChange, data, isCho
 				<Image src={data?.imageUrl} />
 				<Title>{data.name}</Title>
 				<Description>{data.description ? `"${data.description}"` : "no description available"}</Description>
-				<Price>{data.priceEuro}€</Price>
+				<Price>{(Math.round((data.priceEuro + Number.EPSILON) * 100) / 100).toFixed(2)}€</Price>
 				<Info>
 					<p>Category: <b>{data.category.name}</b></p>
 					<p>Seller: <b>{data.seller.user.name + ' ' + data.seller.user.surname}</b></p>
@@ -144,8 +144,11 @@ const Title = styled.p`
 	font-size: 20px;
 `;
 const Description = styled.p`
+	display: block;
 	font-size: 15px;
 	font-style: italic;
+	line-height: 20px;
+	height: 40px;
 `;
 const Price = styled.p`
 	padding-top: 5px;
