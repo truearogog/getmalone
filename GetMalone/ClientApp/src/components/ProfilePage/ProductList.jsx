@@ -3,12 +3,13 @@ import styled from 'styled-components'
 import { FormButton } from '../Form/FormTemplate'
 import { v4 as uuidv4 } from 'uuid';
 import { Search } from './Search'
+import { FilterCategories } from './FilterCategories'
 import { UserContext } from '../../services/Contexts'
 
 
 const id = 0
 let forceUpdate
-export function ProductList({ userButton, isCart = false, getId = () => { }, handleSearchClick, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
+export function ProductList({ userButton, isCart = false, getId = () => { }, handleSearchClick, handleCategoriesClick, handlePageChange = () => { }, title = "Product List", handleProductChange = () => { }, products, chosenProducts = [] }) {
 	forceUpdate = React.useReducer(() => ({}), {})[1]
 
 	return (
@@ -20,6 +21,8 @@ export function ProductList({ userButton, isCart = false, getId = () => { }, han
 				{ (chosenProducts.length != 0 || !isCart) ? <Search handleSearchClick={handleSearchClick} /> : null }
 				{ userButton }
 			</Float>
+			{(chosenProducts.length != 0 || !isCart) ? <FilterCategories handleSearchClick={handleCategoriesClick} />
+				: null}
 			<List getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} handleProductChange={name => handleProductChange(name)} data={products} chosenProducts={chosenProducts} />
 		</ProductListWrapper>
 	)
@@ -74,19 +77,22 @@ const ProductListWrapper = styled.div`
 	padding-top: 40px;
 	width: 90%;
 	margin: 0 auto;
+	z-index: 2;
 `;
 const ListTitle = styled.div`
 	padding-bottom: 15px;
 	font-size: 40px;
 	font-weight: 600;
 	text-align: center;
+	z-index: 2;
 `;
 const Float = styled.div`
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
 	align-items: center;
-
+	z-index: 2;
+	
 	& > *: first-child {
 		top: 0;
 		width: 50%;
@@ -97,15 +103,16 @@ const Float = styled.div`
 const ListWrapper = styled.div`
 	display: flex;
 	justify-content: space-evenly;
-    flex-wrap: wrap;
-    width: 100%;
+  flex-wrap: wrap;
+  width: 100%;
+	z-index: 2;
 `;
 
 
 //-----ProductItem-----
 const ProductItemWrapper = styled.div`
 	width: 21%;
-
+	z-index: 2;
 	@media(max-width: 1500px) {
 		width: 30%;
 	}
@@ -137,6 +144,7 @@ const Image = styled.img`
 	max-width: 95%;
 	margin: 0 auto;
 	border-radius: 50%;
+	z-index: 2;
 `;
 const Title = styled.p`
 	padding-top: 10px;

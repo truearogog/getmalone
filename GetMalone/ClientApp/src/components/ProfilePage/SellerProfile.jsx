@@ -12,7 +12,9 @@ export function SellerProfile({ getId, handlePageChange, user }) {
   const [error, setError] = useState('')
 
   const [productsFiltered, setProductsFiltered] = useState([])
-
+  const [currentCategory, setCurrentCategory] = useState({ id: -1 })
+  const [searchText, setSearchText] = useState('')
+  
   async function getSellerProducts() {
     const formData = { id: user.user.id }
     const requestOptions = {
@@ -63,14 +65,28 @@ export function SellerProfile({ getId, handlePageChange, user }) {
     getOrders()
   }, [])
 
-  function handleSearchClick(name) {
-    setProductsFiltered(products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
+  function handleSearchClick(name, categoryId = currentCategory.id) {
+    setSearchText(name)
+    if (categoryId === -1 || categoryId == null) {
+      setProductsFiltered(products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
+    }
+    else {
+      setProductsFiltered(products.filter((product) => {
+        return product.name.toLowerCase().includes(name.toLowerCase())
+      && product.category.id === categoryId}))
+    }
+  }
+
+  function handleCategoriesClick(category) {
+    setCurrentCategory(category)
+    console.log(category)
+    handleSearchClick(searchText, category?.id)
   }
 
   return (
     <Container>
       <ProfileData data={user} />
-      {<ProductList handleSearchClick={name => handleSearchClick(name)} getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} products={productsFiltered} />}
+      {<ProductList handleCategoriesClick={categories => handleCategoriesClick(categories)} handleSearchClick={name => handleSearchClick(name)} getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} products={productsFiltered} />}
       <Orders getId={id => getId(id)} handlePageChange={name => handlePageChange(name)} isSeller={true} title='Orders on Your products' data={ordersData} />
     </Container>
   );

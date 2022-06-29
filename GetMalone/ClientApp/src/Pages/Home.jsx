@@ -14,6 +14,8 @@ export function Home() {
   const { componentEnabled, setComponentEnabled } = useContext(PagesContext)
 
   const [productsFiltered, setProductsFiltered] = useState([])
+  const [currentCategory, setCurrentCategory] = useState({ id: -1 })
+  const [searchText, setSearchText] = useState('')
   const [error, setError] = useState('')
 
   const [productId, setId] =
@@ -112,8 +114,22 @@ export function Home() {
     setChosenProducts(tempChosenProducts)
   }
 
-  function handleSearchClick(name) {
-    setProductsFiltered(products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
+  function handleSearchClick(name, categoryId = currentCategory.id) {
+    setSearchText(name)
+    if (categoryId === -1 || categoryId == null) {
+      setProductsFiltered(products.filter((product) => product.name.toLowerCase().includes(name.toLowerCase())))
+    }
+    else {
+      setProductsFiltered(products.filter((product) => {
+        return product.name.toLowerCase().includes(name.toLowerCase())
+      && product.category.id === categoryId}))
+    }
+  }
+
+  function handleCategoriesClick(category) {
+    setCurrentCategory(category)
+    console.log(category)
+    handleSearchClick(searchText, category?.id)
   }
 
   return (
@@ -122,8 +138,8 @@ export function Home() {
       {componentEnabled['AddProductPage'] ? <AddProduct handlePageChange={name => changeActiveWindow(name)} /> : null}
       {componentEnabled['ShoppingCartPage'] ? <ShoppingCart handleProductChange={product => handleChosenProductChange(product)} chosenProducts={chosenProducts} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} /> : null}
       {componentEnabled['MainPage'] ?
-        <Container>         
-          <ProductList userButton={userButton()} handleSearchClick={name => handleSearchClick(name)} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} handleProductChange={product => handleChosenProductChange(product)} products={productsFiltered} chosenProducts={chosenProducts} />
+        <Container>
+          <ProductList userButton={userButton()} handleSearchClick={name => handleSearchClick(name)} handleCategoriesClick={category => handleCategoriesClick(category)} handlePageChange={name => changeActiveWindow(name)} getId={id => getId(id)} handleProductChange={product => handleChosenProductChange(product)} products={productsFiltered} chosenProducts={chosenProducts} />
         </Container>
         : null}
       <p style={{ color: 'red' }}>{error}</p>

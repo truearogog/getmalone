@@ -71,6 +71,12 @@ const Navbar = styled.div`
     &:first-child {
       padding-left: 100px;
     }
+    
+    @media (max-width: 700px) {
+      &:first-child {
+        padding-left: 20px;
+      }
+    }
   }
 
   .links {
@@ -89,7 +95,6 @@ const Navbar = styled.div`
 `
 
 const Button = styled.div`
-
   width: 100px;
   height: 30px;
   margin: auto;

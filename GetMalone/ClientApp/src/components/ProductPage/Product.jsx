@@ -230,6 +230,10 @@ const ProductItem = styled.div`
 `
 const Logo = styled.div`
 	padding-left: 12%;
+	
+	@media (max-width: 1400px) {
+		padding-left: 4%;
+	}
 `;
 const Image = styled.img`
 	padding-top: 60px;

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components'
 
 export function Comment({ data }) {
-	console.log(data)
 	return (
 		<CommentWrapper>	
 			<ProfileHeader>
