@@ -22,12 +22,36 @@ namespace GetMalone.Controllers
             _jwtService = jwtService;
         }
 
+        private void ValidateCreateProductDto(CreateProductDto dto)
+        {
+            var category = _productCategoryRepository.GetById(dto.CategoryId);
+            if (category == null) throw new Exception("Wrong category Id");
+            if (string.IsNullOrEmpty(dto.Name))
+                throw new Exception("Name cannot be empty");
+            if (dto.PriceEuro.Equals(decimal.Zero))
+                throw new Exception("Price cannot be zero");
+        }
+
+        private void ValidateEditProductDto(EditProductDto dto)
+        {
+            var product = _productRepository.GetById(dto.Id);
+            if (product == null) throw new Exception("Wrong product Id");
+            var category = _productCategoryRepository.GetById(dto.CategoryId);
+            if (category == null) throw new Exception("Wrong category Id");
+            if (string.IsNullOrEmpty(dto.Name))
+                throw new Exception("Name cannot be empty");
+            if (dto.PriceEuro.Equals(decimal.Zero))
+                throw new Exception("Price cannot be zero");
+        }
+
         [HttpGet("all")]
         public IActionResult GetAllProducts()
         {
             var response = new ApiResponseDto(() =>
             {
-                return _productRepository.GetAll().ToList();
+                var products = _productRepository.GetAll().ToArray();
+                Array.Sort(products, Product.CompareByName);
+                return products.ToList();
             });
             return Ok(response);
         }
@@ -41,10 +65,11 @@ namespace GetMalone.Controllers
                 var token = _jwtService.Verify(jwt);
                 var userId = int.Parse(token.Issuer);
                 var seller = _userRepository.GetSellerById(userId);
-                if (seller == null) throw new Exception();
+                if (seller == null) throw new Exception("Unauthorized");
+
+                ValidateCreateProductDto(dto);
 
                 var category = _productCategoryRepository.GetById(dto.CategoryId);
-                if (category == null) throw new Exception();
 
                 var product = new Product
                 {
@@ -57,7 +82,7 @@ namespace GetMalone.Controllers
                 };
 
                 return _productRepository.Create(product);
-            }, "Unauthorized");
+            });
             return Ok(response);
         }
 
@@ -70,13 +95,15 @@ namespace GetMalone.Controllers
                 var token = _jwtService.Verify(jwt);
                 var userId = int.Parse(token.Issuer);
                 var seller = _userRepository.GetSellerById(userId);
-                if (seller == null) throw new Exception();
+                if (seller == null) throw new Exception("Unauthorized");
+
+                ValidateEditProductDto(dto);
 
                 var product = _productRepository.GetById(dto.Id);
-                if (product == null) throw new Exception();
+                if (product == null) throw new Exception("Wrong product Id");
 
                 var category = _productCategoryRepository.GetById(dto.CategoryId);
-                if (category == null) throw new Exception();
+                if (category == null) throw new Exception("Wrong category Id");
 
                 product.Name = dto.Name;
                 product.Description = dto.Description;
@@ -87,7 +114,7 @@ namespace GetMalone.Controllers
                 product = _productRepository.Update(product);
 
                 return product;
-            }, "Unauthorized");
+            });
             return Ok(response);
         }
 
@@ -103,7 +130,7 @@ namespace GetMalone.Controllers
                 if (seller == null) throw new Exception();
 
                 var product = _productRepository.GetById(dto.Id);
-                if (product.SellerId != userId) throw new Exception();
+                if (product == null || product.SellerId != userId) throw new Exception();
 
                 _productRepository.Delete(product);
             }, "Unauthorized");
@@ -115,7 +142,9 @@ namespace GetMalone.Controllers
         {
             var response = new ApiResponseDto(() =>
             {
-                return _productRepository.GetByCategoryId(dto.Id).ToList();
+                var products = _productRepository.GetByCategoryId(dto.Id).ToArray();
+                Array.Sort(products, Product.CompareByName);
+                return products.ToList();
             });
             return Ok(response);
         }

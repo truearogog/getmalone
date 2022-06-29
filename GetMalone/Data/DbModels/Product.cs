@@ -28,5 +28,10 @@ namespace GetMalone.Data
 
         [JsonIgnore] public List<Comment> Comments { get; set; }
         [JsonIgnore] public virtual ICollection<Order> Orders { get; set; }
+
+        public static int CompareByName(Product p1, Product p2)
+        {
+            return string.Compare(p1.Name, p2.Name);
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace GetMalone.Controllers
             _jwtService = jwtService;
         }
 
-        private User NewUser(RegisterDto dto)
+        private void ValidateRegisterDto(RegisterDto dto)
         {
             if (_userRepository.GetByEmail(dto.Email) != null)
                 throw new Exception("This email is already used");
@@ -33,6 +33,11 @@ namespace GetMalone.Controllers
                 throw new Exception("Name cannot be empty");
             if (string.IsNullOrEmpty(dto.Surname))
                 throw new Exception("Surname cannot be empty");
+        }
+
+        private User NewUser(RegisterDto dto)
+        {
+            ValidateRegisterDto(dto);
             return new User
             {
                 Email = dto.Email,

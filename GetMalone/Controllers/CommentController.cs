@@ -20,6 +20,12 @@ namespace GetMalone.Controllers
             _jwtService = jwtService;
         }
 
+        private void ValidateCreateCommentDto(CreateCommentDto dto)
+        {
+            if (string.IsNullOrEmpty(dto.Body))
+                throw new Exception("Commeny body cannot be empty");
+        }
+
         [HttpPost("create")]
         public IActionResult CreateComment([FromBody] CreateCommentDto dto)
         {
@@ -29,7 +35,9 @@ namespace GetMalone.Controllers
                 var token = _jwtService.Verify(jwt);
                 var userId = int.Parse(token.Issuer);
                 var buyer = _userRepository.GetBuyerById(userId);
-                if (buyer == null) throw new Exception();
+                if (buyer == null) throw new Exception("Unathorized");
+
+                ValidateCreateCommentDto(dto);
 
                 var comment = new Comment
                 {
@@ -55,7 +63,7 @@ namespace GetMalone.Controllers
                 if (buyer == null) throw new Exception();
 
                 var comment = _commentRepository.GetById(dto.Id);
-                if (comment.BuyerId != userId) throw new Exception();
+                if (comment == null || comment.BuyerId != userId) throw new Exception();
 
                 _commentRepository.Delete(comment);
             }, "Unauthorized");
